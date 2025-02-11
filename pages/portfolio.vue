@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
-<template>
-  portfolio
-</template>
+<template>portfolio</template>

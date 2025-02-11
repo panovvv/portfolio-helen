@@ -1,10 +1,10 @@
 <script setup>
-import NavBar from '~/components/NavBar.vue'
+import NavBar from "~/components/NavBar.vue";
 </script>
 
 <template>
-    <NavBar />
-    <main>
-      <NuxtPage />
-    </main>
+  <NavBar />
+  <main>
+    <NuxtPage />
+  </main>
 </template>
