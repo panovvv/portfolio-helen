@@ -6,13 +6,15 @@ import {
   faInstagram,
   faWhatsapp,
 } from "@fortawesome/free-brands-svg-icons";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 </script>
 
 <template>
   <div
     class="w-full min-h-screen p-6 dark:bg-gray-900 dark:text-white flex flex-col items-center"
   >
-    <h1 class="text-3xl font-bold mb-6">Reach me at</h1>
+    <h1 class="text-3xl font-bold mb-6">{{ t("contact.reach_me_at") }}</h1>
     <ul class="space-y-4">
       <!-- WhatsApp -->
       <li class="flex items-center">
