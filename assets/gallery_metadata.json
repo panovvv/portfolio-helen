@@ -1,0 +1,17 @@
+[
+  {
+    "filename": "gallery_001.jpg",
+    "alt": "gallery.image1",
+    "tags": ["nature", "mountain"]
+  },
+  {
+    "filename": "gallery_002.jpg",
+    "alt": "gallery.image2",
+    "tags": ["city", "night"]
+  },
+  {
+    "filename": "gallery_003.jpg",
+    "alt": "gallery.image3",
+    "tags": ["nature", "forest"]
+  }
+]

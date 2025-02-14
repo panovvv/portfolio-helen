@@ -9,15 +9,12 @@ Make sure to install the dependencies:
 ```bash
 # npm
 npm install
+```
 
-# pnpm
-pnpm install
+... and generate the image list for the gallery:
 
-# yarn
-yarn install
-
-# bun
-bun install
+```bash
+npm run gallery-manifest
 ```
 
 ## Development Server

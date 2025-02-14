@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "gallery-manifest": "node generate-gallery-manifest.js"
   },
   "devDependencies": {
     "@nuxt/image": "^1.9.0",
@@ -22,6 +23,8 @@
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
-    "@fortawesome/vue-fontawesome": "^3.0.8"
+    "@fortawesome/vue-fontawesome": "^3.0.8",
+    "lightgallery": "^2.8.2",
+    "photoswipe": "^5.4.4"
   }
 }

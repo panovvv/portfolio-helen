@@ -1,8 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/vue,node,linux,nuxtjs,intellij+all,dotenv
-# Edit at https://www.toptal.com/developers/gitignore?templates=vue,node,linux,nuxtjs,intellij+all,dotenv
-
-### dotenv ###
-.env
+# Created by https://www.toptal.com/developers/gitignore/api/vue,node,linux,nuxtjs,intellij+all
+# Edit at https://www.toptal.com/developers/gitignore?templates=vue,node,linux,nuxtjs,intellij+all
 
 ### Intellij+all ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
@@ -183,6 +180,7 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
+.env
 .env.development.local
 .env.test.local
 .env.production.local
@@ -268,5 +266,4 @@ docs/_book
 # TODO: where does this rule come from?
 test/
 
-# End of https://www.toptal.com/developers/gitignore/api/vue,node,linux,nuxtjs,intellij+all,dotenv
-
+# End of https://www.toptal.com/developers/gitignore/api/vue,node,linux,nuxtjs,intellij+all

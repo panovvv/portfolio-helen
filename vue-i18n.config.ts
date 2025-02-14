@@ -1,6 +1,4 @@
-import type { VueI18nOptions } from "vue-i18n";
-
-const config: VueI18nOptions = {
+export default {
   locale: "en",
   fallbackLocale: "en",
   messages: {
@@ -18,6 +16,21 @@ const config: VueI18nOptions = {
       contact: {
         reach_me_at: "Reach me at",
       },
+      gallery: {
+        title: "Portfolio Gallery",
+        noDescription: "No description",
+        image1: "Gallery image 1",
+        image2: "Gallery image 2",
+        image3: "Gallery image 3",
+        tags: {
+          all: "All",
+          nature: "Nature",
+          mountain: "Mountain",
+          city: "City",
+          night: "Night",
+          forest: "Forest",
+        },
+      },
     },
     ru: {
       navbar: {
@@ -33,8 +46,21 @@ const config: VueI18nOptions = {
       contact: {
         reach_me_at: "Контакты",
       },
+      gallery: {
+        title: "Галерея портфолио",
+        noDescription: "Без описания",
+        image1: "Изображение галереи 1",
+        image2: "Изображение галереи 2",
+        image3: "Изображение галереи 3",
+        tags: {
+          all: "Все",
+          nature: "Природа",
+          mountain: "Горы",
+          city: "Город",
+          night: "Ночь",
+          forest: "Лес",
+        },
+      },
     },
   },
 };
-
-export default config;
