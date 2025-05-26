@@ -109,9 +109,9 @@ const getSectionClasses = (path: string) => {
         </button>
         <USelect
           v-model="currentLocale"
-          :options="languageOptions"
-          option-label="label"
-          option-value="value"
+          :items="languageOptions"
+          item-label="label"
+          item-value="value"
           class="min-w-[120px] sm:min-w-[150px] text-sm"
         />
       </div>

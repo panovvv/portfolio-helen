@@ -3,8 +3,10 @@ import NavBar from "~/components/NavBar.vue";
 </script>
 
 <template>
-  <NavBar />
-  <main>
-    <NuxtPage />
-  </main>
+  <UApp>
+    <NavBar />
+    <main>
+      <NuxtPage />
+    </main>
+  </UApp>
 </template>
