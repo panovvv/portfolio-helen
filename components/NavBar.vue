@@ -68,22 +68,6 @@ const getSectionClasses = (path: string) => {
             {{ t("navbar.portfolio") }}
           </div>
         </NuxtLink>
-        <NuxtLink to="/portfolio-2" class="h-16 flex">
-          <div
-            class="flex-1 flex items-center justify-center"
-            :class="getSectionClasses('/portfolio-2')"
-          >
-            {{ t("navbar.portfolio") }}
-          </div>
-        </NuxtLink>
-        <NuxtLink to="/portfolio-photoswipe" class="h-16 flex">
-          <div
-            class="flex-1 flex items-center justify-center"
-            :class="getSectionClasses('/portfolio-photoswipe')"
-          >
-            {{ t("navbar.portfolio") }}
-          </div>
-        </NuxtLink>
         <NuxtLink to="/contact" class="h-16 flex">
           <div
             class="flex-1 flex items-center justify-center"

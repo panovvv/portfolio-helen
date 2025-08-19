@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
-import galleryFilesRaw from "~/assets/gallery_files.json";
+import galleryFiles from "~/assets/gallery_files.json"; // Now an array of objects
 import galleryMetadata from "~/assets/gallery_metadata.json";
 import lightGallery from "lightgallery";
 import lgThumbnail from "lightgallery/plugins/thumbnail";
@@ -21,26 +21,29 @@ interface GalleryFile {
   width: number;
   height: number;
 }
+
 interface GalleryMeta {
   filename: string;
   alt?: string;
   tags?: string[];
 }
 
-const galleryFiles = galleryFilesRaw as unknown as GalleryFile[];
-
+// Update galleryData to extract filename from each object in galleryFiles.
 const galleryData = computed(() => {
+  // Dependency on locale
   const _ = locale.value;
-  return galleryFiles.map((fileEntry) => {
-    const filename = fileEntry.filename;
+  return (galleryFiles as GalleryFile[]).map((fileObj) => {
+    const filename = fileObj.filename;
     const meta = (galleryMetadata as GalleryMeta[]).find(
       (item) => item.filename === filename,
     );
     return {
       src: `/gallery/${filename}`,
-      thumb: `/gallery/${filename}?w=150&h=100&fit=crop`,
-      alt: meta?.alt || "gallery.noDescription",
+      thumb: `/gallery/${filename}`, // base URL; you may append query params if needed
+      alt: meta?.alt || "",
       tags: meta?.tags || [],
+      width: fileObj.width,
+      height: fileObj.height,
     };
   });
 });
@@ -75,7 +78,7 @@ const initializeLightGallery = () => {
       mode: "lg-slide",
       download: false,
       plugins: [lgThumbnail, lgZoom, lgAutoplay, lgFullscreen],
-      thumbnail: true,
+      thumbnail: false,
       autoplay: true,
       autoplayControls: true,
     });
@@ -134,23 +137,23 @@ watch(filter, async () => {
         {{ t(`gallery.tags.${tag}`) }}
       </button>
     </div>
-    <!-- Flex layout for gallery images with uniform spacing -->
-    <div ref="galleryContainer" class="flex flex-wrap -mx-2">
-      <div
+    <!-- Masonry layout using CSS columns -->
+    <div :key="locale" ref="galleryContainer" class="masonry">
+      <a
         v-for="(img, index) in filteredGallery"
         :key="index"
-        class="w-full sm:w-1/2 md:w-1/3 px-2 mb-4"
+        :href="img.src"
+        class="gallery-item masonry-item"
+        :data-thumb="img.thumb + '?w=150&h=100&fit=crop'"
       >
-        <a :href="img.src" class="block gallery-item" :data-thumb="img.thumb">
-          <NuxtImg
-            :src="img.src"
-            :alt="t(img.alt)"
-            width="400"
-            height="300"
-            class="w-full"
-          />
-        </a>
-      </div>
+        <!-- NuxtImg uses intrinsic dimensions (if provided) to reserve space -->
+        <NuxtImg
+          :src="img.src"
+          :alt="t(img.alt)"
+          :width="img.width"
+          :height="img.height"
+        />
+      </a>
     </div>
   </div>
 </template>
@@ -161,4 +164,15 @@ watch(filter, async () => {
 @import "lightgallery/css/lg-zoom.css";
 @import "lightgallery/css/lg-autoplay.css";
 @import "lightgallery/css/lg-fullscreen.css";
+
+/* Masonry layout using CSS columns */
+.masonry {
+  column-count: 3;
+  column-gap: 1rem;
+}
+.masonry-item {
+  display: block;
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
 </style>
