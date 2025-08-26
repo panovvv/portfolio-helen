@@ -185,14 +185,43 @@ watch(filter, async () => {
 @import "lightgallery/css/lg-autoplay.css";
 @import "lightgallery/css/lg-fullscreen.css";
 
-/* Masonry layout using CSS columns */
+/* Masonry layout using CSS columns with responsive breakpoints */
 .masonry {
-  column-count: 3;
+  column-count: 1; /* default: small screens */
   column-gap: 1rem;
 }
+
+@media (min-width: 640px) {
+  /* sm */
+  .masonry {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* lg */
+  .masonry {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 1280px) {
+  /* xl */
+  .masonry {
+    column-count: 4;
+  }
+}
+
 .masonry-item {
   display: block;
   break-inside: avoid;
   margin-bottom: 1rem;
+}
+
+/* Ensure images fill the column width and keep aspect ratio */
+.masonry-item :deep(img) {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 </style>
