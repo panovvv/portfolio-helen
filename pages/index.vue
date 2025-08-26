@@ -193,7 +193,7 @@ onBeforeUnmount(stop);
           class="order-2 md:order-2 mt-4 md:mt-0 md:pl-4 overflow-hidden self-center w-full md:col-span-1 rounded-lg shadow-md"
         >
           <NuxtImg
-            src="/index.jpg"
+            src="/portrait.jpg"
             class="w-full h-auto object-cover aspect-[3/4] rounded-lg"
             sizes="(max-width: 768px) 100vw, 33vw"
             placeholder
