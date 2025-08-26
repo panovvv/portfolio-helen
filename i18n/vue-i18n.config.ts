@@ -3,6 +3,11 @@ export default {
   fallbackLocale: "en",
   messages: {
     en: {
+      cookie: {
+        notice:
+          "This site proudly uses just one cookie to remember your language. That’s it - no tracking, no ads!",
+        gotIt: "Got it",
+      },
       navbar: {
         home: "Home",
         portfolio: "Portfolio",
@@ -59,6 +64,11 @@ export default {
       },
     },
     ru: {
+      cookie: {
+        notice:
+          "Этот сайт c гордостью использует всего один куки, чтобы запомнить ваш язык. И всё - никакой слежки и рекламы!",
+        gotIt: "Понятно",
+      },
       navbar: {
         home: "Главная",
         portfolio: "Портфолио",
