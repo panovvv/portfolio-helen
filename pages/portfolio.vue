@@ -48,7 +48,7 @@ const galleryData = computed(() => {
   });
 });
 
-const filter = ref("All");
+const filter = ref<string>("All");
 
 const availableTags = computed(() => {
   const tagSet = new Set<string>();
@@ -85,9 +85,28 @@ const initializeLightGallery = () => {
   }
 };
 
+// Ensure the first available tag is selected on page enter.
+// If there are no tags, fall back to "All".
 onMounted(() => {
+  if (availableTags.value.length > 0) {
+    filter.value = availableTags.value[0];
+  } else {
+    filter.value = "All";
+  }
   initializeLightGallery();
 });
+
+// If available tags change and the current filter becomes invalid (and isn't "All"),
+// select the first available tag automatically.
+watch(
+  availableTags,
+  (newTags) => {
+    if (filter.value !== "All" && !newTags.includes(filter.value)) {
+      filter.value = newTags[0] ?? "All";
+    }
+  },
+  { flush: "post" },
+);
 
 watch(locale, async () => {
   if (galleryInstance.value) {
@@ -112,17 +131,7 @@ watch(filter, async () => {
   <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">{{ t("gallery.title") }}</h1>
     <div class="mb-4 flex flex-wrap gap-2">
-      <button
-        class="px-4 py-2 rounded transition-colors duration-200"
-        :class="
-          filter === 'All'
-            ? 'bg-blue-600 text-white'
-            : 'bg-gray-200 text-gray-700'
-        "
-        @click="filter = 'All'"
-      >
-        {{ t("gallery.tags.all") }}
-      </button>
+      <!-- Render specific tags first -->
       <button
         v-for="tag in availableTags"
         :key="tag"
@@ -136,6 +145,18 @@ watch(filter, async () => {
       >
         {{ t(`gallery.tags.${tag}`) }}
       </button>
+      <!-- "All" comes last -->
+      <button
+        class="px-4 py-2 rounded transition-colors duration-200"
+        :class="
+          filter === 'All'
+            ? 'bg-blue-600 text-white'
+            : 'bg-gray-200 text-gray-700'
+        "
+        @click="filter = 'All'"
+      >
+        {{ t("gallery.tags.all") }}
+      </button>
     </div>
     <!-- Masonry layout using CSS columns -->
     <div :key="locale" ref="galleryContainer" class="masonry">
@@ -146,7 +167,6 @@ watch(filter, async () => {
         class="gallery-item masonry-item"
         :data-thumb="img.thumb + '?w=150&h=100&fit=crop'"
       >
-        <!-- NuxtImg uses intrinsic dimensions (if provided) to reserve space -->
         <NuxtImg
           :src="img.src"
           :alt="t(img.alt)"

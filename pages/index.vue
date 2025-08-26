@@ -85,21 +85,30 @@ onBeforeUnmount(stop);
       </div>
 
       <!-- Slideshow -->
-      <div class="relative w-full overflow-hidden rounded-lg shadow-md">
+      <div
+        class="relative w-full overflow-hidden rounded-lg shadow-md max-h-screen flex items-center justify-center"
+      >
         <div
-          class="relative aspect-[4/3] sm:aspect-[16/9] bg-gray-100 dark:bg-gray-800"
+          class="relative w-full bg-gray-100 dark:bg-gray-800 max-h-screen mx-auto flex items-center justify-center"
+          :style="
+            slides.length
+              ? {
+                  aspectRatio: `${slides[currentIndex].width} / ${slides[currentIndex].height}`,
+                }
+              : {}
+          "
         >
           <transition-group name="fade" tag="div">
             <div
               v-for="(slide, idx) in slides"
               :key="`slide-${idx}-${currentIndex === idx}`"
               v-show="currentIndex === idx"
-              class="absolute inset-0"
+              class="absolute inset-0 flex items-center justify-center"
             >
               <NuxtImg
                 :src="slide.src"
                 :alt="slide.alt"
-                class="w-full h-full object-cover"
+                class="max-w-full max-h-full object-contain object-center"
                 :width="slide.width"
                 :height="slide.height"
                 sizes="(max-width: 640px) 100vw, 800px"
@@ -130,7 +139,7 @@ onBeforeUnmount(stop);
       <!-- Intro Text + Portrait -->
       <div class="grid md:grid-cols-3 gap-6 md:gap-8 items-start">
         <div
-          class="prose prose-lg sm:prose-xl dark:prose-invert max-w-none md:pr-6 prose-p:leading-relaxed prose-li:leading-relaxed prose-p:text-lg sm:prose-p:text-xl prose-li:text-lg sm:prose-li:text-xl md:col-span-2"
+          class="order-1 md:order-1 prose prose-lg sm:prose-xl dark:prose-invert max-w-none md:pr-6 prose-p:leading-relaxed prose-li:leading-relaxed prose-p:text-lg sm:prose-p:text-xl prose-li:text-lg sm:prose-li:text-xl md:col-span-2"
         >
           <h3
             class="mt-0 text-2xl sm:text-3xl md:text-4xl font-semibold"
@@ -181,7 +190,7 @@ onBeforeUnmount(stop);
         </div>
 
         <div
-          class="md:pl-4 overflow-hidden self-center w-full md:col-span-1 rounded-lg shadow-md"
+          class="order-2 md:order-2 mt-4 md:mt-0 md:pl-4 overflow-hidden self-center w-full md:col-span-1 rounded-lg shadow-md"
         >
           <NuxtImg
             src="/index.jpg"

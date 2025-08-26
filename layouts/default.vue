@@ -21,7 +21,7 @@ function dismissNotice() {
 <template>
   <UApp>
     <NavBar />
-    <main>
+    <main class="pt-16">
       <NuxtPage />
     </main>
 
