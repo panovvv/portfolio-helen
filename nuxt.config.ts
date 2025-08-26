@@ -1,3 +1,4 @@
+import { defineNuxtConfig } from "nuxt/config";
 import i18nConfig from "./i18n.config";
 export default defineNuxtConfig({
   modules: ["@nuxt/ui", "@nuxt/image", "@nuxtjs/i18n"],
@@ -9,4 +10,9 @@ export default defineNuxtConfig({
     },
   },
   css: ["~/assets/css/main.css"],
+  vite: {
+    esbuild: {
+      drop: ["console", "debugger"],
+    },
+  },
 });
