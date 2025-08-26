@@ -29,6 +29,34 @@ export default {
           food: "Food photography",
         },
       },
+      home: {
+        title: "Product and food photographer",
+        name: "Elena Panova",
+        subtitle:
+          "Striking photos that sell - for marketplaces, websites, and social media",
+        tagline: "Your product in the best light",
+        greeting: "Welcome to my website!",
+        intro:
+          "My name is Elena, and I am a professional product and food photographer. I create images that help sell and make your product stand out.",
+        you_can_order: "You can order photography for:",
+        orders: {
+          marketplaces: "<b>Marketplaces</b> - Etsy, Amazon, eBay, etc.",
+          websites:
+            "<b>Websites and online stores</b>, as well as for packaging.",
+          social: "<b>Social media</b> - visual content to promote your brand.",
+          recipes:
+            "<b>Recipe shoots for brands</b> - complexity and format are discussed individually.",
+        },
+        studio:
+          "I work in my own studio with professional lighting and equipment. All questions and approvals are handled <b>online</b>.",
+        remote:
+          "I live in Porto, Portugal, but I shoot remotely for brands around the world - products can be conveniently sent by mail or courier.",
+        skills:
+          "In addition to shooting pictures, I am skilled in <strong>color correction and retouching</strong>.",
+        props: "I have a basic collection of backdrops and props.",
+        precision: "I strictly follow your brief or can create one for you.",
+        heart: "I put my heart into every shoot 😊",
+      },
     },
     ru: {
       navbar: {
@@ -56,6 +84,35 @@ export default {
           creative: "Творческие съемки",
           food: "Фуд съемка",
         },
+      },
+      home: {
+        title: "Предметный и фудфотограф",
+        name: "Елена Панова",
+        subtitle:
+          "Эффектные фотографии, которые продают - для маркетплейсов, сайтов и социальных сетей",
+        tagline: "Ваш продукт в лучшем свете",
+        greeting: "Приветствую вас на моем сайте!",
+        intro:
+          "Меня зовут Елена, я профессионально занимаюсь предметной и фудфотографией. Создаю фотографии, которые помогают продавать и выделять ваш продукт.",
+        you_can_order: "Вы можете заказать у меня съемку для:",
+        orders: {
+          marketplaces: "<b>Маркетплейсов</b> - Etsy, Amazon, eBay и др.",
+          websites: "<b>Сайтов и интернет-магазинов</b>, а также для упаковки.",
+          social:
+            "<b>Социальных сетей</b> - контент для продвижения вашего бренда.",
+          recipes:
+            "<b>Рецептов для брендов</b> - сложность и формат обсуждаются индивидуально.",
+        },
+        studio:
+          "Работаю в собственной студии с профессиональным светом и оборудованием. Все вопросы и согласования проходят <b>онлайн</b>.",
+        remote:
+          "Я живу в городе Порто в Португалии, но снимаю для брендов удаленно по всему миру - товар можно удобно отправить почтой или курьером.",
+        skills:
+          "Помимо съемки, владею навыками <strong>цветокоррекции и ретуши</strong>.",
+        props: "Имею базовую коллекцию фотофонов и реквизита.",
+        precision:
+          "Четко выполняю ваше техническое задание или создаю его для вас.",
+        heart: "К каждой съемке подхожу с душой 😊",
       },
     },
   },
