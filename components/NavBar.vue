@@ -71,7 +71,7 @@ const getSectionClasses = (path: string) => {
             <!-- Hamburger button visible on small screens -->
             <button
               type="button"
-              class="md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               :aria-expanded="isMenuOpen ? 'true' : 'false'"
               aria-controls="primary-menu"
               aria-label="Toggle navigation menu"
@@ -119,7 +119,7 @@ const getSectionClasses = (path: string) => {
             <button
               @click="toggleTheme"
               aria-label="Toggle theme"
-              class="flex items-center justify-center p-2 rounded-full border-2 border-transparent hover:border-gray-400 dark:hover:border-gray-300 transition-colors duration-200"
+              class="flex items-center justify-center w-10 h-10 rounded-full border-2 border-transparent hover:border-gray-400 dark:hover:border-gray-300 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               <FontAwesomeIcon
                 v-if="currentTheme === 'light'"
