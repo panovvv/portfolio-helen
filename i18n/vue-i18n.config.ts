@@ -33,6 +33,24 @@ export default {
           creative: "Creative photography",
           food: "Food photography",
         },
+        alt: {
+          brand: {
+            tenorio: "Tenorio - a brand of Portuguese canned tuna",
+            fumadinho:
+              "Fumadinho - Lidl Portugal’s private label for charcuterie products, made in Portugal with traditional methods.",
+            fourmove:
+              "4MOVE - a Polish brand of isotonic and vitamin-enhanced drinks",
+            vitanella:
+              "Vitanella - a Polish brand of healthy and fitness-oriented food",
+            stdalfour:
+              "St. Dalfour - a French brand known for fruit preserves, jams, and gourmet food products",
+          },
+          collagen: "Liquid collagen",
+          cosmetics: "Cosmetics",
+          drinks: "Beverages",
+          creative: "Creative photography",
+          food: "Food photography",
+        },
       },
       home: {
         title: "Product and food photographer",
@@ -88,6 +106,24 @@ export default {
           all: "Все",
           anti_age: "Съемка анти эйдж крема",
           brand: "Съемка для брендов",
+          collagen: "Съемка жидкого коллагена",
+          cosmetics: "Съемка косметических средств",
+          drinks: "Съемка напитков",
+          creative: "Творческие съемки",
+          food: "Фуд съемка",
+        },
+        alt: {
+          brand: {
+            tenorio: "Tenorio - португальский бренд консервированного тунца",
+            fumadinho:
+              "Fumadinho - собственная марка Lidl Portugal для мясных изделий, производимых в Португалии по традиционным методам",
+            fourmove:
+              "4MOVE - польский бренд изотонических и витаминных напитков",
+            vitanella:
+              "Vitanella - польский бренд продуктов для здорового и фитнес-питания",
+            stdalfour:
+              "St. Dalfour - французский бренд, известный своими фруктовыми джемами, вареньем и гастрономическими продуктами",
+          },
           collagen: "Съемка жидкого коллагена",
           cosmetics: "Съемка косметических средств",
           drinks: "Съемка напитков",
