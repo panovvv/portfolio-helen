@@ -29,7 +29,7 @@ export default {
           brand: "Brands",
           collagen: "Liquid collagen",
           cosmetics: "Cosmetics",
-          drinks: "Beverages",
+          beverages: "Beverages",
           creative: "Creative photography",
           food: "Food photography",
         },
@@ -45,11 +45,6 @@ export default {
             stdalfour:
               "St. Dalfour - a French brand known for fruit preserves, jams, and gourmet food products",
           },
-          collagen: "Liquid collagen",
-          cosmetics: "Cosmetics",
-          drinks: "Beverages",
-          creative: "Creative photography",
-          food: "Food photography",
         },
       },
       home: {
@@ -108,7 +103,7 @@ export default {
           brand: "Съемка для брендов",
           collagen: "Съемка жидкого коллагена",
           cosmetics: "Съемка косметических средств",
-          drinks: "Съемка напитков",
+          beverages: "Съемка напитков",
           creative: "Творческие съемки",
           food: "Фуд съемка",
         },
@@ -124,11 +119,6 @@ export default {
             stdalfour:
               "St. Dalfour - французский бренд, известный своими фруктовыми джемами, вареньем и гастрономическими продуктами",
           },
-          collagen: "Съемка жидкого коллагена",
-          cosmetics: "Съемка косметических средств",
-          drinks: "Съемка напитков",
-          creative: "Творческие съемки",
-          food: "Фуд съемка",
         },
       },
       home: {

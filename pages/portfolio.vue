@@ -40,7 +40,7 @@ const galleryData = computed(() => {
     return {
       src: `/gallery/${filename}`,
       thumb: `/gallery/${filename}`, // base URL; you may append query params if needed
-      alt: meta?.alt || "",
+      alt: meta?.alt,
       tags: meta?.tags || [],
       width: fileObj.width,
       height: fileObj.height,
@@ -169,7 +169,7 @@ watch(filter, async () => {
       >
         <NuxtImg
           :src="img.src"
-          :alt="t(img.alt)"
+          :alt="img.alt ? t(img.alt) : undefined"
           :width="img.width"
           :height="img.height"
         />

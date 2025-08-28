@@ -2,29 +2,43 @@ import fs from "fs/promises";
 import path from "path";
 import sharp from "sharp";
 
+async function walkDir(dir, baseDir) {
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      const subFiles = await walkDir(fullPath, baseDir);
+      files.push(...subFiles);
+    } else if (/\.(jpe?g|png)$/i.test(entry.name)) {
+      // compute posix-style relative path under baseDir (public/gallery)
+      const rel = path.relative(baseDir, fullPath).split(path.sep).join("/");
+      files.push(rel);
+    }
+  }
+  return files;
+}
+
 async function generateManifest() {
   // Define the source directory (your gallery images)
   const galleryPath = path.join(process.cwd(), "public/gallery");
 
-  // Read the contents of the gallery folder
-  const files = await fs.readdir(galleryPath);
-
-  // Filter to only image files (jpg and png)
-  const imageFiles = files.filter((file) => /\.(jpe?g|png)$/i.test(file));
+  // Recursively collect image files (relative paths under galleryPath)
+  const imageFiles = await walkDir(galleryPath, galleryPath);
 
   // Build a manifest array by reading intrinsic dimensions for each image
   const manifest = [];
-  for (const file of imageFiles) {
-    const filePath = path.join(galleryPath, file);
+  for (const relPath of imageFiles) {
+    const filePath = path.join(galleryPath, relPath);
     try {
       const metadata = await sharp(filePath).metadata();
       manifest.push({
-        filename: file,
+        filename: relPath,
         width: metadata.width,
         height: metadata.height,
       });
     } catch (error) {
-      console.error(`Error processing ${file}:`, error);
+      console.error(`Error processing ${relPath}:`, error);
     }
   }
 
