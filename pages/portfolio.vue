@@ -50,12 +50,37 @@ const galleryData = computed(() => {
 
 const filter = ref<string>("All");
 
+// Desired order of tags in the UI ("All" is handled separately at the end in the template)
+// Updated per latest request: cosmetics, food, beverages, collagen, creative, anti_age, then "All" button
+const TAG_ORDER = [
+  "brand",
+  "cosmetics",
+  "food",
+  "beverages",
+  "collagen",
+  "creative",
+  "anti_age",
+] as const;
+
 const availableTags = computed(() => {
   const tagSet = new Set<string>();
   galleryData.value.forEach((img) => {
     img.tags.forEach((tag) => tagSet.add(tag));
   });
-  return Array.from(tagSet);
+  const tags = Array.from(tagSet);
+  const orderMap = new Map<string, number>(
+    TAG_ORDER.map((t, i) => [t as string, i]),
+  );
+  return tags.sort((a, b) => {
+    const ai = orderMap.has(a)
+      ? (orderMap.get(a) as number)
+      : Number.POSITIVE_INFINITY;
+    const bi = orderMap.has(b)
+      ? (orderMap.get(b) as number)
+      : Number.POSITIVE_INFINITY;
+    if (ai !== bi) return ai - bi;
+    return a.localeCompare(b);
+  });
 });
 
 const filteredGallery = computed(() =>
