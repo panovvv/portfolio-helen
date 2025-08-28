@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
-import galleryFiles from "~/assets/gallery_files.json"; // Now an array of objects
+import galleryFiles from "~/assets/gallery_files.json";
 import galleryMetadata from "~/assets/gallery_metadata.json";
 import lightGallery from "lightgallery";
 import lgThumbnail from "lightgallery/plugins/thumbnail";
@@ -13,6 +13,8 @@ import "lightgallery/css/lg-thumbnail.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-autoplay.css";
 import "lightgallery/css/lg-fullscreen.css";
+
+import type { LightGallery } from "lightgallery/lightgallery";
 
 const { t, locale } = useI18n();
 
@@ -28,9 +30,16 @@ interface GalleryMeta {
   tags?: string[];
 }
 
-// Update galleryData to extract filename from each object in galleryFiles.
-const galleryData = computed(() => {
-  // Dependency on locale
+interface GalleryItem {
+  src: string;
+  thumb: string;
+  alt?: string;
+  tags: string[];
+  width: number;
+  height: number;
+}
+
+const galleryItems = computed<GalleryItem[]>(() => {
   const _ = locale.value;
   return (galleryFiles as GalleryFile[]).map((fileObj) => {
     const filename = fileObj.filename;
@@ -39,7 +48,7 @@ const galleryData = computed(() => {
     );
     return {
       src: `/gallery/${filename}`,
-      thumb: `/gallery/${filename}`, // base URL; you may append query params if needed
+      thumb: `/gallery/${filename}`,
       alt: meta?.alt,
       tags: meta?.tags || [],
       width: fileObj.width,
@@ -48,10 +57,12 @@ const galleryData = computed(() => {
   });
 });
 
-const filter = ref<string>("All");
+type Tag = (typeof TAG_ORDER)[number] | (string & {});
 
-// Desired order of tags in the UI ("All" is handled separately at the end in the template)
-// Updated per latest request: cosmetics, food, beverages, collagen, creative, anti_age, then "All" button
+type FilterValue = "All" | Tag;
+
+const filter = ref<FilterValue>("All");
+
 const TAG_ORDER = [
   "brand",
   "cosmetics",
@@ -62,35 +73,50 @@ const TAG_ORDER = [
   "anti_age",
 ] as const;
 
-const availableTags = computed(() => {
+const TAG_ORDER_MAP = new Map<string, number>(
+  TAG_ORDER.map((t, i) => [t as string, i]),
+);
+
+const getTagRank = (tags: string[]): number => {
+  let min = Number.POSITIVE_INFINITY;
+  for (const tag of tags) {
+    const idx = TAG_ORDER_MAP.get(tag);
+    if (idx !== undefined && idx < min) min = idx;
+  }
+  return min;
+};
+
+const availableTags = computed<string[]>(() => {
   const tagSet = new Set<string>();
-  galleryData.value.forEach((img) => {
+  galleryItems.value.forEach((img) => {
     img.tags.forEach((tag) => tagSet.add(tag));
   });
   const tags = Array.from(tagSet);
-  const orderMap = new Map<string, number>(
-    TAG_ORDER.map((t, i) => [t as string, i]),
-  );
   return tags.sort((a, b) => {
-    const ai = orderMap.has(a)
-      ? (orderMap.get(a) as number)
+    const ai = TAG_ORDER_MAP.has(a)
+      ? (TAG_ORDER_MAP.get(a) as number)
       : Number.POSITIVE_INFINITY;
-    const bi = orderMap.has(b)
-      ? (orderMap.get(b) as number)
+    const bi = TAG_ORDER_MAP.has(b)
+      ? (TAG_ORDER_MAP.get(b) as number)
       : Number.POSITIVE_INFINITY;
     if (ai !== bi) return ai - bi;
     return a.localeCompare(b);
   });
 });
 
-const filteredGallery = computed(() =>
-  filter.value === "All"
-    ? galleryData.value
-    : galleryData.value.filter((img) => img.tags.includes(filter.value)),
-);
+const filteredGallery = computed<GalleryItem[]>(() => {
+  if (filter.value === "All") {
+    const items = galleryItems.value;
+    return items
+      .map((item, idx) => ({ item, idx, rank: getTagRank(item.tags) }))
+      .sort((a, b) => (a.rank !== b.rank ? a.rank - b.rank : a.idx - b.idx))
+      .map((x) => x.item);
+  }
+  return galleryItems.value.filter((img) => img.tags.includes(filter.value));
+});
 
 const galleryContainer = ref<HTMLElement | null>(null);
-const galleryInstance = ref<any>(null);
+const galleryInstance = ref<LightGallery | null>(null);
 
 const initializeLightGallery = () => {
   if (galleryContainer.value) {
@@ -110,8 +136,6 @@ const initializeLightGallery = () => {
   }
 };
 
-// Ensure the first available tag is selected on page enter.
-// If there are no tags, fall back to "All".
 onMounted(() => {
   if (availableTags.value.length > 0) {
     filter.value = availableTags.value[0];
@@ -121,8 +145,6 @@ onMounted(() => {
   initializeLightGallery();
 });
 
-// If available tags change and the current filter becomes invalid (and isn't "All"),
-// select the first available tag automatically.
 watch(
   availableTags,
   (newTags) => {
@@ -156,7 +178,6 @@ watch(filter, async () => {
   <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">{{ t("gallery.title") }}</h1>
     <div class="mb-4 flex flex-wrap gap-2">
-      <!-- Render specific tags first -->
       <button
         v-for="tag in availableTags"
         :key="tag"
@@ -170,7 +191,6 @@ watch(filter, async () => {
       >
         {{ t(`gallery.tags.${tag}`) }}
       </button>
-      <!-- "All" comes last -->
       <button
         class="px-4 py-2 rounded transition-colors duration-200"
         :class="
@@ -183,13 +203,12 @@ watch(filter, async () => {
         {{ t("gallery.tags.all") }}
       </button>
     </div>
-    <!-- Masonry layout using CSS columns -->
-    <div :key="locale" ref="galleryContainer" class="masonry">
+    <div :key="locale" ref="galleryContainer" class="gallery-grid">
       <a
         v-for="(img, index) in filteredGallery"
         :key="index"
         :href="img.src"
-        class="gallery-item masonry-item"
+        class="gallery-item gallery-tile"
         :data-thumb="img.thumb + '?w=150&h=100&fit=crop'"
       >
         <NuxtImg
@@ -210,43 +229,40 @@ watch(filter, async () => {
 @import "lightgallery/css/lg-autoplay.css";
 @import "lightgallery/css/lg-fullscreen.css";
 
-/* Masonry layout using CSS columns with responsive breakpoints */
-.masonry {
-  column-count: 1; /* default: small screens */
-  column-gap: 1rem;
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
 @media (min-width: 640px) {
-  /* sm */
-  .masonry {
-    column-count: 2;
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
-  /* lg */
-  .masonry {
-    column-count: 3;
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (min-width: 1280px) {
-  /* xl */
-  .masonry {
-    column-count: 4;
+  .gallery-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
-.masonry-item {
+.gallery-tile {
   display: block;
-  break-inside: avoid;
-  margin-bottom: 1rem;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
 }
 
-/* Ensure images fill the column width and keep aspect ratio */
-.masonry-item :deep(img) {
+.gallery-tile :deep(img) {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 </style>
