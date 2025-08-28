@@ -22,7 +22,6 @@ export default {
         reach_me_at: "Reach me at",
       },
       gallery: {
-        title: "Portfolio Gallery",
         tags: {
           all: "All",
           anti_age: "Anti-aging cream",
@@ -96,7 +95,6 @@ export default {
         reach_me_at: "Контакты",
       },
       gallery: {
-        title: "Галерея портфолио",
         tags: {
           all: "Все",
           anti_age: "Съемка анти эйдж крема",

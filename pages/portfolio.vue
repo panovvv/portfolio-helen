@@ -69,8 +69,8 @@ const TAG_ORDER = [
   "food",
   "beverages",
   "collagen",
-  "creative",
   "anti_age",
+  "creative",
 ] as const;
 
 const TAG_ORDER_MAP = new Map<string, number>(
@@ -176,7 +176,6 @@ watch(filter, async () => {
 
 <template>
   <div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">{{ t("gallery.title") }}</h1>
     <div class="mb-4 flex flex-wrap gap-2">
       <button
         v-for="tag in availableTags"
