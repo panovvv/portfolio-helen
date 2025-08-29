@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { useState } from "#imports";
 import galleryFiles from "~/assets/gallery_files.json";
 import galleryMetadata from "~/assets/gallery_metadata.json";
+import FadePreloadImg from "~/components/FadePreloadImg.vue";
 
 interface GalleryFile {
   filename: string;
@@ -13,12 +15,17 @@ interface GalleryMeta {
   filename: string;
   alt?: string;
 }
+interface Slide {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+}
 
 const { t } = useI18n();
 
-const slides = computed(() => {
-  const files = galleryFiles as GalleryFile[];
-  const selected = files.slice(0, 5);
+const slides = computed<Slide[]>(() => {
+  const selected = galleryFiles as GalleryFile[];
   return selected.map((f) => {
     const meta = (galleryMetadata as GalleryMeta[]).find(
       (m) => m.filename === f.filename,
@@ -32,34 +39,122 @@ const slides = computed(() => {
   });
 });
 
-const currentIndex = ref(0);
-const intervalMs = 3000;
-let timer: any = null;
+const displayed = useState<number[]>("homeDisplayed", () => {
+  const count = (galleryFiles as GalleryFile[]).length;
+  const used = new Set<number>();
+  const arr: number[] = [];
+  for (let i = 0; i < 3; i++) {
+    const pick = uniqueRandomIndex(used, count);
+    arr[i] = pick;
+    used.add(pick);
+  }
+  return arr;
+});
+let timer: ReturnType<typeof setTimeout> | null = null;
+let lastChangedCol: number = -1;
 
-const start = () => {
+function uniqueRandomIndex(exclude: Set<number>, max: number): number {
+  const available: number[] = [];
+  for (let i = 0; i < max; i++) if (!exclude.has(i)) available.push(i);
+  if (available.length === 0) return Math.floor(Math.random() * max);
+  return available[Math.floor(Math.random() * available.length)];
+}
+
+function tickOnce() {
+  const count = slides.value.length;
+  if (count === 0) return;
+
+  // 1-column mode: update center slot
+  if (colMode.value === 1) {
+    const exclude = new Set<number>([displayed.value[1]]);
+    displayed.value[1] = uniqueRandomIndex(exclude, count);
+    return;
+  }
+
+  // 2-column mode: update among columns 0 and 1, avoid repeating the same column consecutively
+  if (colMode.value === 2) {
+    const visibleCols = [0, 1];
+    const candidates =
+      lastChangedCol !== -1 && visibleCols.includes(lastChangedCol)
+        ? visibleCols.filter((c) => c !== lastChangedCol)
+        : visibleCols;
+    const col = candidates[Math.floor(Math.random() * candidates.length)];
+    const others = new Set<number>(displayed.value.filter((_, i) => i !== col));
+    const nextIdx = uniqueRandomIndex(others, count);
+    displayed.value[col] = nextIdx;
+    lastChangedCol = col;
+    return;
+  }
+
+  // 3-column mode: update among all columns, avoid repeating the same column consecutively
+  let col: number;
+  if (lastChangedCol === -1) {
+    col = Math.floor(Math.random() * 3);
+  } else {
+    const candidates = [0, 1, 2].filter((c) => c !== lastChangedCol);
+    col = candidates[Math.floor(Math.random() * candidates.length)];
+  }
+  const others = new Set<number>(displayed.value.filter((_, i) => i !== col));
+  const nextIdx = uniqueRandomIndex(others, count);
+  displayed.value[col] = nextIdx;
+  lastChangedCol = col;
+}
+
+function schedule() {
   stop();
-  timer = setInterval(() => {
-    const count = slides.value.length;
-    if (count > 0) {
-      currentIndex.value = (currentIndex.value + 1) % count;
-    }
-  }, intervalMs);
-};
-const stop = () => {
+  const delay = 2000;
+  timer = setTimeout(() => {
+    tickOnce();
+    schedule();
+  }, delay);
+}
+
+function start() {
+  // initial random indices are seeded via useState in setup to avoid first-render flash
+  schedule();
+}
+function stop() {
   if (timer) {
-    clearInterval(timer);
+    clearTimeout(timer);
     timer = null;
   }
-};
+}
 
-onMounted(start);
-onBeforeUnmount(stop);
+const colMode = ref<1 | 2 | 3>(3);
+function updateColMode() {
+  if (typeof window !== "undefined") {
+    const w = window.innerWidth;
+    if (w < 640)
+      colMode.value = 1; // narrowest
+    else if (w < 1024)
+      colMode.value = 2; // medium
+    else colMode.value = 3; // wide
+  }
+}
+
+watch(colMode, () => {
+  // Reset lastChangedCol when layout mode changes to avoid wrong exclusions
+  lastChangedCol = -1;
+});
+
+onMounted(() => {
+  updateColMode();
+  if (typeof window !== "undefined") {
+    window.addEventListener("resize", updateColMode);
+  }
+  start();
+});
+onBeforeUnmount(() => {
+  if (typeof window !== "undefined") {
+    window.removeEventListener("resize", updateColMode);
+  }
+  stop();
+});
 </script>
 
 <template>
   <section class="container mx-auto p-4">
     <div class="flex flex-col gap-6">
-      <!-- Hero (centered) -->
       <div class="text-center max-w-4xl mx-auto">
         <h1
           class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight"
@@ -84,59 +179,56 @@ onBeforeUnmount(stop);
         ></h2>
       </div>
 
-      <!-- Slideshow -->
-      <div
-        class="relative w-full overflow-hidden rounded-lg shadow-md max-h-screen flex items-center justify-center"
-      >
-        <div
-          class="relative w-full bg-gray-100 dark:bg-gray-800 max-h-screen mx-auto flex items-center justify-center"
-          :style="
-            slides.length
-              ? {
-                  aspectRatio: `${slides[currentIndex].width} / ${slides[currentIndex].height}`,
-                }
-              : {}
-          "
-        >
-          <transition-group name="fade" tag="div">
+      <div class="relative w-full overflow-hidden rounded-lg shadow-md">
+        <div class="w-full bg-gray-100 dark:bg-gray-800 mx-auto">
+          <div v-if="colMode === 1" class="flex items-center justify-center">
+            <FadePreloadImg
+              v-if="slides[displayed[1]]"
+              :src="slides[displayed[1]].src"
+              :alt="slides[displayed[1]].alt"
+              :width="slides[displayed[1]].width"
+              :height="slides[displayed[1]].height"
+              sizes="100vw"
+              :durationMs="1000"
+            />
+          </div>
+          <div v-else-if="colMode === 2" class="grid grid-cols-2 gap-2">
             <div
-              v-for="(slide, idx) in slides"
-              :key="`slide-${idx}-${currentIndex === idx}`"
-              v-show="currentIndex === idx"
-              class="absolute inset-0 flex items-center justify-center"
+              v-for="(idx, col) in [displayed[0], displayed[1]]"
+              :key="`col-2-${col}`"
+              class="flex items-center justify-center"
             >
-              <NuxtImg
-                :src="slide.src"
-                :alt="slide.alt"
-                class="max-w-full max-h-full object-contain object-center"
-                :width="slide.width"
-                :height="slide.height"
-                sizes="(max-width: 640px) 100vw, 800px"
-                placeholder
-                loading="eager"
-                decoding="async"
+              <FadePreloadImg
+                v-if="slides[idx]"
+                :src="slides[idx].src"
+                :alt="slides[idx].alt"
+                :width="slides[idx].width"
+                :height="slides[idx].height"
+                sizes="(max-width: 1024px) 50vw, 50vw"
+                :durationMs="1000"
               />
             </div>
-          </transition-group>
-        </div>
-        <!-- Optional dots navigation (tap targets for mobile) -->
-        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
-          <button
-            v-for="(slide, idx) in slides"
-            :key="`dot-${idx}`"
-            class="w-2.5 h-2.5 rounded-full"
-            :class="
-              currentIndex === idx
-                ? 'bg-white/90 ring-2 ring-black/20'
-                : 'bg-white/50'
-            "
-            @click="currentIndex = idx"
-            aria-label="Go to slide"
-          />
+          </div>
+          <div v-else class="grid grid-cols-3 gap-2">
+            <div
+              v-for="(idx, col) in displayed"
+              :key="`col-3-${col}`"
+              class="flex items-center justify-center"
+            >
+              <FadePreloadImg
+                v-if="slides[idx]"
+                :src="slides[idx].src"
+                :alt="slides[idx].alt"
+                :width="slides[idx].width"
+                :height="slides[idx].height"
+                sizes="(max-width: 1024px) 33vw, 33vw"
+                :durationMs="1000"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Intro Text + Portrait -->
       <div class="grid md:grid-cols-3 gap-6 md:gap-8 items-start">
         <div
           class="order-1 md:order-1 prose prose-lg sm:prose-xl dark:prose-invert max-w-none md:pr-6 prose-p:leading-relaxed prose-li:leading-relaxed prose-p:text-lg sm:prose-p:text-xl prose-li:text-lg sm:prose-li:text-xl md:col-span-2"
@@ -207,12 +299,5 @@ onBeforeUnmount(stop);
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.6s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
+/* Transition handled inside FadePreloadImg for zero-flicker crossfades */
 </style>
