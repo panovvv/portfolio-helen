@@ -222,12 +222,6 @@ watch(filter, async () => {
 </template>
 
 <style scoped>
-@import "lightgallery/css/lightgallery.css";
-@import "lightgallery/css/lg-thumbnail.css";
-@import "lightgallery/css/lg-zoom.css";
-@import "lightgallery/css/lg-autoplay.css";
-@import "lightgallery/css/lg-fullscreen.css";
-
 .gallery-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -263,5 +257,33 @@ watch(filter, async () => {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+:global(html:not(.dark) .lg-backdrop) {
+  background-color: #ffffff !important;
+}
+:global(.dark .lg-backdrop) {
+  background-color: #000000 !important;
+}
+
+/* Light mode: buttons should blend with the white background */
+:global(html:not(.dark) .lg-next),
+:global(html:not(.dark) .lg-prev),
+:global(html:not(.dark) .lg-toolbar .lg-icon) {
+  background-color: #ffffff !important; /* match backdrop */
+  color: #111111 !important; /* dark icons for contrast */
+  box-shadow: none !important;
+  border: none !important;
+}
+
+:global(html:not(.dark) .lg-next:hover),
+:global(html:not(.dark) .lg-prev:hover),
+:global(html:not(.dark) .lg-toolbar .lg-icon:hover) {
+  background-color: #ffffff !important; /* keep same color on hover */
+  color: #000000 !important; /* slightly darker on hover */
+}
+
+/* Light mode: ensure caption/alt text is visible */
+:global(html:not(.dark) .lg-sub-html) {
+  color: #111111 !important;
 }
 </style>
