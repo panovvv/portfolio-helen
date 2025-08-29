@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
+import { onBeforeRouteLeave } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useState } from "#imports";
 import galleryFiles from "~/assets/gallery_files.json";
@@ -53,6 +54,37 @@ const displayed = useState<number[]>("homeDisplayed", () => {
 let timer: ReturnType<typeof setTimeout> | null = null;
 let lastChangedCol: number = -1;
 
+// Whether this page is currently active. Used to gate timers and preloads.
+const isActive = ref(false);
+
+// Simple in-memory set of preloaded URLs to avoid redundant network requests
+const preloadedSrcs = new Set<string>();
+function preloadSrc(url?: string) {
+  if (!isActive.value) return;
+  if (!url) return;
+  if (preloadedSrcs.has(url)) return;
+  try {
+    const img = new Image();
+    img.decoding = "async" as any;
+    // note: setting loading has no effect on programmatic Image, but harmless
+    (img as any).loading = "eager";
+    img.src = url;
+    preloadedSrcs.add(url);
+  } catch (_) {
+    // no-op
+  }
+}
+
+function preloadNextCandidate() {
+  const count = slides.value.length;
+  if (count === 0) return;
+  // Exclude all currently visible indices to avoid wasting bandwidth
+  const exclude = new Set<number>(displayed.value);
+  const idx = uniqueRandomIndex(exclude, count);
+  const s = slides.value[idx];
+  if (s) preloadSrc(s.src);
+}
+
 function uniqueRandomIndex(exclude: Set<number>, max: number): number {
   const available: number[] = [];
   for (let i = 0; i < max; i++) if (!exclude.has(i)) available.push(i);
@@ -68,6 +100,8 @@ function tickOnce() {
   if (colMode.value === 1) {
     const exclude = new Set<number>([displayed.value[1]]);
     displayed.value[1] = uniqueRandomIndex(exclude, count);
+    // Immediately start preloading a future candidate as soon as we switch
+    preloadNextCandidate();
     return;
   }
 
@@ -83,6 +117,8 @@ function tickOnce() {
     const nextIdx = uniqueRandomIndex(others, count);
     displayed.value[col] = nextIdx;
     lastChangedCol = col;
+    // Preload a future candidate now that we changed this column
+    preloadNextCandidate();
     return;
   }
 
@@ -98,13 +134,18 @@ function tickOnce() {
   const nextIdx = uniqueRandomIndex(others, count);
   displayed.value[col] = nextIdx;
   lastChangedCol = col;
+  // Preload a future candidate for upcoming switches
+  preloadNextCandidate();
 }
 
 function schedule() {
   stop();
+  if (!isActive.value) return;
   const delay = 2000;
   timer = setTimeout(() => {
+    if (!isActive.value) return;
     tickOnce();
+    if (!isActive.value) return;
     schedule();
   }, delay);
 }
@@ -138,13 +179,24 @@ watch(colMode, () => {
 });
 
 onMounted(() => {
+  isActive.value = true;
   updateColMode();
   if (typeof window !== "undefined") {
     window.addEventListener("resize", updateColMode);
   }
   start();
+  // Kick off preloading for a future candidate right away
+  preloadNextCandidate();
 });
+
+onBeforeRouteLeave(() => {
+  // Stop immediately when navigating away to prevent further network activity
+  isActive.value = false;
+  stop();
+});
+
 onBeforeUnmount(() => {
+  isActive.value = false;
   if (typeof window !== "undefined") {
     window.removeEventListener("resize", updateColMode);
   }
