@@ -215,6 +215,7 @@ watch(filter, async () => {
           :alt="img.alt ? t(img.alt) : undefined"
           :width="img.width"
           :height="img.height"
+          placeholder
         />
       </a>
     </div>

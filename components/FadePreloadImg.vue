@@ -8,6 +8,8 @@ interface Props {
   height?: number;
   sizes?: string;
   durationMs?: number;
+  playKey?: number; // external trigger to start crossfade once back is ready
+  fixedWidth?: number; // optional explicit width (in CSS px) to request from optimizer
 }
 
 const props = defineProps<Props>();
@@ -116,6 +118,53 @@ function isBackLoaded(): boolean {
 let pendingRequest: { src: string; width?: number; height?: number } | null =
   null;
 
+// External play request pending until back is ready
+const pendingPlay = ref(false);
+
+async function startTransition() {
+  if (isTransitioning.value) return;
+  // Require a loaded back buffer
+  if (!isBackLoaded()) return;
+
+  // Ensure at least one paint with back at opacity 0 before starting
+  await nextTick();
+  await new Promise((r) =>
+    requestAnimationFrame(() => requestAnimationFrame(r)),
+  );
+
+  isTransitioning.value = true;
+
+  setTimeout(() => {
+    // End the CSS transition atomically and flip buffers
+    isTransitioning.value = false;
+    front.value = back.value;
+    // Apply pending dimensions captured when src was set
+    frontWidth.value = pendingBackWidth;
+    frontHeight.value = pendingBackHeight;
+
+    // Ensure we have emitted ready for the new visible image if not already
+    ensureInitialReady();
+    // Inform parent that the crossfade transition has completed
+    emit("transitioned");
+
+    // If something was queued during the transition, process it now
+    if (pendingRequest) {
+      const req = pendingRequest;
+      pendingRequest = null;
+      // Chain the next change
+      processSrcChange(req.src, req.width, req.height);
+    }
+  }, duration());
+}
+
+function maybeStartTransition() {
+  if (pendingPlay.value && !isTransitioning.value && isBackLoaded()) {
+    // consume the play request
+    pendingPlay.value = false;
+    void startTransition();
+  }
+}
+
 async function processSrcChange(newSrc: string, w?: number, h?: number) {
   // If already showing or already queued in back, ignore
   if (newSrc === (front.value === 0 ? buf0Src.value : buf1Src.value)) return;
@@ -133,37 +182,8 @@ async function processSrcChange(newSrc: string, w?: number, h?: number) {
   // Notify parent that the new image finished preloading in the back buffer
   emit("preloaded");
 
-  // Ensure a paint at opacity 0 before we start crossfade
-  await nextTick();
-  await new Promise((r) =>
-    requestAnimationFrame(() => requestAnimationFrame(r)),
-  );
-
-  // Start crossfade: back 0->1, front 1->0
-  isTransitioning.value = true;
-
-  // After transition duration, flip buffers and sync sizer/aspect
-  setTimeout(() => {
-    // End the CSS transition atomically: exit transitioning and commit the new front
-    isTransitioning.value = false;
-    front.value = back.value;
-    // Apply the pending back dimensions to the front for stable aspect
-    frontWidth.value = pendingBackWidth;
-    frontHeight.value = pendingBackHeight;
-
-    // Ensure we have emitted ready for the new visible image if not already
-    ensureInitialReady();
-    // Inform parent that the crossfade transition has completed
-    emit("transitioned");
-
-    // If something was queued during the transition, process it now
-    if (pendingRequest) {
-      const req = pendingRequest;
-      pendingRequest = null;
-      // Chain the next change
-      processSrcChange(req.src, req.width, req.height);
-    }
-  }, duration());
+  // Try to start transition if a play was requested already
+  maybeStartTransition();
 }
 
 // When prop src changes, preload it into the hidden back buffer via actual <img>
@@ -183,6 +203,15 @@ watch(
     await processSrcChange(newSrc, props.width, props.height);
   },
   { immediate: false },
+);
+
+// When playKey changes, request a transition; it will start once back is ready
+watch(
+  () => props.playKey,
+  () => {
+    pendingPlay.value = true;
+    maybeStartTransition();
+  },
 );
 </script>
 
@@ -207,12 +236,16 @@ watch(
         willChange: 'opacity',
       }"
     >
-      <img
+      <NuxtImg
         :src="buf0Src"
         :alt="alt || ''"
+        v-bind="props.fixedWidth ? { width: props.fixedWidth } : {}"
+        :sizes="props.fixedWidth ? undefined : sizes"
         class="w-full h-full object-contain object-center block"
         decoding="async"
-        loading="eager"
+        :loading="front === 0 ? 'eager' : 'lazy'"
+        :fetchpriority="front === 0 ? 'high' : 'low'"
+        placeholder
       />
     </div>
 
@@ -227,13 +260,16 @@ watch(
         willChange: 'opacity',
       }"
     >
-      <img
+      <NuxtImg
         :src="buf1Src"
         :alt="alt || ''"
+        v-bind="props.fixedWidth ? { width: props.fixedWidth } : {}"
+        :sizes="props.fixedWidth ? undefined : sizes"
         class="w-full h-full object-contain object-center block"
         decoding="async"
-        loading="eager"
-        fetchpriority="high"
+        :loading="front === 1 ? 'eager' : 'lazy'"
+        :fetchpriority="front === 1 ? 'high' : 'low'"
+        placeholder
       />
     </div>
   </div>

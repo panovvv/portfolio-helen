@@ -63,6 +63,10 @@ const hasStarted = ref(false);
 const pendingCol = ref<number | null>(null);
 let cycleStartTs = 0;
 let lastTransitionEndTs = 0;
+// Column currently performing a transition (used to match transitioned event)
+const activeTransitionCol = ref<number | null>(null);
+// Per-column play triggers to start the 1s crossfade when scheduled
+const playKeys = ref<number[]>([0, 0, 0]);
 
 function uniqueRandomIndex(exclude: Set<number>, max: number): number {
   const available: number[] = [];
@@ -88,12 +92,46 @@ function pickNextCol(): number {
   return candidates[Math.floor(Math.random() * candidates.length)];
 }
 
-function pickNextIdxForCol(col: number): number {
+// --- Non-repeating pool (bag) of indices ---
+let unusedPool: number[] = [];
+function shuffleInPlace<T>(arr: T[]): void {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+function buildPool(): number[] {
   const count = slides.value.length;
-  // Exclude all other visible indices AND the current one in this column to avoid fading into itself
+  const exclude = new Set<number>(displayed.value);
+  const pool: number[] = [];
+  for (let i = 0; i < count; i++) {
+    if (!exclude.has(i)) pool.push(i);
+  }
+  shuffleInPlace(pool);
+  return pool;
+}
+function takeFromPoolOrFallback(col: number): number {
+  // Try to take a candidate that is not currently displayed and not yet used in this cycle
+  while (unusedPool.length > 0) {
+    const idx = unusedPool.pop() as number;
+    // Safety: ensure it's not currently displayed in any column
+    if (!displayed.value.includes(idx)) return idx;
+  }
+  // Pool exhausted; rebuild excluding currently displayed
+  unusedPool = buildPool();
+  if (unusedPool.length > 0) {
+    const idx = unusedPool.pop() as number;
+    if (!displayed.value.includes(idx)) return idx;
+  }
+  // Fallback to previous random-exclusion logic (handles very small galleries)
+  const count = slides.value.length;
   const exclude = new Set<number>(displayed.value.filter((_, i) => i !== col));
   exclude.add(displayed.value[col]);
   return uniqueRandomIndex(exclude, count);
+}
+
+function pickNextIdxForCol(col: number): number {
+  return takeFromPoolOrFallback(col);
 }
 
 function planAndStartPreload() {
@@ -130,9 +168,21 @@ function scheduleNextAfter(elapsedMs: number, preloadEndNow: number) {
       timer = setTimeout(fire, remaining);
       return;
     }
-    // Mark that we changed this column last to avoid repeating
-    if (pendingCol.value !== null) lastChangedCol = pendingCol.value;
-    planAndStartPreload();
+    // Trigger the 1s crossfade for the pending column
+    if (pendingCol.value !== null) {
+      const col = pendingCol.value;
+      // mark active transition column before pendingCol gets overwritten by next preload
+      activeTransitionCol.value = col;
+      // bump playKey using array replacement to ensure reactivity
+      const nextKeys = playKeys.value.slice();
+      nextKeys[col] = (nextKeys[col] || 0) + 1;
+      playKeys.value = nextKeys;
+      lastChangedCol = col;
+    }
+    // Immediately start preloading the next image for the next cycle (only for 2/3-col modes)
+    if (colMode.value !== 1) {
+      planAndStartPreload();
+    }
   }, delay);
 }
 
@@ -173,6 +223,9 @@ watch(colMode, () => {
   }
   readyCols.value = new Set([...readyCols.value].filter((c) => keep.has(c)));
 
+  // Rebuild the non-repeating pool based on current displayed set
+  unusedPool = buildPool();
+
   // If not started yet and we already have enough, start
   if (!hasStarted.value && readyCols.value.size >= neededReady.value) {
     hasStarted.value = true;
@@ -188,6 +241,8 @@ function onReadyForCol(col: number) {
     // Initialize lastTransitionEndTs baseline at start
     lastTransitionEndTs =
       typeof performance !== "undefined" ? performance.now() : Date.now();
+    // Initialize non-repeating pool before starting the cycle
+    unusedPool = buildPool();
     planAndStartPreload();
   }
 }
@@ -203,10 +258,17 @@ function onPreloadedForCol(col: number) {
 
 function onTransitionedForCol(col: number) {
   if (!isActive.value) return;
-  // We care only about the column that was pending
-  if (pendingCol.value === null || col !== pendingCol.value) return;
+  // Match the column that is actually transitioning, regardless of pendingCol changes
+  if (activeTransitionCol.value === null || col !== activeTransitionCol.value)
+    return;
   lastTransitionEndTs =
     typeof performance !== "undefined" ? performance.now() : Date.now();
+  // Clear active transition marker
+  activeTransitionCol.value = null;
+  // In 1-column mode, start preloading the next image only after the transition ends
+  if (colMode.value === 1) {
+    planAndStartPreload();
+  }
 }
 
 onMounted(() => {
@@ -271,6 +333,10 @@ onBeforeUnmount(() => {
               :height="slides[displayed[1]].height"
               sizes="100vw"
               :durationMs="1000"
+              :playKey="playKeys[1]"
+              :fixedWidth="
+                colMode === 1 ? 1280 : colMode === 2 ? 960 : undefined
+              "
               @ready="onReadyForCol(1)"
               @preloaded="onPreloadedForCol(1)"
               @transitioned="onTransitionedForCol(1)"
@@ -290,6 +356,10 @@ onBeforeUnmount(() => {
                 :height="slides[idx].height"
                 sizes="(max-width: 1024px) 50vw, 50vw"
                 :durationMs="1000"
+                :playKey="playKeys[col]"
+                :fixedWidth="
+                  colMode === 2 ? 960 : colMode === 1 ? 1280 : undefined
+                "
                 @ready="onReadyForCol(col)"
                 @preloaded="onPreloadedForCol(col)"
                 @transitioned="onTransitionedForCol(col)"
@@ -310,6 +380,10 @@ onBeforeUnmount(() => {
                 :height="slides[idx].height"
                 sizes="(max-width: 1024px) 33vw, 33vw"
                 :durationMs="1000"
+                :playKey="playKeys[col]"
+                :fixedWidth="
+                  colMode === 1 ? 1280 : colMode === 2 ? 960 : undefined
+                "
                 @ready="onReadyForCol(col)"
                 @preloaded="onPreloadedForCol(col)"
                 @transitioned="onTransitionedForCol(col)"
