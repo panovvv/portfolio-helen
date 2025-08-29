@@ -4,6 +4,11 @@ import { useI18n } from "vue-i18n";
 import NavBar from "~/components/NavBar.vue";
 
 const { t } = useI18n();
+
+useHead(() => ({
+  title: t("home.name"),
+}));
+
 const showNotice = ref(false);
 
 onMounted(() => {
