@@ -57,33 +57,12 @@ let lastChangedCol: number = -1;
 // Whether this page is currently active. Used to gate timers and preloads.
 const isActive = ref(false);
 
-// Simple in-memory set of preloaded URLs to avoid redundant network requests
-const preloadedSrcs = new Set<string>();
-function preloadSrc(url?: string) {
-  if (!isActive.value) return;
-  if (!url) return;
-  if (preloadedSrcs.has(url)) return;
-  try {
-    const img = new Image();
-    img.decoding = "async" as any;
-    // note: setting loading has no effect on programmatic Image, but harmless
-    (img as any).loading = "eager";
-    img.src = url;
-    preloadedSrcs.add(url);
-  } catch (_) {
-    // no-op
-  }
-}
-
-function preloadNextCandidate() {
-  const count = slides.value.length;
-  if (count === 0) return;
-  // Exclude all currently visible indices to avoid wasting bandwidth
-  const exclude = new Set<number>(displayed.value);
-  const idx = uniqueRandomIndex(exclude, count);
-  const s = slides.value[idx];
-  if (s) preloadSrc(s.src);
-}
+// Track readiness of visible images and plan-driven cycles
+const readyCols = ref<Set<number>>(new Set());
+const hasStarted = ref(false);
+const pendingCol = ref<number | null>(null);
+let cycleStartTs = 0;
+let lastTransitionEndTs = 0;
 
 function uniqueRandomIndex(exclude: Set<number>, max: number): number {
   const available: number[] = [];
@@ -92,68 +71,71 @@ function uniqueRandomIndex(exclude: Set<number>, max: number): number {
   return available[Math.floor(Math.random() * available.length)];
 }
 
-function tickOnce() {
-  const count = slides.value.length;
-  if (count === 0) return;
-
-  // 1-column mode: update center slot
-  if (colMode.value === 1) {
-    const exclude = new Set<number>([displayed.value[1]]);
-    displayed.value[1] = uniqueRandomIndex(exclude, count);
-    // Immediately start preloading a future candidate as soon as we switch
-    preloadNextCandidate();
-    return;
-  }
-
-  // 2-column mode: update among columns 0 and 1, avoid repeating the same column consecutively
+// Decide which column to change next according to current mode, avoiding changing same column twice
+function pickNextCol(): number {
+  if (colMode.value === 1) return 1; // only center is visible
   if (colMode.value === 2) {
     const visibleCols = [0, 1];
     const candidates =
       lastChangedCol !== -1 && visibleCols.includes(lastChangedCol)
         ? visibleCols.filter((c) => c !== lastChangedCol)
         : visibleCols;
-    const col = candidates[Math.floor(Math.random() * candidates.length)];
-    const others = new Set<number>(displayed.value.filter((_, i) => i !== col));
-    const nextIdx = uniqueRandomIndex(others, count);
-    displayed.value[col] = nextIdx;
-    lastChangedCol = col;
-    // Preload a future candidate now that we changed this column
-    preloadNextCandidate();
-    return;
+    return candidates[Math.floor(Math.random() * candidates.length)];
   }
-
-  // 3-column mode: update among all columns, avoid repeating the same column consecutively
-  let col: number;
-  if (lastChangedCol === -1) {
-    col = Math.floor(Math.random() * 3);
-  } else {
-    const candidates = [0, 1, 2].filter((c) => c !== lastChangedCol);
-    col = candidates[Math.floor(Math.random() * candidates.length)];
-  }
-  const others = new Set<number>(displayed.value.filter((_, i) => i !== col));
-  const nextIdx = uniqueRandomIndex(others, count);
-  displayed.value[col] = nextIdx;
-  lastChangedCol = col;
-  // Preload a future candidate for upcoming switches
-  preloadNextCandidate();
+  // 3 columns
+  if (lastChangedCol === -1) return Math.floor(Math.random() * 3);
+  const candidates = [0, 1, 2].filter((c) => c !== lastChangedCol);
+  return candidates[Math.floor(Math.random() * candidates.length)];
 }
 
-function schedule() {
+function pickNextIdxForCol(col: number): number {
+  const count = slides.value.length;
+  // Exclude all other visible indices AND the current one in this column to avoid fading into itself
+  const exclude = new Set<number>(displayed.value.filter((_, i) => i !== col));
+  exclude.add(displayed.value[col]);
+  return uniqueRandomIndex(exclude, count);
+}
+
+function planAndStartPreload() {
+  if (!isActive.value) return;
+  // Choose next change (column + index), set prop to start component-level preload
+  const col = pickNextCol();
+  const nextIdx = pickNextIdxForCol(col);
+  pendingCol.value = col;
+  cycleStartTs =
+    typeof performance !== "undefined" ? performance.now() : Date.now();
+  // Setting displayed triggers FadePreloadImg to preload back buffer and then crossfade
+  displayed.value[col] = nextIdx;
+}
+
+function scheduleNextAfter(elapsedMs: number, preloadEndNow: number) {
   stop();
   if (!isActive.value) return;
-  const delay = 2000;
-  timer = setTimeout(() => {
+  const baseDelay = Math.max(0, 3000 - Math.max(0, Math.floor(elapsedMs)));
+  const sinceLastTransitionEnd = preloadEndNow - lastTransitionEndTs;
+  const gapDelay = Math.max(
+    0,
+    3000 - Math.max(0, Math.floor(sinceLastTransitionEnd)),
+  );
+  const delay = Math.max(baseDelay, gapDelay);
+  timer = setTimeout(function fire() {
     if (!isActive.value) return;
-    tickOnce();
-    if (!isActive.value) return;
-    schedule();
+    // Enforce hard minimum of 3000 ms since the last transition ended
+    const now =
+      typeof performance !== "undefined" ? performance.now() : Date.now();
+    const sinceEnd = now - lastTransitionEndTs;
+    if (sinceEnd < 3000) {
+      // Re-schedule only for the remaining time
+      const remaining = 3000 - sinceEnd;
+      timer = setTimeout(fire, remaining);
+      return;
+    }
+    // Mark that we changed this column last to avoid repeating
+    if (pendingCol.value !== null) lastChangedCol = pendingCol.value;
+    planAndStartPreload();
   }, delay);
 }
 
-function start() {
-  // initial random indices are seeded via useState in setup to avoid first-render flash
-  schedule();
-}
 function stop() {
   if (timer) {
     clearTimeout(timer);
@@ -173,10 +155,59 @@ function updateColMode() {
   }
 }
 
+const neededReady = computed(() => (colMode.value === 1 ? 1 : colMode.value));
+
 watch(colMode, () => {
   // Reset lastChangedCol when layout mode changes to avoid wrong exclusions
   lastChangedCol = -1;
+  // Re-evaluate readiness for new layout: keep only relevant cols
+  const keep = new Set<number>();
+  if (colMode.value === 1) keep.add(1);
+  else if (colMode.value === 2) {
+    keep.add(0);
+    keep.add(1);
+  } else {
+    keep.add(0);
+    keep.add(1);
+    keep.add(2);
+  }
+  readyCols.value = new Set([...readyCols.value].filter((c) => keep.has(c)));
+
+  // If not started yet and we already have enough, start
+  if (!hasStarted.value && readyCols.value.size >= neededReady.value) {
+    hasStarted.value = true;
+    planAndStartPreload();
+  }
 });
+
+function onReadyForCol(col: number) {
+  if (!isActive.value) return;
+  readyCols.value.add(col);
+  if (!hasStarted.value && readyCols.value.size >= neededReady.value) {
+    hasStarted.value = true;
+    // Initialize lastTransitionEndTs baseline at start
+    lastTransitionEndTs =
+      typeof performance !== "undefined" ? performance.now() : Date.now();
+    planAndStartPreload();
+  }
+}
+
+function onPreloadedForCol(col: number) {
+  if (!isActive.value) return;
+  if (pendingCol.value === null || col !== pendingCol.value) return;
+  const now =
+    typeof performance !== "undefined" ? performance.now() : Date.now();
+  const elapsed = now - cycleStartTs;
+  scheduleNextAfter(elapsed, now);
+}
+
+function onTransitionedForCol(col: number) {
+  if (!isActive.value) return;
+  // We care only about the column that was pending
+  if (pendingCol.value === null || col !== pendingCol.value) return;
+  lastTransitionEndTs =
+    typeof performance !== "undefined" ? performance.now() : Date.now();
+}
 
 onMounted(() => {
   isActive.value = true;
@@ -184,9 +215,7 @@ onMounted(() => {
   if (typeof window !== "undefined") {
     window.addEventListener("resize", updateColMode);
   }
-  start();
-  // Kick off preloading for a future candidate right away
-  preloadNextCandidate();
+  // Wait for initial visible images to be ready via @ready events before starting.
 });
 
 onBeforeRouteLeave(() => {
@@ -242,6 +271,9 @@ onBeforeUnmount(() => {
               :height="slides[displayed[1]].height"
               sizes="100vw"
               :durationMs="1000"
+              @ready="onReadyForCol(1)"
+              @preloaded="onPreloadedForCol(1)"
+              @transitioned="onTransitionedForCol(1)"
             />
           </div>
           <div v-else-if="colMode === 2" class="grid grid-cols-2 gap-2">
@@ -258,6 +290,9 @@ onBeforeUnmount(() => {
                 :height="slides[idx].height"
                 sizes="(max-width: 1024px) 50vw, 50vw"
                 :durationMs="1000"
+                @ready="onReadyForCol(col)"
+                @preloaded="onPreloadedForCol(col)"
+                @transitioned="onTransitionedForCol(col)"
               />
             </div>
           </div>
@@ -275,6 +310,9 @@ onBeforeUnmount(() => {
                 :height="slides[idx].height"
                 sizes="(max-width: 1024px) 33vw, 33vw"
                 :durationMs="1000"
+                @ready="onReadyForCol(col)"
+                @preloaded="onPreloadedForCol(col)"
+                @transitioned="onTransitionedForCol(col)"
               />
             </div>
           </div>

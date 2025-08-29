@@ -7,7 +7,8 @@ export default defineNuxtConfig({
   image: {
     provider: process.env.NODE_ENV === "production" ? "vercel" : "ipx",
     vercel: {
-      widths: [400],
+      // Provide multiple responsive widths so Nuxt Image can downscale effectively
+      widths: [320, 480, 640, 768, 960, 1200, 1600],
     },
   },
   css: ["~/assets/css/main.css"],
