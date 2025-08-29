@@ -28,7 +28,7 @@ function dismissNotice() {
     <transition name="fade">
       <div
         v-if="showNotice"
-        class="fixed bottom-0 left-0 right-0 bg-gray-100 text-gray-700 text-sm p-3 flex justify-between items-center shadow"
+        class="fixed bottom-0 left-0 right-0 bg-gray-100 text-gray-700 text-sm p-3 flex justify-between items-center shadow z-[9999]"
       >
         <span>{{ t("cookie.notice") }}</span>
         <button
