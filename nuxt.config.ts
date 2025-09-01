@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
   vite: {
     esbuild: {
-      drop: ["console", "debugger"],
+      drop: ["debugger"],
     },
   },
 });

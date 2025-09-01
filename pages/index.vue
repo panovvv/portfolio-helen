@@ -142,6 +142,7 @@ function planAndStartPreload() {
   pendingCol.value = col;
   cycleStartTs =
     typeof performance !== "undefined" ? performance.now() : Date.now();
+  console.log("[HomeSlides]", "planAndStartPreload", { col, nextIdx });
   // Setting displayed triggers FadePreloadImg to preload back buffer and then crossfade
   displayed.value[col] = nextIdx;
 }
@@ -156,6 +157,12 @@ function scheduleNextAfter(elapsedMs: number, preloadEndNow: number) {
     3000 - Math.max(0, Math.floor(sinceLastTransitionEnd)),
   );
   const delay = Math.max(baseDelay, gapDelay);
+  console.log("[HomeSlides]", "scheduleNextAfter", {
+    elapsedMs,
+    preloadEndNow,
+    sinceLastTransitionEnd,
+    delay,
+  });
   timer = setTimeout(function fire() {
     if (!isActive.value) return;
     // Enforce hard minimum of 3000 ms since the last transition ended
@@ -165,6 +172,11 @@ function scheduleNextAfter(elapsedMs: number, preloadEndNow: number) {
     if (sinceEnd < 3000) {
       // Re-schedule only for the remaining time
       const remaining = 3000 - sinceEnd;
+      console.log(
+        "[HomeSlides]",
+        "too soon since last transition, rescheduling",
+        { remaining },
+      );
       timer = setTimeout(fire, remaining);
       return;
     }
@@ -178,6 +190,12 @@ function scheduleNextAfter(elapsedMs: number, preloadEndNow: number) {
       nextKeys[col] = (nextKeys[col] || 0) + 1;
       playKeys.value = nextKeys;
       lastChangedCol = col;
+      console.log("[HomeSlides]", "fire transition", {
+        col,
+        playKey: nextKeys[col],
+      });
+    } else {
+      console.log("[HomeSlides]", "no pendingCol at fire time");
     }
     // Immediately start preloading the next image for the next cycle (only for 2/3-col modes)
     if (colMode.value !== 1) {
@@ -190,6 +208,7 @@ function stop() {
   if (timer) {
     clearTimeout(timer);
     timer = null;
+    console.log("[HomeSlides]", "stopped timer");
   }
 }
 
@@ -197,11 +216,17 @@ const colMode = ref<1 | 2 | 3>(3);
 function updateColMode() {
   if (typeof window !== "undefined") {
     const w = window.innerWidth;
+    const prev = colMode.value;
     if (w < 640)
       colMode.value = 1; // narrowest
     else if (w < 1024)
       colMode.value = 2; // medium
     else colMode.value = 3; // wide
+    if (prev !== colMode.value)
+      console.log("[HomeSlides]", "colMode changed", {
+        prev,
+        next: colMode.value,
+      });
   }
 }
 
@@ -235,6 +260,7 @@ watch(colMode, () => {
 
 function onReadyForCol(col: number) {
   if (!isActive.value) return;
+  console.log("[HomeSlides]", "onReadyForCol", { col });
   readyCols.value.add(col);
   if (!hasStarted.value && readyCols.value.size >= neededReady.value) {
     hasStarted.value = true;
@@ -253,6 +279,7 @@ function onPreloadedForCol(col: number) {
   const now =
     typeof performance !== "undefined" ? performance.now() : Date.now();
   const elapsed = now - cycleStartTs;
+  console.log("[HomeSlides]", "onPreloadedForCol", { col, elapsed });
   scheduleNextAfter(elapsed, now);
 }
 
@@ -263,6 +290,7 @@ function onTransitionedForCol(col: number) {
     return;
   lastTransitionEndTs =
     typeof performance !== "undefined" ? performance.now() : Date.now();
+  console.log("[HomeSlides]", "onTransitionedForCol", { col });
   // Clear active transition marker
   activeTransitionCol.value = null;
   // In 1-column mode, start preloading the next image only after the transition ends
@@ -276,6 +304,28 @@ onMounted(() => {
   updateColMode();
   if (typeof window !== "undefined") {
     window.addEventListener("resize", updateColMode);
+    const onVis = () => {
+      if (document.visibilityState === "visible") {
+        console.log("[HomeSlides]", "visibility visible");
+        // If no timer is active, try to resume the cycle gracefully
+        if (!timer) {
+          const now =
+            typeof performance !== "undefined" ? performance.now() : Date.now();
+          // If a preload is pending, schedule transition respecting min gap
+          if (pendingCol.value !== null) {
+            scheduleNextAfter(0, now);
+          } else if (colMode.value !== 1) {
+            // If idle, kick off a new preload cycle
+            planAndStartPreload();
+          }
+        }
+      } else {
+        console.log("[HomeSlides]", "visibility hidden");
+      }
+    };
+    document.addEventListener("visibilitychange", onVis);
+    // Store reference on window to remove later (avoid extra ref vars)
+    (window as any).__homeOnVis = onVis;
   }
   // Wait for initial visible images to be ready via @ready events before starting.
 });
@@ -290,6 +340,8 @@ onBeforeUnmount(() => {
   isActive.value = false;
   if (typeof window !== "undefined") {
     window.removeEventListener("resize", updateColMode);
+    const onVis = (window as any).__homeOnVis;
+    if (onVis) document.removeEventListener("visibilitychange", onVis);
   }
   stop();
 });
