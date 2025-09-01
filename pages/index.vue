@@ -307,17 +307,16 @@ onMounted(() => {
     const onVis = () => {
       if (document.visibilityState === "visible") {
         console.log("[HomeSlides]", "visibility visible");
-        // If no timer is active, try to resume the cycle gracefully
-        if (!timer) {
-          const now =
-            typeof performance !== "undefined" ? performance.now() : Date.now();
-          // If a preload is pending, schedule transition respecting min gap
-          if (pendingCol.value !== null) {
-            scheduleNextAfter(0, now);
-          } else if (colMode.value !== 1) {
-            // If idle, kick off a new preload cycle
-            planAndStartPreload();
-          }
+        // Clear any potentially stale timer and resume the cycle deterministically
+        stop();
+        const now =
+          typeof performance !== "undefined" ? performance.now() : Date.now();
+        // If a preload is pending, schedule transition respecting min gap
+        if (pendingCol.value !== null) {
+          scheduleNextAfter(0, now);
+        } else {
+          // If idle, kick off a new preload cycle (for any column mode)
+          planAndStartPreload();
         }
       } else {
         console.log("[HomeSlides]", "visibility hidden");
