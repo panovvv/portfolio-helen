@@ -5,7 +5,7 @@ export default {
     en: {
       cookie: {
         notice:
-          "This site proudly uses just one cookie to remember your language. That’s it — no tracking, no ads!",
+          "This site proudly uses just one cookie to remember your language. That's it — no tracking, no ads!",
         gotIt: "Got it",
       },
       navbar: {
@@ -28,12 +28,12 @@ export default {
           "I have a degree in economics, but working in the field did not bring me joy. After moving to Poland in 2018, I began a journey of self‑discovery and became passionate about photography. At first it was a hobby — shooting on my phone everything beautiful I came across. Later, my love of cooking led me to the wonderful world of food photography. In 2020 I bought a camera and my professional path began.",
           "Since then, photography has become a big part of my life. After living in Poland for five years, in 2024 I moved to Portugal, to the city of Porto, where I continue to create and be inspired. I constantly grow, learn new things, and hone my skills.",
           "I photograph food and objects — not just as a set of light and composition, but as an <i>opportunity</i> to convey atmosphere, idea, and aesthetics. For me, photography is a form of creativity and a way to share a mood. It is important for me to breathe life into the frame, add meaning and a pinch of magic.",
-          "I’m inspired by nature, travel, art and world cuisines.",
+          "I'm inspired by nature, travel, art and world cuisines.",
           "I love trying different shooting styles and looking for props for them — a beautiful piece of tableware on a store shelf or an elegant twig on a walk.",
-          "I know how to listen and hear. When working with brands, I pay attention to the product’s philosophy and can suggest how to strengthen the idea and add a visual twist.",
+          "I know how to listen and hear. When working with brands, I pay attention to the product's philosophy and can suggest how to strengthen the idea and add a visual twist.",
         ],
         finalLine:
-          "I will be happy to work together! Let’s create visual magic together.",
+          "I'll be happy to collaborate! Let's create visual magic together.",
         cta: "Book a shoot",
       },
       types: {
@@ -82,7 +82,21 @@ export default {
         ],
       },
       contact: {
-        reach_me_at: "Reach me at",
+        intro:
+          "I'd be glad to discuss your project and answer any questions about photography or collaboration.",
+        write_me: "Feel free to reach out via:",
+        messengers: {
+          whatsapp: "WhatsApp",
+          telegram: "Telegram",
+          instagram: "Instagram",
+        },
+        or_email: "or by email:",
+        email_label: "Email",
+        location:
+          "I'm based in Porto, Portugal, and work with clients worldwide.",
+        shipping:
+          "You can ship your product using any delivery service, and I'll photograph it in my studio.",
+        note: "Please note: all work is done remotely, <b>without on-site visits</b>. This format is not suitable for shoots in cafés, restaurants, or bars.",
       },
       gallery: {
         tags: {
@@ -99,7 +113,7 @@ export default {
           brand: {
             tenorio: "Tenorio — a brand of Portuguese canned tuna",
             fumadinho:
-              "Fumadinho — Lidl Portugal’s private label for charcuterie products, made in Portugal with traditional methods.",
+              "Fumadinho — Lidl Portugal's private label for charcuterie products, made in Portugal with traditional methods.",
             fourmove:
               "4MOVE — a Polish brand of isotonic and vitamin-enhanced drinks",
             vitanella:
@@ -129,7 +143,7 @@ export default {
         studio:
           "I work in my own studio with professional lighting and equipment. All communication and approvals are handled <b>online</b>.",
         remote:
-          "I’m based in Porto, Portugal, but I shoot for brands remotely worldwide — you can easily send products by mail or courier.",
+          "I'm based in Porto, Portugal, but I shoot for brands remotely worldwide — you can easily send products by mail or courier.",
         skills:
           "Along with photography, I do <strong>color correction and retouching</strong>.",
         props: "I also have a basic collection of backdrops and props.",
@@ -217,7 +231,21 @@ export default {
         ],
       },
       contact: {
-        reach_me_at: "Контакты",
+        intro:
+          "Буду рада обсудить ваш проект и ответить на любые вопросы о съемке и сотрудничестве.",
+        write_me: "Пишите мне в удобный для вас мессенджер:",
+        messengers: {
+          whatsapp: "WhatsApp",
+          telegram: "Telegram",
+          instagram: "Instagram",
+        },
+        or_email: "или на электронную почту:",
+        email_label: "Электронная почта",
+        location:
+          "Я живу и работаю в городе Порто в Португалии и принимаю заказы из любой точки мира.",
+        shipping:
+          "Вы можете отправить свой товар любым удобным способом доставки, и я сниму его в своей студии.",
+        note: "Обратите внимание: вся работа проходит удалённо, <b>без выезда к заказчику</b>. Данный формат не подходит для съемок в кафе, ресторанах и барах.",
       },
       gallery: {
         tags: {

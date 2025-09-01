@@ -53,7 +53,7 @@ npm install -g npm-check-updates
 ncu
 ```
 
-* To update only within the ranges you’ve already specified (e.g. ^1.x→^1.y):
+* To update only within the ranges you've already specified (e.g. ^1.x→^1.y):
 ```shell
 ncu -u
 ```
