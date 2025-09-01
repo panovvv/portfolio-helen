@@ -103,6 +103,22 @@ const getSectionClasses = (path: string) => {
                   {{ t("navbar.portfolio") }}
                 </div>
               </NuxtLink>
+              <NuxtLink to="/types" class="h-16 flex">
+                <div
+                  class="flex-1 flex items-center justify-center"
+                  :class="getSectionClasses('/types')"
+                >
+                  {{ t("navbar.types") }}
+                </div>
+              </NuxtLink>
+              <NuxtLink to="/about" class="h-16 flex">
+                <div
+                  class="flex-1 flex items-center justify-center"
+                  :class="getSectionClasses('/about')"
+                >
+                  {{ t("navbar.about") }}
+                </div>
+              </NuxtLink>
               <NuxtLink to="/contact" class="h-16 flex">
                 <div
                   class="flex-1 flex items-center justify-center"
@@ -153,6 +169,20 @@ const getSectionClasses = (path: string) => {
                 @click="isMenuOpen = false"
               >
                 {{ t("navbar.portfolio") }}
+              </NuxtLink>
+              <NuxtLink
+                to="/types"
+                class="px-4 py-3"
+                @click="isMenuOpen = false"
+              >
+                {{ t("navbar.types") }}
+              </NuxtLink>
+              <NuxtLink
+                to="/about"
+                class="px-4 py-3"
+                @click="isMenuOpen = false"
+              >
+                {{ t("navbar.about") }}
               </NuxtLink>
               <NuxtLink
                 to="/contact"

@@ -510,6 +510,4 @@ onBeforeUnmount(() => {
   </section>
 </template>
 
-<style scoped>
-/* Transition handled inside FadePreloadImg for zero-flicker crossfades */
-</style>
+<style scoped></style>

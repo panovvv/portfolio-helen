@@ -11,12 +11,75 @@ export default {
       navbar: {
         home: "Home",
         portfolio: "Portfolio",
+        types: "Types of shoots",
+        about: "About me",
         contact: "Contact",
         colorscheme: {
           system: "Default theme (system)",
           light: "Light theme",
           dark: "Dark theme",
         },
+      },
+      about: {
+        title: "Hi!",
+        firstLine: "My name is Elena.",
+        description: [
+          "I am sensitive to the world, attentive and kind. I live by the call of my heart and strive for harmony — in myself, in relationships, in the frame. I love when life is filled with coziness, humor, travel, nature, like‑minded people, and work that inspires.",
+          "I have a degree in economics, but working in the field did not bring me joy. After moving to Poland in 2018, I began a journey of self‑discovery and became passionate about photography. At first it was a hobby — shooting on my phone everything beautiful I came across. Later, my love of cooking led me to the wonderful world of food photography. In 2020 I bought a camera and my professional path began.",
+          "Since then, photography has become a big part of my life. After living in Poland for five years, in 2024 I moved to Portugal, to the city of Porto, where I continue to create and be inspired. I constantly grow, learn new things, and hone my skills.",
+          "I photograph food and objects — not just as a set of light and composition, but as an <i>opportunity</i> to convey atmosphere, idea, and aesthetics. For me, photography is a form of creativity and a way to share a mood. It is important for me to breathe life into the frame, add meaning and a pinch of magic.",
+          "I’m inspired by nature, travel, art and world cuisines.",
+          "I love trying different shooting styles and looking for props for them — a beautiful piece of tableware on a store shelf or an elegant twig on a walk.",
+          "I know how to listen and hear. When working with brands, I pay attention to the product’s philosophy and can suggest how to strengthen the idea and add a visual twist.",
+        ],
+        finalLine:
+          "I will be happy to work together! Let’s create visual magic together.",
+        cta: "Book a shoot",
+      },
+      types: {
+        title: "Types of shoots",
+        items: [
+          {
+            title: "Catalog shoot",
+            desc: "From simple to those with a 'twist' to make your product stand out.",
+          },
+          {
+            title: "Product photography",
+            desc: "Taking into account current trends and contemporary visual solutions.",
+          },
+          {
+            title: "Content shoot",
+            desc: "Shows your product as a natural part of life and everyday moments.",
+          },
+          {
+            title: "Lifestyle shoot",
+            desc: "Tells a story from everyday life with the presence of a person.",
+          },
+          {
+            title: "Storytelling",
+            desc: "Conveys emotions, a cozy atmosphere, the season, or a holiday.",
+          },
+          {
+            title: "Image shoot",
+            desc: "Creates your brand's image, visual aesthetics, and associations.",
+          },
+          {
+            title: "Advertising shoot",
+            desc: "Captures attention with original and impactful solutions.",
+          },
+          {
+            title: "Creative shoot",
+            desc: "For a wow effect — to stand out and surprise your audience.",
+          },
+          {
+            title: "Recipes",
+            desc: "Food styling and photography of dishes with your product.",
+          },
+          {
+            title: "Outdoor (en plein air) shoot",
+            desc: "Emphasizes the brand philosophy through harmony with the environment.",
+          },
+        ],
       },
       contact: {
         reach_me_at: "Reach me at",
@@ -83,12 +146,75 @@ export default {
       navbar: {
         home: "Главная",
         portfolio: "Портфолио",
+        types: "Виды съемок",
+        about: "Обо мне",
         contact: "Контакты",
         colorscheme: {
           system: "Тема по умолчанию (системная)",
           light: "Светлая тема",
           dark: "Тёмная тема",
         },
+      },
+      about: {
+        title: "Привет!",
+        firstLine: "Меня зовут Елена.",
+        description: [
+          "Я тонко чувствую этот мир, внимательна и доброжелательна. Живу по зову сердца и стремлюсь к гармонии — в себе, в отношениях, в кадре. Люблю, когда жизнь наполнена уютом, юмором, путешествиями, природой, близкими по духу людьми и делом, которое вдохновляет.",
+          "Я получила экономическое образование, но работа по специальности не приносила мне удовольствия. После переезда в Польшу в 2018 году я начала искать себя и увлеклась фотографией. Сначала это было хобби, со съёмками на телефон всего прекрасного, что встречалось на пути. А позже страсть к кулинарии привела меня в чудесный мир фуд-фотографии. В 2020 году я приобрела камеру и мой профессиональный путь начался.",
+          "С тех пор фотография стала большой частью моей жизни. Прожив в Польше 5 лет, в 2024 году я переехала в Португалию, в город Порто, где продолжаю творить и вдохновляться. Постоянно развиваюсь, получаю новые знания и оттачиваю навыки.",
+          "Я снимаю еду и предметы — не просто как набор света и композиции, а как <i>возможность</i> передать атмосферу, идею, эстетику. Для меня фотография — это форма творчества и способ делиться настроением. Мне важно вдохнуть в кадр жизнь, добавить смысл и щепотку волшебства.",
+          "Вдохновляюсь природой, путешествиями, искусством и кухнями мира.",
+          "Обожаю пробовать разные стили съемок и искать для них реквизит — красивую посуду на полках магазина или изящную веточку на прогулке.",
+          "Я умею слушать и слышать. В работе с брендами обращаю внимание на философию продукта, подскажу, как усилить идею и добавить визуальную изюминку.",
+        ],
+        finalLine:
+          "Буду рада нашему сотрудничеству! Давайте создадим визуальную магию вместе.",
+        cta: "Записаться на съемку",
+      },
+      types: {
+        title: "Виды съемок",
+        items: [
+          {
+            title: "Каталожная съемка",
+            desc: "— от простой до с «изюминкой», чтобы ваш продукт выделялся.",
+          },
+          {
+            title: "Предметная съемка",
+            desc: "— с учетом актуальных трендов и современных визуальных решений.",
+          },
+          {
+            title: "Контент съемка",
+            desc: "— показывает ваш продукт как естественную часть жизни и повседневных моментов.",
+          },
+          {
+            title: "Лайфстайл съемка",
+            desc: "— рассказывает историю из повседневной жизни с присутствием человека.",
+          },
+          {
+            title: "Сторителлинг",
+            desc: "— передает эмоции, атмосферу уюта, времени года или праздника.",
+          },
+          {
+            title: "Имиджевая съемка",
+            desc: "— создает образ вашего бренда, визуальную эстетику и ассоциации.",
+          },
+          {
+            title: "Рекламная съемка",
+            desc: "— приковывает взгляд к вашему продукту оригинальными и эффектными решениями.",
+          },
+          {
+            title: "Креативная съемка",
+            desc: "— для вау-эффекта, чтобы выделиться и удивить аудиторию.",
+          },
+          {
+            title: "Рецепты",
+            desc: "— фудстайлинг и фотосъемка блюд с вашим продуктом.",
+          },
+          {
+            title: "Пленэрная съемка",
+            desc: "— подчеркивает философию бренда через гармоничное взаимодействие с окружением.",
+          },
+        ],
       },
       contact: {
         reach_me_at: "Контакты",
