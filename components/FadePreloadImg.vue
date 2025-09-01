@@ -19,6 +19,10 @@ const emit = defineEmits<{
   (e: "transitioned"): void;
 }>();
 
+function dlog(...args: any[]) {
+  // console.log("[FadePreloadImg]", ...args);
+}
+
 // Two persistent buffers. We never remove them; we just flip roles.
 const buf0Src = ref<string>(props.src);
 const buf1Src = ref<string>(props.src);
@@ -48,13 +52,13 @@ async function waitForImgLoad(buffer: 0 | 1): Promise<void> {
   if (el.complete && (el as any).naturalWidth > 0) {
     if (buffer === 0) buf0Loaded.value = true;
     else buf1Loaded.value = true;
-    console.log("[FadePreloadImg]", "img present+complete", {
+    dlog("img present+complete", {
       buffer,
       src: el.currentSrc || el.src,
     });
     return;
   }
-  console.log("[FadePreloadImg]", "waitForImgLoad: waiting", { buffer });
+  dlog("waitForImgLoad: waiting", { buffer });
   await new Promise<void>((resolve) => {
     let finished = false;
     const cleanup = () => {
@@ -67,7 +71,7 @@ async function waitForImgLoad(buffer: 0 | 1): Promise<void> {
       cleanup();
       if (buffer === 0) buf0Loaded.value = true;
       else buf1Loaded.value = true;
-      console.log("[FadePreloadImg]", "img load", {
+      dlog("img load", {
         buffer,
         src: el.currentSrc || el.src,
       });
@@ -80,7 +84,7 @@ async function waitForImgLoad(buffer: 0 | 1): Promise<void> {
       // Mark as loaded to avoid deadlock; log error
       if (buffer === 0) buf0Loaded.value = true;
       else buf1Loaded.value = true;
-      console.log("[FadePreloadImg]", "img error", {
+      dlog("img error", {
         buffer,
         error: evt,
         src: el.currentSrc || el.src,
@@ -97,7 +101,7 @@ async function waitForImgLoad(buffer: 0 | 1): Promise<void> {
       cleanup();
       if (buffer === 0) buf0Loaded.value = true;
       else buf1Loaded.value = true;
-      console.log("[FadePreloadImg]", "img timeout", {
+      dlog("img timeout", {
         buffer,
         timeoutMs,
         src: el.currentSrc || el.src,
@@ -137,7 +141,7 @@ async function ensureInitialReady() {
   await waitForImgLoad(front.value);
   if (!hasEmittedReady.value) {
     hasEmittedReady.value = true;
-    console.log("[FadePreloadImg]", "emit ready");
+    dlog("emit ready");
     emit("ready");
   }
 }
@@ -148,7 +152,7 @@ onMounted(() => {
 });
 
 function setBackSrc(newSrc: string) {
-  console.log("[FadePreloadImg]", "setBackSrc", { newSrc, back: back.value });
+  dlog("setBackSrc", { newSrc, back: back.value });
   if (back.value === 0) {
     buf0Src.value = newSrc;
     buf0Loaded.value = false;
@@ -180,7 +184,7 @@ async function startTransition() {
     requestAnimationFrame(() => requestAnimationFrame(r)),
   );
 
-  console.log("[FadePreloadImg]", "startTransition");
+  dlog("startTransition");
   isTransitioning.value = true;
 
   setTimeout(() => {
@@ -194,7 +198,7 @@ async function startTransition() {
     // Ensure we have emitted ready for the new visible image if not already
     ensureInitialReady();
     // Inform parent that the crossfade transition has completed
-    console.log("[FadePreloadImg]", "emit transitioned");
+    dlog("emit transitioned");
     emit("transitioned");
 
     // If something was queued during the transition, process it now
@@ -202,7 +206,7 @@ async function startTransition() {
       const req = pendingRequest;
       pendingRequest = null;
       // Chain the next change
-      console.log("[FadePreloadImg]", "process pending", req);
+      dlog("process pending", req);
       processSrcChange(req.src, req.width, req.height);
     }
   }, duration());
@@ -225,14 +229,14 @@ async function processSrcChange(newSrc: string, w?: number, h?: number) {
   pendingBackWidth = w;
   pendingBackHeight = h;
 
-  console.log("[FadePreloadImg]", "processSrcChange", { newSrc });
+  dlog("processSrcChange", { newSrc });
   setBackSrc(newSrc);
 
   // Wait for the back image to load (or error/timeout)
   await waitForImgLoad(back.value);
 
   // Notify parent that the new image finished preloading in the back buffer
-  console.log("[FadePreloadImg]", "emit preloaded");
+  dlog("emit preloaded");
   emit("preloaded");
 
   // Try to start transition if a play was requested already

@@ -25,6 +25,10 @@ interface Slide {
 
 const { t } = useI18n();
 
+function dlog(...args: any[]) {
+  // console.log("[HomeSlides]", ...args);
+}
+
 const slides = computed<Slide[]>(() => {
   const selected = galleryFiles as GalleryFile[];
   return selected.map((f) => {
@@ -142,7 +146,7 @@ function planAndStartPreload() {
   pendingCol.value = col;
   cycleStartTs =
     typeof performance !== "undefined" ? performance.now() : Date.now();
-  console.log("[HomeSlides]", "planAndStartPreload", { col, nextIdx });
+  dlog("planAndStartPreload", { col, nextIdx });
   // Setting displayed triggers FadePreloadImg to preload back buffer and then crossfade
   displayed.value[col] = nextIdx;
 }
@@ -157,7 +161,7 @@ function scheduleNextAfter(elapsedMs: number, preloadEndNow: number) {
     3000 - Math.max(0, Math.floor(sinceLastTransitionEnd)),
   );
   const delay = Math.max(baseDelay, gapDelay);
-  console.log("[HomeSlides]", "scheduleNextAfter", {
+  dlog("scheduleNextAfter", {
     elapsedMs,
     preloadEndNow,
     sinceLastTransitionEnd,
@@ -172,11 +176,7 @@ function scheduleNextAfter(elapsedMs: number, preloadEndNow: number) {
     if (sinceEnd < 3000) {
       // Re-schedule only for the remaining time
       const remaining = 3000 - sinceEnd;
-      console.log(
-        "[HomeSlides]",
-        "too soon since last transition, rescheduling",
-        { remaining },
-      );
+      dlog("too soon since last transition, rescheduling", { remaining });
       timer = setTimeout(fire, remaining);
       return;
     }
@@ -190,12 +190,9 @@ function scheduleNextAfter(elapsedMs: number, preloadEndNow: number) {
       nextKeys[col] = (nextKeys[col] || 0) + 1;
       playKeys.value = nextKeys;
       lastChangedCol = col;
-      console.log("[HomeSlides]", "fire transition", {
-        col,
-        playKey: nextKeys[col],
-      });
+      dlog("fire transition", { col, playKey: nextKeys[col] });
     } else {
-      console.log("[HomeSlides]", "no pendingCol at fire time");
+      dlog("no pendingCol at fire time");
     }
     // Immediately start preloading the next image for the next cycle (only for 2/3-col modes)
     if (colMode.value !== 1) {
@@ -208,7 +205,7 @@ function stop() {
   if (timer) {
     clearTimeout(timer);
     timer = null;
-    console.log("[HomeSlides]", "stopped timer");
+    dlog("stopped timer");
   }
 }
 
@@ -223,7 +220,7 @@ function updateColMode() {
       colMode.value = 2; // medium
     else colMode.value = 3; // wide
     if (prev !== colMode.value)
-      console.log("[HomeSlides]", "colMode changed", {
+      dlog("colMode changed", {
         prev,
         next: colMode.value,
       });
@@ -260,7 +257,7 @@ watch(colMode, () => {
 
 function onReadyForCol(col: number) {
   if (!isActive.value) return;
-  console.log("[HomeSlides]", "onReadyForCol", { col });
+  dlog("onReadyForCol", { col });
   readyCols.value.add(col);
   if (!hasStarted.value && readyCols.value.size >= neededReady.value) {
     hasStarted.value = true;
@@ -279,7 +276,7 @@ function onPreloadedForCol(col: number) {
   const now =
     typeof performance !== "undefined" ? performance.now() : Date.now();
   const elapsed = now - cycleStartTs;
-  console.log("[HomeSlides]", "onPreloadedForCol", { col, elapsed });
+  dlog("onPreloadedForCol", { col, elapsed });
   scheduleNextAfter(elapsed, now);
 }
 
@@ -290,7 +287,7 @@ function onTransitionedForCol(col: number) {
     return;
   lastTransitionEndTs =
     typeof performance !== "undefined" ? performance.now() : Date.now();
-  console.log("[HomeSlides]", "onTransitionedForCol", { col });
+  dlog("onTransitionedForCol", { col });
   // Clear active transition marker
   activeTransitionCol.value = null;
   // In 1-column mode, start preloading the next image only after the transition ends
@@ -306,7 +303,7 @@ onMounted(() => {
     window.addEventListener("resize", updateColMode);
     const onVis = () => {
       if (document.visibilityState === "visible") {
-        console.log("[HomeSlides]", "visibility visible");
+        dlog("visibility visible");
         // Clear any potentially stale timer and resume the cycle deterministically
         stop();
         const now =
@@ -319,7 +316,7 @@ onMounted(() => {
           planAndStartPreload();
         }
       } else {
-        console.log("[HomeSlides]", "visibility hidden");
+        dlog("visibility hidden");
       }
     };
     document.addEventListener("visibilitychange", onVis);
