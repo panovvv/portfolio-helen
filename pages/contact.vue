@@ -20,56 +20,62 @@ const { t } = useI18n();
           {{ t("contact.intro") }}
         </p>
 
-        <!-- messengers + email block -->
-        <!--        <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md mt-6">-->
-        <div class="border-l-4 border-blue-600 pl-4 mt-6 space-y-3">
-          <!--        <p-->
-          <!--          class="mt-6 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"-->
-          <!--        >-->
+        <div class="border-l-4 border-blue-600 pl-4 mt-6 space-y-4">
           <p
             class="text-lg sm:text-xl font-semibold text-blue-600 dark:text-blue-400"
           >
             {{ t("contact.write_me") }}
           </p>
 
-          <ul class="space-y-3">
-            <li
-              class="flex items-center text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
-            >
-              <FontAwesomeIcon :icon="faWhatsapp" class="mr-3" />
+          <ul class="space-y-4">
+            <li>
               <a
                 href="https://wa.me/351933699190"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="underline"
+                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
               >
-                {{ t("contact.messengers.whatsapp") }}
+                <FontAwesomeIcon
+                  :icon="faWhatsapp"
+                  class="mr-3 text-green-500 text-2xl align-middle relative top-[2px] shrink-0"
+                />
+                <span class="align-middle leading-none">
+                  {{ t("contact.messengers.whatsapp") }}
+                </span>
               </a>
             </li>
-            <li
-              class="flex items-center text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
-            >
-              <FontAwesomeIcon :icon="faTelegram" class="mr-3" />
+
+            <li>
               <a
                 href="https://t.me/panipanovahelen"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="underline"
+                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
               >
-                {{ t("contact.messengers.telegram") }}
+                <FontAwesomeIcon
+                  :icon="faTelegram"
+                  class="mr-3 text-sky-500 text-2xl align-middle relative top-[2px] shrink-0"
+                />
+                <span class="align-middle leading-none">
+                  {{ t("contact.messengers.telegram") }}
+                </span>
               </a>
             </li>
-            <li
-              class="flex items-center text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
-            >
-              <FontAwesomeIcon :icon="faInstagram" class="mr-3" />
+
+            <li>
               <a
                 href="https://www.instagram.com/panipanovahelen/"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="underline"
+                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
               >
-                {{ t("contact.messengers.instagram") }}
+                <FontAwesomeIcon
+                  :icon="faInstagram"
+                  class="mr-3 text-pink-500 text-2xl align-middle relative top-[2px] shrink-0"
+                />
+                <span class="align-middle leading-none">
+                  {{ t("contact.messengers.instagram") }}
+                </span>
               </a>
             </li>
           </ul>
@@ -80,13 +86,19 @@ const { t } = useI18n();
             {{ t("contact.or_email") }}
           </p>
 
-          <ul>
-            <li
-              class="flex items-center text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
-            >
-              <FontAwesomeIcon :icon="faEnvelope" class="mr-3" />
-              <a href="mailto:panovaed89@gmail.com" class="underline">
-                panovaed89@gmail.com
+          <ul class="space-y-4">
+            <li>
+              <a
+                href="mailto:panovaed89@gmail.com"
+                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
+              >
+                <FontAwesomeIcon
+                  :icon="faEnvelope"
+                  class="mr-3 text-blue-500 text-2xl align-middle relative top-[2px] shrink-0"
+                />
+                <span class="align-middle leading-none">
+                  panovaed89@gmail.com
+                </span>
               </a>
             </li>
           </ul>
