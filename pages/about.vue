@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t, tm } = useI18n();
-const firstLine = (tm("about.firstLine") as string) || "";
-const description = (tm("about.description") as any[]) || [];
-const finalLine = (tm("about.finalLine") as string) || "";
+
+const firstLine = computed(() => (tm("about.firstLine") as string) || "");
+const description = computed(() => (tm("about.description") as any[]) || []);
+const finalLine = computed(() => (tm("about.finalLine") as string) || "");
 </script>
 
 <template>
@@ -18,13 +20,13 @@ const finalLine = (tm("about.finalLine") as string) || "";
         </h1>
 
         <p
-          class="mt-0 first:mt-0 text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
+          class="mt-0 text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
           v-html="firstLine"
         ></p>
 
         <template v-for="(line, idx) in description" :key="idx">
           <p
-            class="mt-0 first:mt-0 text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
+            class="mt-0 text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
             v-html="line"
           ></p>
         </template>

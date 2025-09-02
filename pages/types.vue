@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import galleryImages from "~/assets/gallery_files.json";
 
@@ -36,7 +37,7 @@ function getDims(path: string): { width?: number; height?: number } {
   return d || {};
 }
 
-const items = (tm("types.items") as any[]) || [];
+const items = computed(() => (tm("types.items") as any[]) || []);
 </script>
 
 <template>
@@ -50,23 +51,23 @@ const items = (tm("types.items") as any[]) || [];
     <div class="space-y-10 sm:space-y-12 md:space-y-14">
       <section v-for="(item, idx) in items" :key="idx">
         <div
-          class="grid md:grid-cols-3 gap-6 md:gap-8 items-start md:items-center"
+          class="grid md:grid-cols-2 gap-6 md:gap-8 items-start md:items-center"
         >
           <!-- Text block -->
           <div
-            class="order-1 md:order-1 prose prose-lg sm:prose-xl dark:prose-invert max-w-none md:pr-6 prose-p:leading-relaxed prose-li:leading-relaxed prose-p:text-lg sm:prose-p:text-xl prose-li:text-lg sm:prose-li:text-xl md:col-span-2"
+            class="order-1 md:order-1 prose prose-lg sm:prose-xl dark:prose-invert max-w-none md:pr-6 prose-p:leading-relaxed prose-li:leading-relaxed prose-p:text-lg sm:prose-p:text-xl prose-li:text-lg sm:prose-li:text-xl"
           >
             <h3 class="mt-0 text-2xl sm:text-3xl md:text-4xl font-semibold">
-              {{ item.title }}
+              {{ t(item.title) }}
             </h3>
             <p class="mt-2 text-xl sm:text-2xl md:text-2xl leading-relaxed">
-              {{ item.desc }}
+              {{ t(item.desc) }}
             </p>
           </div>
 
           <!-- Image block -->
           <div
-            class="order-2 md:order-2 mt-2 md:mt-0 md:pl-4 overflow-hidden self-center w-full md:col-span-1 rounded-lg shadow-md"
+            class="order-2 md:order-2 mt-2 md:mt-0 md:pl-4 overflow-hidden self-center w-full rounded-lg shadow-md"
           >
             <NuxtImg
               :src="images[idx] || '/portrait.jpg'"
