@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, nextTick } from "vue";
+import { ref, reactive, computed, onMounted, watch, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import galleryFiles from "~/assets/gallery_files.json";
 import galleryMetadata from "~/assets/gallery_metadata.json";
@@ -172,6 +172,9 @@ watch(filter, async () => {
   await nextTick();
   initializeLightGallery();
 });
+
+// Track loaded state for thumbnails to show a lightweight spinner until ready
+const loadedMap = reactive<Record<string, boolean>>({});
 </script>
 
 <template>
@@ -210,13 +213,24 @@ watch(filter, async () => {
         class="gallery-item gallery-tile"
         :data-thumb="img.thumb + '?w=150&h=100&fit=crop'"
       >
-        <NuxtImg
-          :src="img.src"
-          :alt="img.alt ? t(img.alt) : undefined"
-          :width="img.width"
-          :height="img.height"
-          placeholder
-        />
+        <div class="thumb-wrapper">
+          <div
+            v-if="!loadedMap[img.src]"
+            class="spinner-overlay"
+            aria-hidden="true"
+          >
+            <span class="spinner"></span>
+          </div>
+          <NuxtImg
+            :src="img.src"
+            :alt="img.alt ? t(img.alt) : undefined"
+            :width="img.width"
+            :height="img.height"
+            :placeholder="false"
+            @load="loadedMap[img.src] = true"
+            @error="loadedMap[img.src] = true"
+          />
+        </div>
       </a>
     </div>
   </div>
@@ -286,5 +300,71 @@ watch(filter, async () => {
 /* Light mode: ensure caption/alt text is visible */
 :global(html:not(.dark) .lg-sub-html) {
   color: #111111 !important;
+}
+
+/* Thumbnail spinner */
+.thumb-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.spinner-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2; /* ensure spinner is above the image */
+}
+.spinner {
+  position: relative;
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  border: 3px solid var(--portfolio-spinner-track);
+  border-top-color: var(--portfolio-spinner-leading);
+  background: var(--portfolio-spinner-bg);
+  animation: spin 0.75s linear infinite;
+  box-shadow: var(--portfolio-spinner-shadow);
+}
+.spinner::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: inherit;
+  border: 2px solid transparent;
+  border-top-color: var(--portfolio-spinner-leading);
+  opacity: 0.85;
+  animation: spin 1.15s linear infinite;
+}
+:global(:root) {
+  --portfolio-spinner-track: rgba(37, 99, 235, 0.28);
+  --portfolio-spinner-leading: #2563eb;
+  --portfolio-spinner-bg: radial-gradient(
+    circle at center,
+    rgba(37, 99, 235, 0.18) 0%,
+    rgba(37, 99, 235, 0) 68%
+  );
+  --portfolio-spinner-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.18), 0 8px 18px -8px rgba(37, 99, 235, 0.6);
+}
+:global(html.dark),
+:global(body.dark) {
+  --portfolio-spinner-track: rgba(250, 204, 21, 0.5);
+  --portfolio-spinner-leading: #facc15;
+  --portfolio-spinner-bg: radial-gradient(
+    circle at center,
+    rgba(250, 204, 21, 0.32) 0%,
+    rgba(250, 204, 21, 0) 72%
+  );
+  --portfolio-spinner-shadow:
+    0 0 0 3px rgba(250, 204, 21, 0.32), 0 0 22px rgba(250, 204, 21, 0.45);
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
