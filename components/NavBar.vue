@@ -111,6 +111,14 @@ const getSectionClasses = (path: string) => {
                   {{ t("navbar.types") }}
                 </div>
               </NuxtLink>
+              <NuxtLink to="/lifestyle" class="h-16 flex">
+                <div
+                  class="flex-1 flex items-center justify-center"
+                  :class="getSectionClasses('/lifestyle')"
+                >
+                  {{ t("navbar.lifestyle") }}
+                </div>
+              </NuxtLink>
               <NuxtLink to="/about" class="h-16 flex">
                 <div
                   class="flex-1 flex items-center justify-center"

@@ -12,6 +12,7 @@ export default {
         home: "Home",
         portfolio: "Portfolio",
         types: "Types of shoots",
+        lifestyle: "Lifestyle Stories",
         about: "About me",
         contact: "Contact",
         colorscheme: {
@@ -150,6 +151,16 @@ export default {
         precision: "I follow your brief precisely — or create one for you.",
         heart: "Every shoot is done with care and heart 😊",
       },
+      lifestyle: {
+        title:
+          "A curated selection of lifestyle imagery exploring authentic emotions, natural light, coastal atmosphere, and thoughtfully styled food and details",
+        sections: {
+          oceanLove: {
+            title:
+              "A love story by the ocean, capturing authentic moments and emotions",
+          },
+        },
+      },
     },
     ru: {
       cookie: {
@@ -161,6 +172,7 @@ export default {
         home: "Главная",
         portfolio: "Портфолио",
         types: "Виды съемок",
+        lifestyle: "Лайфстайл",
         about: "Обо мне",
         contact: "Контакты",
         colorscheme: {
@@ -300,6 +312,15 @@ export default {
         precision:
           "Четко выполняю ваше техническое задание или создаю его для вас.",
         heart: "К каждой съемке подхожу с душой 😊",
+      },
+      lifestyle: {
+        title:
+          "Подборка лайфстайл‑фотографий, передающих искренние эмоции, естественный свет, прибрежную атмосферу и тщательно стилизованные еду и детали",
+        sections: {
+          oceanLove: {
+            title: "История любви у океана: подлинные моменты и эмоции",
+          },
+        },
       },
     },
   },
