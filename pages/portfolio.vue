@@ -183,7 +183,7 @@ const loadedMap = reactive<Record<string, boolean>>({});
       <button
         v-for="tag in availableTags"
         :key="tag"
-        class="px-4 py-2 rounded transition-colors duration-200"
+        class="px-4 py-2 rounded transition-colors duration-200 cursor-pointer"
         :class="
           filter === tag
             ? 'bg-blue-600 text-white'
@@ -194,7 +194,7 @@ const loadedMap = reactive<Record<string, boolean>>({});
         {{ t(`gallery.tags.${tag}`) }}
       </button>
       <button
-        class="px-4 py-2 rounded transition-colors duration-200"
+        class="px-4 py-2 rounded transition-colors duration-200 cursor-pointer"
         :class="
           filter === 'All'
             ? 'bg-blue-600 text-white'
@@ -206,11 +206,14 @@ const loadedMap = reactive<Record<string, boolean>>({});
       </button>
     </div>
     <div :key="locale" ref="galleryContainer" class="gallery-grid">
-      <a
+      <div
         v-for="(img, index) in filteredGallery"
         :key="index"
-        :href="img.src"
         class="gallery-item gallery-tile"
+        role="button"
+        tabindex="0"
+        :aria-label="img.alt ? t(img.alt) : t('navbar.portfolio')"
+        :data-src="img.src"
         :data-thumb="img.thumb + '?w=150&h=100&fit=crop'"
       >
         <div class="thumb-wrapper">
@@ -223,7 +226,7 @@ const loadedMap = reactive<Record<string, boolean>>({});
           </div>
           <NuxtImg
             :src="img.src"
-            :alt="img.alt ? t(img.alt) : undefined"
+            :alt="img.alt ? t(img.alt) : ''"
             :width="img.width"
             :height="img.height"
             :placeholder="false"
@@ -231,7 +234,7 @@ const loadedMap = reactive<Record<string, boolean>>({});
             @error="loadedMap[img.src] = true"
           />
         </div>
-      </a>
+      </div>
     </div>
   </div>
 </template>
@@ -265,6 +268,7 @@ const loadedMap = reactive<Record<string, boolean>>({});
   display: block;
   aspect-ratio: 2 / 3;
   overflow: hidden;
+  cursor: pointer; /* indicate clickable */
 }
 
 .gallery-tile :deep(img) {

@@ -105,11 +105,16 @@ const loadedMap = reactive<Record<string, boolean>>({});
         {{ t("lifestyle.sections.oceanLove.title") }}
       </h2>
       <div :key="locale" ref="galleryContainer" class="gallery-grid">
-        <a
+        <div
           v-for="(img, index) in filteredGallery"
           :key="index"
-          :href="img.src"
           class="gallery-item gallery-tile"
+          role="button"
+          tabindex="0"
+          :aria-label="
+            img.alt ? t(img.alt) : t('lifestyle.sections.oceanLove.title')
+          "
+          :data-src="img.src"
           :data-thumb="img.thumb + '?w=150&h=150&fit=crop'"
         >
           <div class="thumb-wrapper">
@@ -122,13 +127,13 @@ const loadedMap = reactive<Record<string, boolean>>({});
             </div>
             <NuxtImg
               :src="img.src"
-              :alt="img.alt ? t(img.alt) : undefined"
+              :alt="img.alt ? t(img.alt) : ''"
               :placeholder="false"
               @load="loadedMap[img.src] = true"
               @error="loadedMap[img.src] = true"
             />
           </div>
-        </a>
+        </div>
       </div>
     </section>
   </div>
@@ -182,6 +187,7 @@ const loadedMap = reactive<Record<string, boolean>>({});
   display: block;
   aspect-ratio: 1 / 1; /* square preview */
   overflow: hidden;
+  cursor: pointer; /* indicate clickable */
 }
 
 .gallery-tile :deep(img) {
