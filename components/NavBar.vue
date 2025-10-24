@@ -186,6 +186,13 @@ const getSectionClasses = (path: string) => {
                 {{ t("navbar.types") }}
               </NuxtLink>
               <NuxtLink
+                to="/lifestyle"
+                class="px-4 py-3"
+                @click="isMenuOpen = false"
+              >
+                {{ t("navbar.lifestyle") }}
+              </NuxtLink>
+              <NuxtLink
                 to="/about"
                 class="px-4 py-3"
                 @click="isMenuOpen = false"
