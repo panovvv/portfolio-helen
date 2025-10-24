@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, watch, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
-// Lifestyle page uses images placed under /public/lifestyle-001
-// No metadata JSON is used here; we load a predefined list of files from that folder.
 import lightGallery from "lightgallery";
 import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
@@ -25,7 +23,7 @@ interface GalleryItem {
 }
 
 // List images from /public/lifestyle-001 folder
-const lifestyleFiles = [
+const lifestyle001Files = [
   "1_DSC5910.jpg",
   "2_DSC5926.jpg",
   "3_DSC5948-Edit1.jpg",
@@ -40,32 +38,126 @@ const lifestyleFiles = [
   "12_DSC6067-2.jpg",
 ];
 
-const galleryItems = computed<GalleryItem[]>(() => {
+// List images from /public/lifestyle-002 folder
+const lifestyle002Files = [
+  "_DSC1869 copy.jpg",
+  "_DSC1878 copy (2) 1.jpg",
+  "_DSC1895 copy.jpg",
+  "_DSC1902 copy1.jpg",
+];
+
+// List images from /public/lifestyle-003 folder
+const lifestyle003Files = [
+  "1_DSC3233.jpg",
+  "2_DSC3452.jpg",
+  "3_DSC3291.jpg",
+  "4_DSC3476-1.jpg",
+];
+
+// List images from /public/lifestyle-004 folder
+const lifestyle004Files = [
+  "1_DSC4591 copy.jpg",
+  "2_DSC4433 copy.jpg",
+  "3_DSC4599 copy.jpg",
+  "4_DSC4638 copy.jpg",
+];
+
+const galleryItems001 = computed<GalleryItem[]>(() => {
   const _ = locale.value;
-  return lifestyleFiles.map((filename) => ({
+  return lifestyle001Files.map((filename) => ({
     src: `/lifestyle-001/${filename}`,
     thumb: `/lifestyle-001/${filename}`,
     alt: undefined,
   }));
 });
 
-const filteredGallery = computed<GalleryItem[]>(() => {
-  // if (filter.value === "All") {
-  const items = galleryItems.value;
-  return items.map((item, idx) => ({ item, idx })).map((x) => x.item);
-  // }
-  // return galleryItems.value.filter((img) => img.tags.includes(filter.value));
+const galleryItems002 = computed<GalleryItem[]>(() => {
+  const _ = locale.value;
+  return lifestyle002Files.map((filename) => ({
+    src: `/lifestyle-002/${filename}`,
+    thumb: `/lifestyle-002/${filename}`,
+    alt: undefined,
+  }));
 });
 
-const galleryContainer = ref<HTMLElement | null>(null);
-const galleryInstance = ref<LightGallery | null>(null);
+const galleryItems003 = computed<GalleryItem[]>(() => {
+  const _ = locale.value;
+  return lifestyle003Files.map((filename) => ({
+    src: `/lifestyle-003/${filename}`,
+    thumb: `/lifestyle-003/${filename}`,
+    alt: undefined,
+  }));
+});
+
+const galleryItems004 = computed<GalleryItem[]>(() => {
+  const _ = locale.value;
+  return lifestyle004Files.map((filename) => ({
+    src: `/lifestyle-004/${filename}`,
+    thumb: `/lifestyle-004/${filename}`,
+    alt: undefined,
+  }));
+});
+
+const galleryContainer001 = ref<HTMLElement | null>(null);
+const galleryInstance001 = ref<LightGallery | null>(null);
+const galleryContainer002 = ref<HTMLElement | null>(null);
+const galleryInstance002 = ref<LightGallery | null>(null);
+const galleryContainer003 = ref<HTMLElement | null>(null);
+const galleryInstance003 = ref<LightGallery | null>(null);
+const galleryContainer004 = ref<HTMLElement | null>(null);
+const galleryInstance004 = ref<LightGallery | null>(null);
 
 const initializeLightGallery = () => {
-  if (galleryContainer.value) {
-    if (galleryInstance.value) {
-      galleryInstance.value.destroy();
+  if (galleryContainer001.value) {
+    if (galleryInstance001.value) {
+      galleryInstance001.value.destroy();
     }
-    galleryInstance.value = lightGallery(galleryContainer.value, {
+    galleryInstance001.value = lightGallery(galleryContainer001.value, {
+      selector: ".gallery-item",
+      speed: 300,
+      mode: "lg-slide",
+      download: false,
+      plugins: [lgThumbnail, lgZoom, lgAutoplay, lgFullscreen],
+      thumbnail: false,
+      autoplay: true,
+      autoplayControls: true,
+    });
+  }
+  if (galleryContainer002.value) {
+    if (galleryInstance002.value) {
+      galleryInstance002.value.destroy();
+    }
+    galleryInstance002.value = lightGallery(galleryContainer002.value, {
+      selector: ".gallery-item",
+      speed: 300,
+      mode: "lg-slide",
+      download: false,
+      plugins: [lgThumbnail, lgZoom, lgAutoplay, lgFullscreen],
+      thumbnail: false,
+      autoplay: true,
+      autoplayControls: true,
+    });
+  }
+  if (galleryContainer003.value) {
+    if (galleryInstance003.value) {
+      galleryInstance003.value.destroy();
+    }
+    galleryInstance003.value = lightGallery(galleryContainer003.value, {
+      selector: ".gallery-item",
+      speed: 300,
+      mode: "lg-slide",
+      download: false,
+      plugins: [lgThumbnail, lgZoom, lgAutoplay, lgFullscreen],
+      thumbnail: false,
+      autoplay: true,
+      autoplayControls: true,
+    });
+  }
+  if (galleryContainer004.value) {
+    if (galleryInstance004.value) {
+      galleryInstance004.value.destroy();
+    }
+    galleryInstance004.value = lightGallery(galleryContainer004.value, {
       selector: ".gallery-item",
       speed: 300,
       mode: "lg-slide",
@@ -83,9 +175,21 @@ onMounted(() => {
 });
 
 watch(locale, async () => {
-  if (galleryInstance.value) {
-    galleryInstance.value.destroy();
-    galleryInstance.value = null;
+  if (galleryInstance001.value) {
+    galleryInstance001.value.destroy();
+    galleryInstance001.value = null;
+  }
+  if (galleryInstance002.value) {
+    galleryInstance002.value.destroy();
+    galleryInstance002.value = null;
+  }
+  if (galleryInstance003.value) {
+    galleryInstance003.value.destroy();
+    galleryInstance003.value = null;
+  }
+  if (galleryInstance004.value) {
+    galleryInstance004.value.destroy();
+    galleryInstance004.value = null;
   }
   await nextTick();
   initializeLightGallery();
@@ -102,17 +206,144 @@ const loadedMap = reactive<Record<string, boolean>>({});
 
     <section class="lifestyle-section">
       <h2 class="section-heading">
-        {{ t("lifestyle.sections.oceanLove.title") }}
+        {{ t("lifestyle.sections.lifestyle-001.title") }}
       </h2>
-      <div :key="locale" ref="galleryContainer" class="gallery-grid">
+      <div
+        :key="locale + '-001'"
+        ref="galleryContainer001"
+        class="gallery-grid"
+      >
         <div
-          v-for="(img, index) in filteredGallery"
+          v-for="(img, index) in galleryItems001"
           :key="index"
           class="gallery-item gallery-tile"
           role="button"
           tabindex="0"
           :aria-label="
-            img.alt ? t(img.alt) : t('lifestyle.sections.oceanLove.title')
+            img.alt ? t(img.alt) : t('lifestyle.sections.lifestyle-001.title')
+          "
+          :data-src="img.src"
+          :data-thumb="img.thumb + '?w=150&h=150&fit=crop'"
+        >
+          <div class="thumb-wrapper">
+            <div
+              v-if="!loadedMap[img.src]"
+              class="spinner-overlay"
+              aria-hidden="true"
+            >
+              <span class="spinner"></span>
+            </div>
+            <NuxtImg
+              :src="img.src"
+              :alt="img.alt ? t(img.alt) : ''"
+              :placeholder="false"
+              @load="loadedMap[img.src] = true"
+              @error="loadedMap[img.src] = true"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lifestyle-section">
+      <h2 class="section-heading">
+        {{ t("lifestyle.sections.lifestyle-002.title") }}
+      </h2>
+      <div
+        :key="locale + '-002'"
+        ref="galleryContainer002"
+        class="gallery-grid"
+      >
+        <div
+          v-for="(img, index) in galleryItems002"
+          :key="index"
+          class="gallery-item gallery-tile"
+          role="button"
+          tabindex="0"
+          :aria-label="
+            img.alt ? t(img.alt) : t('lifestyle.sections.lifestyle-002.title')
+          "
+          :data-src="img.src"
+          :data-thumb="img.thumb + '?w=150&h=150&fit=crop'"
+        >
+          <div class="thumb-wrapper">
+            <div
+              v-if="!loadedMap[img.src]"
+              class="spinner-overlay"
+              aria-hidden="true"
+            >
+              <span class="spinner"></span>
+            </div>
+            <NuxtImg
+              :src="img.src"
+              :alt="img.alt ? t(img.alt) : ''"
+              :placeholder="false"
+              @load="loadedMap[img.src] = true"
+              @error="loadedMap[img.src] = true"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lifestyle-section">
+      <h2 class="section-heading">
+        {{ t("lifestyle.sections.lifestyle-003.title") }}
+      </h2>
+      <div
+        :key="locale + '-003'"
+        ref="galleryContainer003"
+        class="gallery-grid"
+      >
+        <div
+          v-for="(img, index) in galleryItems003"
+          :key="index"
+          class="gallery-item gallery-tile"
+          role="button"
+          tabindex="0"
+          :aria-label="
+            img.alt ? t(img.alt) : t('lifestyle.sections.lifestyle-003.title')
+          "
+          :data-src="img.src"
+          :data-thumb="img.thumb + '?w=150&h=150&fit=crop'"
+        >
+          <div class="thumb-wrapper">
+            <div
+              v-if="!loadedMap[img.src]"
+              class="spinner-overlay"
+              aria-hidden="true"
+            >
+              <span class="spinner"></span>
+            </div>
+            <NuxtImg
+              :src="img.src"
+              :alt="img.alt ? t(img.alt) : ''"
+              :placeholder="false"
+              @load="loadedMap[img.src] = true"
+              @error="loadedMap[img.src] = true"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lifestyle-section">
+      <h2 class="section-heading">
+        {{ t("lifestyle.sections.lifestyle-004.title") }}
+      </h2>
+      <div
+        :key="locale + '-004'"
+        ref="galleryContainer004"
+        class="gallery-grid"
+      >
+        <div
+          v-for="(img, index) in galleryItems004"
+          :key="index"
+          class="gallery-item gallery-tile"
+          role="button"
+          tabindex="0"
+          :aria-label="
+            img.alt ? t(img.alt) : t('lifestyle.sections.lifestyle-004.title')
           "
           :data-src="img.src"
           :data-thumb="img.thumb + '?w=150&h=150&fit=crop'"
@@ -289,5 +520,99 @@ const loadedMap = reactive<Record<string, boolean>>({});
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Section separators: elegant centered thin line between sections */
+.lifestyle-section + .lifestyle-section {
+  --section-gap: 3rem; /* vertical space between sections */
+  position: relative;
+  margin-top: 0; /* we use padding to create the gap so we can center the divider inside it */
+  padding-top: var(--section-gap);
+}
+.lifestyle-section + .lifestyle-section::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--section-gap) / 2);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px; /* thin, centered line */
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.18);
+  border-radius: 1px;
+  z-index: 1;
+}
+:global(.dark) .lifestyle-section + .lifestyle-section::before {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.6
+  ); /* increased contrast for dark mode */
+}
+:global(html.dark) .lifestyle-section + .lifestyle-section::before,
+:global(body.dark) .lifestyle-section + .lifestyle-section::before {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+</style>
+
+<style scoped>
+/* Fallback for environments that use system dark mode without adding a .dark class */
+@media (prefers-color-scheme: dark) {
+  .section-sep {
+    border-top-color: rgba(255, 255, 255, 0.15);
+  }
+  .lifestyle-section + .lifestyle-section::before {
+    background-color: rgba(255, 255, 255, 0.75);
+  }
+}
+</style>
+
+<style scoped>
+/* Force light theme appearance when the site is in light mode (html:not(.dark))
+   This ensures separators stay dark and visible even if the OS prefers dark. */
+:global(html:not(.dark)) .section-sep {
+  border-top-color: rgba(0, 0, 0, 0.2);
+}
+:global(html:not(.dark)) .lifestyle-section + .lifestyle-section::before {
+  background-color: rgba(0, 0, 0, 0.28);
+}
+</style>
+
+<style scoped>
+/* Final pass: ensure separator is clearly visible and centered in all themes */
+/* Light theme (explicit) */
+:global(html:not(.dark)) .lifestyle-section + .lifestyle-section::before {
+  background-color: rgba(0, 0, 0, 0.36); /* stronger for light backgrounds */
+  height: 2px; /* slightly thicker for retina/hiDPI */
+}
+/* Dark theme (covers html/body with .dark and global .dark wrappers) */
+:global(html.dark) .lifestyle-section + .lifestyle-section::before,
+:global(body.dark) .lifestyle-section + .lifestyle-section::before,
+:global(.dark) .lifestyle-section + .lifestyle-section::before {
+  background-color: rgba(255, 255, 255, 0.9); /* high contrast on dark */
+  height: 2px; /* keep thickness consistent */
+}
+</style>
+
+<style>
+/* Final global override to ensure light-mode separators are clearly visible
+   even if prefers-color-scheme: dark rules or other styles interfere. */
+html:not(.dark) .section-sep {
+  border-top-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ) !important; /* stronger contrast in light mode */
+}
+html:not(.dark) .lifestyle-section + .lifestyle-section::before {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.65
+  ) !important; /* clearly visible on white */
+  height: 2px !important; /* retina-friendly thickness */
+  width: 140px; /* slightly wider for visibility */
 }
 </style>

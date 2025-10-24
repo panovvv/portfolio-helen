@@ -152,12 +152,19 @@ export default {
         heart: "Every shoot is done with care and heart 😊",
       },
       lifestyle: {
-        title:
-          "A curated selection of lifestyle imagery exploring authentic emotions, natural light, coastal atmosphere, and thoughtfully styled food and details",
+        title: "A Lifestyle Collection by the Sea",
         sections: {
-          oceanLove: {
-            title:
-              "A love story by the ocean, capturing authentic moments and emotions",
+          "lifestyle-001": {
+            title: "A Couple by the Ocean",
+          },
+          "lifestyle-002": {
+            title: "Coastal Picnic Still Life",
+          },
+          "lifestyle-003": {
+            title: "Summer Picnic Moments",
+          },
+          "lifestyle-004": {
+            title: "Autumn by the Sea",
           },
         },
       },
@@ -314,11 +321,19 @@ export default {
         heart: "К каждой съемке подхожу с душой 😊",
       },
       lifestyle: {
-        title:
-          "Подборка лайфстайл‑фотографий, передающих искренние эмоции, естественный свет, прибрежную атмосферу и тщательно стилизованные еду и детали",
+        title: "Коллекция лайфстайл‑историй у моря",
         sections: {
-          oceanLove: {
-            title: "История любви у океана: подлинные моменты и эмоции",
+          "lifestyle-001": {
+            title: "Пара у океана",
+          },
+          "lifestyle-002": {
+            title: "Натюрморты прибрежного пикника",
+          },
+          "lifestyle-003": {
+            title: "Моменты летнего пикника",
+          },
+          "lifestyle-004": {
+            title: "Осень у моря",
           },
         },
       },
