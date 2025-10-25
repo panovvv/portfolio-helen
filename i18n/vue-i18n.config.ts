@@ -158,13 +158,16 @@ export default {
             title: "A Couple by the Ocean (Exclusive for Westend)",
           },
           "lifestyle-002": {
-            title: "Coastal Picnic Still Life (Additional work - published on Shutterstock)",
+            title:
+              "Coastal Picnic Still Life (Non-exclusive work - published on Shutterstock)",
           },
           "lifestyle-003": {
-            title: "Summer Picnic Moments (Additional work - published on Shutterstock)",
+            title:
+              "Summer Picnic Moments (Non-exclusive work - published on Shutterstock)",
           },
           "lifestyle-004": {
-            title: "Autumn by the Sea (Additional work - published on Shutterstock)",
+            title:
+              "Autumn by the Sea (Non-exclusive work - published on Shutterstock)",
           },
         },
       },
@@ -327,7 +330,8 @@ export default {
             title: "Пара у океана (Эксклюзивно для Westend)",
           },
           "lifestyle-002": {
-            title: "Натюрморты прибрежного пикника (Опубликовано на Shutterstock)",
+            title:
+              "Натюрморты прибрежного пикника (Опубликовано на Shutterstock)",
           },
           "lifestyle-003": {
             title: "Моменты летнего пикника (Опубликовано на Shutterstock)",

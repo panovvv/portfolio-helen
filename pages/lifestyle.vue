@@ -13,6 +13,9 @@ import "lightgallery/css/lg-autoplay.css";
 import "lightgallery/css/lg-fullscreen.css";
 
 import type { LightGallery } from "lightgallery/lightgallery";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 
 const { t, locale } = useI18n();
 
@@ -367,6 +370,42 @@ const loadedMap = reactive<Record<string, boolean>>({});
         </div>
       </div>
     </section>
+
+    <hr class="section-sep" />
+    <!-- Footer / Contact block specific for Lifestyle page -->
+    <div class="mt-10 mb-6">
+      <p
+        class="text-center text-sm sm:text-base text-gray-600 dark:text-gray-300"
+      >
+        © Elena Panova | Stock & Lifestyle Photography
+      </p>
+      <div
+        class="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3"
+      >
+        <a
+          href="mailto:panovaed89@gmail.com"
+          class="flex items-center justify-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full sm:w-auto"
+        >
+          <FontAwesomeIcon
+            :icon="faEnvelope"
+            class="mr-3 text-blue-500 text-2xl align-middle relative top-[2px] shrink-0"
+          />
+          <span class="align-middle leading-none">panovaed89@gmail.com</span>
+        </a>
+        <a
+          href="https://www.instagram.com/panipanovahelen/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center justify-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full sm:w-auto"
+        >
+          <FontAwesomeIcon
+            :icon="faInstagram"
+            class="mr-3 text-pink-500 text-2xl align-middle relative top-[2px] shrink-0"
+          />
+          <span class="align-middle leading-none">@panipanovahelen</span>
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
