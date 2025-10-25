@@ -155,16 +155,16 @@ export default {
         title: "A Lifestyle Collection by the Sea",
         sections: {
           "lifestyle-001": {
-            title: "A Couple by the Ocean",
+            title: "A Couple by the Ocean (Exclusive for Westend)",
           },
           "lifestyle-002": {
-            title: "Coastal Picnic Still Life",
+            title: "Coastal Picnic Still Life (Additional work - published on Shutterstock)",
           },
           "lifestyle-003": {
-            title: "Summer Picnic Moments",
+            title: "Summer Picnic Moments (Additional work - published on Shutterstock)",
           },
           "lifestyle-004": {
-            title: "Autumn by the Sea",
+            title: "Autumn by the Sea (Additional work - published on Shutterstock)",
           },
         },
       },
@@ -324,16 +324,16 @@ export default {
         title: "Коллекция лайфстайл‑историй у моря",
         sections: {
           "lifestyle-001": {
-            title: "Пара у океана",
+            title: "Пара у океана (Эксклюзивно для Westend)",
           },
           "lifestyle-002": {
-            title: "Натюрморты прибрежного пикника",
+            title: "Натюрморты прибрежного пикника (Опубликовано на Shutterstock)",
           },
           "lifestyle-003": {
-            title: "Моменты летнего пикника",
+            title: "Моменты летнего пикника (Опубликовано на Shutterstock)",
           },
           "lifestyle-004": {
-            title: "Осень у моря",
+            title: "Осень у моря (Опубликовано на Shutterstock)",
           },
         },
       },
