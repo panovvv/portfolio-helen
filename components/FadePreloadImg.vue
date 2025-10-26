@@ -9,7 +9,6 @@ interface Props {
   sizes?: string;
   durationMs?: number;
   playKey?: number; // external trigger to start crossfade once back is ready
-  fixedWidth?: number; // optional explicit width (in CSS px) to request from optimizer
 }
 
 const props = defineProps<Props>();
@@ -18,6 +17,17 @@ const emit = defineEmits<{
   (e: "preloaded"): void;
   (e: "transitioned"): void;
 }>();
+
+// Default sizes mapping for this component when no explicit sizes prop is provided.
+// Behavior:
+// - <= sm (640px) : single image full-width
+// - <= lg (1024): two columns (half-screen)
+// - higher than lg: three columns (one-third screen)
+// No `vw` used, and buckets align with image.screens up to 8K.
+const DEFAULT_SIZES =
+  "160px xs:320px sm:320px md:384px lg:342px xl:427px 2xl:512px 3xl:682px 4xl:853px 5xl:1024px 6xl:1280px 7xl:1365px 8xl:1706px 9xl:2048px 10xl:2560px";
+
+const resolvedSizes = computed(() => props.sizes ?? DEFAULT_SIZES);
 
 function dlog(...args: any[]) {
   // console.log("[FadePreloadImg]", ...args);
@@ -296,8 +306,7 @@ watch(
       <NuxtImg
         :src="buf0Src"
         :alt="alt || ''"
-        v-bind="props.fixedWidth ? { width: props.fixedWidth } : {}"
-        :sizes="props.fixedWidth ? undefined : sizes"
+        :sizes="resolvedSizes"
         class="w-full h-full object-contain object-center block"
         decoding="async"
         :loading="front === 0 ? 'eager' : 'lazy'"
@@ -320,8 +329,7 @@ watch(
       <NuxtImg
         :src="buf1Src"
         :alt="alt || ''"
-        v-bind="props.fixedWidth ? { width: props.fixedWidth } : {}"
-        :sizes="props.fixedWidth ? undefined : sizes"
+        :sizes="resolvedSizes"
         class="w-full h-full object-contain object-center block"
         decoding="async"
         :loading="front === 1 ? 'eager' : 'lazy'"

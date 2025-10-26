@@ -50,6 +50,7 @@ const finalLine = computed(() => (tm("about.finalLine") as string) || "");
         <NuxtImg
           src="/about-me.jpg"
           class="w-full h-auto object-contain rounded-lg shadow-md"
+          sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
           placeholder
           loading="lazy"
           decoding="async"

@@ -72,7 +72,7 @@ const items = computed(() => (tm("types.items") as any[]) || []);
             <NuxtImg
               :src="images[idx] || '/portrait.jpg'"
               class="w-full h-auto object-cover rounded-lg"
-              sizes="(max-width: 768px) 100vw, 33vw"
+              sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
               placeholder
               loading="lazy"
               :width="getDims(images[idx]).width"

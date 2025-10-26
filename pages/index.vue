@@ -379,12 +379,8 @@ onBeforeUnmount(() => {
               :alt="slides[displayed[1]].alt"
               :width="slides[displayed[1]].width"
               :height="slides[displayed[1]].height"
-              sizes="100vw"
               :durationMs="1000"
               :playKey="playKeys[1]"
-              :fixedWidth="
-                colMode === 1 ? 1280 : colMode === 2 ? 960 : undefined
-              "
               @ready="onReadyForCol(1)"
               @preloaded="onPreloadedForCol(1)"
               @transitioned="onTransitionedForCol(1)"
@@ -402,12 +398,8 @@ onBeforeUnmount(() => {
                 :alt="slides[idx].alt"
                 :width="slides[idx].width"
                 :height="slides[idx].height"
-                sizes="(max-width: 1024px) 50vw, 50vw"
                 :durationMs="1000"
                 :playKey="playKeys[col]"
-                :fixedWidth="
-                  colMode === 2 ? 960 : colMode === 1 ? 1280 : undefined
-                "
                 @ready="onReadyForCol(col)"
                 @preloaded="onPreloadedForCol(col)"
                 @transitioned="onTransitionedForCol(col)"
@@ -426,12 +418,8 @@ onBeforeUnmount(() => {
                 :alt="slides[idx].alt"
                 :width="slides[idx].width"
                 :height="slides[idx].height"
-                sizes="(max-width: 1024px) 33vw, 33vw"
                 :durationMs="1000"
                 :playKey="playKeys[col]"
-                :fixedWidth="
-                  colMode === 1 ? 1280 : colMode === 2 ? 960 : undefined
-                "
                 @ready="onReadyForCol(col)"
                 @preloaded="onPreloadedForCol(col)"
                 @transitioned="onTransitionedForCol(col)"
@@ -499,7 +487,7 @@ onBeforeUnmount(() => {
           <NuxtImg
             src="/portrait.jpg"
             class="w-full h-auto object-cover aspect-[3/4] rounded-lg"
-            sizes="(max-width: 768px) 100vw, 33vw"
+            sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
             placeholder
             loading="lazy"
             decoding="async"

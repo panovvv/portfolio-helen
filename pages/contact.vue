@@ -127,6 +127,7 @@ const { t } = useI18n();
       <NuxtImg
         src="/contacts.jpg"
         class="w-full h-auto object-contain"
+        sizes="160px xs:320px sm:640px md:768px lg:1024px xl:1280px 2xl:1536px 3xl:2048px 4xl:2560px 5xl:3072px 6xl:3840px 7xl:4096px 8xl:5120px 9xl:6144px 10xl:7680px"
         placeholder
         loading="lazy"
         decoding="async"

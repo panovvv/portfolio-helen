@@ -239,6 +239,8 @@ const loadedMap = reactive<Record<string, boolean>>({});
             <NuxtImg
               :src="img.src"
               :alt="img.alt ? t(img.alt) : ''"
+              sizes="160px xs:320px lg:640px"
+              loading="lazy"
               :placeholder="false"
               @load="loadedMap[img.src] = true"
               @error="loadedMap[img.src] = true"
@@ -280,6 +282,8 @@ const loadedMap = reactive<Record<string, boolean>>({});
             <NuxtImg
               :src="img.src"
               :alt="img.alt ? t(img.alt) : ''"
+              sizes="160px xs:320px lg:640px"
+              loading="lazy"
               :placeholder="false"
               @load="loadedMap[img.src] = true"
               @error="loadedMap[img.src] = true"
@@ -321,6 +325,8 @@ const loadedMap = reactive<Record<string, boolean>>({});
             <NuxtImg
               :src="img.src"
               :alt="img.alt ? t(img.alt) : ''"
+              sizes="160px xs:320px lg:640px"
+              loading="lazy"
               :placeholder="false"
               @load="loadedMap[img.src] = true"
               @error="loadedMap[img.src] = true"
@@ -362,6 +368,8 @@ const loadedMap = reactive<Record<string, boolean>>({});
             <NuxtImg
               :src="img.src"
               :alt="img.alt ? t(img.alt) : ''"
+              sizes="160px xs:320px lg:640px"
+              loading="lazy"
               :placeholder="false"
               @load="loadedMap[img.src] = true"
               @error="loadedMap[img.src] = true"
