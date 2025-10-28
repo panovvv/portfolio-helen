@@ -136,6 +136,13 @@ const initializeLightGallery = () => {
   }
 };
 
+const destroyLightGallery = () => {
+  if (galleryInstance.value) {
+    galleryInstance.value.destroy();
+    galleryInstance.value = null;
+  }
+};
+
 onMounted(() => {
   if (availableTags.value.length > 0) {
     filter.value = availableTags.value[0];
@@ -156,19 +163,13 @@ watch(
 );
 
 watch(locale, async () => {
-  if (galleryInstance.value) {
-    galleryInstance.value.destroy();
-    galleryInstance.value = null;
-  }
+  destroyLightGallery();
   await nextTick();
   initializeLightGallery();
 });
 
 watch(filter, async () => {
-  if (galleryInstance.value) {
-    galleryInstance.value.destroy();
-    galleryInstance.value = null;
-  }
+  destroyLightGallery();
   await nextTick();
   initializeLightGallery();
 });

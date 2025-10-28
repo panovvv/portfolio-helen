@@ -173,11 +173,7 @@ const initializeLightGallery = () => {
   }
 };
 
-onMounted(() => {
-  initializeLightGallery();
-});
-
-watch(locale, async () => {
+const destroyLightGallery = () => {
   if (galleryInstance001.value) {
     galleryInstance001.value.destroy();
     galleryInstance001.value = null;
@@ -194,6 +190,14 @@ watch(locale, async () => {
     galleryInstance004.value.destroy();
     galleryInstance004.value = null;
   }
+};
+
+onMounted(() => {
+  initializeLightGallery();
+});
+
+watch(locale, async () => {
+  destroyLightGallery();
   await nextTick();
   initializeLightGallery();
 });

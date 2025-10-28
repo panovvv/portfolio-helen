@@ -45,7 +45,8 @@ watch(
 // but then be forced to fill the navbar height (h-16) by adding a wrapper that has that height.
 const getSectionClasses = (path: string) => {
   // We wrap the link's content in a div that forces it to fill h-16.
-  const base = "px-4 py-2 rounded transition-colors duration-200";
+  const base =
+    "px-4 py-2 rounded transition-colors duration-200 whitespace-nowrap leading-tight";
   const active =
     currentTheme.value === "light"
       ? "bg-blue-600 text-white"
