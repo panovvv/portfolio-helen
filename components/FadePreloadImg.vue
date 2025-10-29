@@ -7,6 +7,9 @@ interface Props {
   width?: number;
   height?: number;
   sizes?: string;
+  quality?: number;
+  format?: string;
+  densities?: string;
   durationMs?: number;
   playKey?: number; // external trigger to start crossfade once back is ready
 }
@@ -307,6 +310,9 @@ watch(
         :src="buf0Src"
         :alt="alt || ''"
         :sizes="resolvedSizes"
+        :quality="quality"
+        :format="format"
+        :densities="densities"
         class="w-full h-full object-contain object-center block"
         decoding="async"
         :loading="front === 0 ? 'eager' : 'lazy'"
@@ -330,6 +336,9 @@ watch(
         :src="buf1Src"
         :alt="alt || ''"
         :sizes="resolvedSizes"
+        :quality="quality"
+        :format="format"
+        :densities="densities"
         class="w-full h-full object-contain object-center block"
         decoding="async"
         :loading="front === 1 ? 'eager' : 'lazy'"

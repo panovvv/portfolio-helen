@@ -1,209 +1,510 @@
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted, watch, nextTick } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useI18n } from "vue-i18n";
-import lightGallery from "lightgallery";
-import lgThumbnail from "lightgallery/plugins/thumbnail";
-import lgZoom from "lightgallery/plugins/zoom";
-import lgAutoplay from "lightgallery/plugins/autoplay";
-import lgFullscreen from "lightgallery/plugins/fullscreen";
-import "lightgallery/css/lightgallery.css";
-import "lightgallery/css/lg-thumbnail.css";
-import "lightgallery/css/lg-zoom.css";
-import "lightgallery/css/lg-autoplay.css";
-import "lightgallery/css/lg-fullscreen.css";
+import { useImage } from "#imports";
 
-import type { LightGallery } from "lightgallery/lightgallery";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEnvelope,
+  faUpRightAndDownLeftFromCenter,
+  faDownLeftAndUpRightToCenter,
+  faPlay,
+  faPause,
+} from "@fortawesome/free-solid-svg-icons";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
 
 const { t, locale } = useI18n();
 
 interface GalleryItem {
-  src: string;
-  thumb: string;
+  previewSrc: string;
+  lightboxSrc: string;
   alt?: string;
 }
 
-// List images from /public/lifestyle-001 folder
-const lifestyle001Files = [
-  "1_DSC5910.jpg",
-  "2_DSC5926.jpg",
-  "3_DSC5948-Edit1.jpg",
-  "4_DSC5989.jpg",
-  "5_DSC5961-Edit1.jpg",
-  "6_DSC6019-2.jpg",
-  "7_DSC6006.jpg",
-  "8_DSC6048.jpg",
-  "9_DSC6028-Edit.jpg",
-  "10_DSC6053-Edit1.jpg",
-  "11_DSC6061.jpg",
-  "12_DSC6067-2.jpg",
-];
+interface LightboxItem {
+  src: string;
+  alt?: string;
+}
 
-// List images from /public/lifestyle-002 folder
-const lifestyle002Files = [
-  "_DSC1869 copy.jpg",
-  "_DSC1878 copy (2) 1.jpg",
-  "_DSC1895 copy.jpg",
-  "_DSC1902 copy1.jpg",
-];
+interface GallerySection {
+  id: string;
+  titleKey: string;
+  items: GalleryItem[];
+}
 
-// List images from /public/lifestyle-003 folder
-const lifestyle003Files = [
-  "1_DSC3233.jpg",
-  "2_DSC3452.jpg",
-  "3_DSC3291.jpg",
-  "4_DSC3476-1.jpg",
-];
-
-// List images from /public/lifestyle-004 folder
-const lifestyle004Files = [
-  "1_DSC4591 copy.jpg",
-  "2_DSC4433 copy.jpg",
-  "3_DSC4599 copy.jpg",
-  "4_DSC4638 copy.jpg",
-];
-
-const galleryItems001 = computed<GalleryItem[]>(() => {
-  const _ = locale.value;
-  return lifestyle001Files.map((filename) => ({
-    src: `/lifestyle-001/${filename}`,
-    thumb: `/lifestyle-001/${filename}`,
-    alt: undefined,
-  }));
-});
-
-const galleryItems002 = computed<GalleryItem[]>(() => {
-  const _ = locale.value;
-  return lifestyle002Files.map((filename) => ({
-    src: `/lifestyle-002/${filename}`,
-    thumb: `/lifestyle-002/${filename}`,
-    alt: undefined,
-  }));
-});
-
-const galleryItems003 = computed<GalleryItem[]>(() => {
-  const _ = locale.value;
-  return lifestyle003Files.map((filename) => ({
-    src: `/lifestyle-003/${filename}`,
-    thumb: `/lifestyle-003/${filename}`,
-    alt: undefined,
-  }));
-});
-
-const galleryItems004 = computed<GalleryItem[]>(() => {
-  const _ = locale.value;
-  return lifestyle004Files.map((filename) => ({
-    src: `/lifestyle-004/${filename}`,
-    thumb: `/lifestyle-004/${filename}`,
-    alt: undefined,
-  }));
-});
-
-const galleryContainer001 = ref<HTMLElement | null>(null);
-const galleryInstance001 = ref<LightGallery | null>(null);
-const galleryContainer002 = ref<HTMLElement | null>(null);
-const galleryInstance002 = ref<LightGallery | null>(null);
-const galleryContainer003 = ref<HTMLElement | null>(null);
-const galleryInstance003 = ref<LightGallery | null>(null);
-const galleryContainer004 = ref<HTMLElement | null>(null);
-const galleryInstance004 = ref<LightGallery | null>(null);
-
-const initializeLightGallery = () => {
-  if (galleryContainer001.value) {
-    if (galleryInstance001.value) {
-      galleryInstance001.value.destroy();
-    }
-    galleryInstance001.value = lightGallery(galleryContainer001.value, {
-      selector: ".gallery-item",
-      speed: 300,
-      mode: "lg-slide",
-      download: false,
-      plugins: [lgThumbnail, lgZoom, lgAutoplay, lgFullscreen],
-      thumbnail: false,
-      autoplay: true,
-      autoplayControls: true,
-    });
-  }
-  if (galleryContainer002.value) {
-    if (galleryInstance002.value) {
-      galleryInstance002.value.destroy();
-    }
-    galleryInstance002.value = lightGallery(galleryContainer002.value, {
-      selector: ".gallery-item",
-      speed: 300,
-      mode: "lg-slide",
-      download: false,
-      plugins: [lgThumbnail, lgZoom, lgAutoplay, lgFullscreen],
-      thumbnail: false,
-      autoplay: true,
-      autoplayControls: true,
-    });
-  }
-  if (galleryContainer003.value) {
-    if (galleryInstance003.value) {
-      galleryInstance003.value.destroy();
-    }
-    galleryInstance003.value = lightGallery(galleryContainer003.value, {
-      selector: ".gallery-item",
-      speed: 300,
-      mode: "lg-slide",
-      download: false,
-      plugins: [lgThumbnail, lgZoom, lgAutoplay, lgFullscreen],
-      thumbnail: false,
-      autoplay: true,
-      autoplayControls: true,
-    });
-  }
-  if (galleryContainer004.value) {
-    if (galleryInstance004.value) {
-      galleryInstance004.value.destroy();
-    }
-    galleryInstance004.value = lightGallery(galleryContainer004.value, {
-      selector: ".gallery-item",
-      speed: 300,
-      mode: "lg-slide",
-      download: false,
-      plugins: [lgThumbnail, lgZoom, lgAutoplay, lgFullscreen],
-      thumbnail: false,
-      autoplay: true,
-      autoplayControls: true,
-    });
-  }
+type FullscreenCapableDocument = Document & {
+  fullscreenEnabled?: boolean;
+  exitFullscreen?: () => Promise<void> | void;
+  webkitFullscreenEnabled?: boolean;
+  msFullscreenEnabled?: boolean;
+  webkitExitFullscreen?: () => Promise<void> | void;
+  msExitFullscreen?: () => Promise<void> | void;
+  webkitFullscreenElement?: Element | null;
+  msFullscreenElement?: Element | null;
 };
 
-const destroyLightGallery = () => {
-  if (galleryInstance001.value) {
-    galleryInstance001.value.destroy();
-    galleryInstance001.value = null;
-  }
-  if (galleryInstance002.value) {
-    galleryInstance002.value.destroy();
-    galleryInstance002.value = null;
-  }
-  if (galleryInstance003.value) {
-    galleryInstance003.value.destroy();
-    galleryInstance003.value = null;
-  }
-  if (galleryInstance004.value) {
-    galleryInstance004.value.destroy();
-    galleryInstance004.value = null;
-  }
+type FullscreenCapableElement = HTMLElement & {
+  webkitRequestFullscreen?: () => Promise<void> | void;
+  msRequestFullscreen?: () => Promise<void> | void;
 };
+
+const LIGHTBOX_PRELOAD_COUNT = 2;
+const SLIDESHOW_INTERVAL_MS = 5000;
+const IMAGE_SOURCES = [
+  {
+    id: "lifestyle-001",
+    files: [
+      "1_DSC5910.jpg",
+      "2_DSC5926.jpg",
+      "3_DSC5948-Edit1.jpg",
+      "4_DSC5989.jpg",
+      "5_DSC5961-Edit1.jpg",
+      "6_DSC6019-2.jpg",
+      "7_DSC6006.jpg",
+      "8_DSC6048.jpg",
+      "9_DSC6028-Edit.jpg",
+      "10_DSC6053-Edit1.jpg",
+      "11_DSC6061.jpg",
+      "12_DSC6067-2.jpg",
+    ],
+  },
+  {
+    id: "lifestyle-002",
+    files: [
+      "_DSC1869 copy.jpg",
+      "_DSC1878 copy (2) 1.jpg",
+      "_DSC1895 copy.jpg",
+      "_DSC1902 copy1.jpg",
+    ],
+  },
+  {
+    id: "lifestyle-003",
+    files: [
+      "1_DSC3233.jpg",
+      "2_DSC3452.jpg",
+      "3_DSC3291.jpg",
+      "4_DSC3476-1.jpg",
+    ],
+  },
+  {
+    id: "lifestyle-004",
+    files: [
+      "1_DSC4591 copy.jpg",
+      "2_DSC4433 copy.jpg",
+      "3_DSC4599 copy.jpg",
+      "4_DSC4638 copy.jpg",
+    ],
+  },
+] as const;
+
+const nuxtImg = useImage();
+
+const gallerySections = computed<GallerySection[]>(() =>
+  IMAGE_SOURCES.map(({ id, files }) => ({
+    id,
+    titleKey: `lifestyle.sections.${id}.title`,
+    items: files.map((filename) => ({
+      previewSrc: `/${id}/${filename}`,
+      lightboxSrc: nuxtImg(`/${id}/${filename}`, {
+        // Serve a large but optimized asset for the lightbox view
+        width: 4096,
+        quality: 85,
+        format: "webp",
+      }),
+    })),
+  })),
+);
+
+const isLightboxOpen = ref(false);
+const lightboxItems = ref<LightboxItem[]>([]);
+const lightboxStartIndex = ref(0);
+const preloadToken = ref(0);
+const isFullscreen = ref(false);
+const canUseFullscreen = ref(false);
+const isSlideshowActive = ref(false);
+const slideshowTimer = ref<number | null>(null);
+const slideshowProgress = ref(0);
+const slideshowProgressStart = ref(0);
+let slideshowProgressFrame: number | null = null;
+
+const SLIDESHOW_RING_RADIUS = 22;
+const SLIDESHOW_RING_CIRCUMFERENCE = 2 * Math.PI * SLIDESHOW_RING_RADIUS;
+const slideshowRingDasharray = SLIDESHOW_RING_CIRCUMFERENCE.toFixed(2);
+const slideshowRingDashoffset = computed(() =>
+  (SLIDESHOW_RING_CIRCUMFERENCE * (1 - slideshowProgress.value)).toFixed(2),
+);
+
+function startSlideshowProgress() {
+  if (!isBrowser()) {
+    return;
+  }
+  if (slideshowProgressFrame !== null) {
+    window.cancelAnimationFrame(slideshowProgressFrame);
+    slideshowProgressFrame = null;
+  }
+  slideshowProgress.value = 0;
+  slideshowProgressStart.value = performance.now();
+  slideshowProgressFrame = window.requestAnimationFrame(
+    updateSlideshowProgress,
+  );
+}
+function updateSlideshowProgress() {
+  if (!isSlideshowActive.value) {
+    slideshowProgress.value = 0;
+    if (slideshowProgressFrame !== null) {
+      window.cancelAnimationFrame(slideshowProgressFrame);
+      slideshowProgressFrame = null;
+    }
+    return;
+  }
+  if (!isBrowser()) {
+    return;
+  }
+  const now = performance.now();
+  const elapsed = now - slideshowProgressStart.value;
+  const progress = Math.min(elapsed / SLIDESHOW_INTERVAL_MS, 1);
+  slideshowProgress.value = progress;
+  if (progress >= 1) {
+    slideshowProgress.value = 0;
+    slideshowProgressStart.value = now;
+  }
+  slideshowProgressFrame = window.requestAnimationFrame(
+    updateSlideshowProgress,
+  );
+}
+function stopSlideshowProgress() {
+  if (!isBrowser()) {
+    slideshowProgress.value = 0;
+    slideshowProgressFrame = null;
+    return;
+  }
+  slideshowProgress.value = 0;
+  if (slideshowProgressFrame !== null) {
+    window.cancelAnimationFrame(slideshowProgressFrame);
+    slideshowProgressFrame = null;
+  }
+}
+const hasMultipleLightboxItems = computed(() => lightboxItems.value.length > 1);
+
+function isBrowser() {
+  return typeof window !== "undefined";
+}
+
+function preloadImages(items: LightboxItem[], centerIndex: number) {
+  if (!isBrowser() || LIGHTBOX_PRELOAD_COUNT <= 0 || items.length <= 1) {
+    return;
+  }
+
+  const targets = new Set<string>();
+  const total = items.length;
+
+  for (let offset = 1; offset <= LIGHTBOX_PRELOAD_COUNT; offset += 1) {
+    const prevIndex = (centerIndex - offset + total) % total;
+    const nextIndex = (centerIndex + offset) % total;
+
+    const prevItem = items[prevIndex];
+    if (prevIndex !== centerIndex && prevItem?.src) {
+      targets.add(prevItem.src);
+    }
+
+    const nextItem = items[nextIndex];
+    if (nextIndex !== centerIndex && nextItem?.src) {
+      targets.add(nextItem.src);
+    }
+  }
+
+  targets.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+  });
+}
+
+function openLightbox(items: GalleryItem[], startAt: number) {
+  schedulePreloadCancel();
+  lightboxItems.value = items.map(({ lightboxSrc, alt }) => ({
+    src: lightboxSrc,
+    alt,
+  }));
+  lightboxStartIndex.value = startAt;
+  isLightboxOpen.value = true;
+  schedulePreload(startAt);
+}
+
+function handleLightboxIndexChange(_oldIndex: number, newIndex: number) {
+  lightboxStartIndex.value = newIndex;
+  schedulePreload(newIndex);
+  if (isSlideshowActive.value) {
+    resetSlideshowTimer();
+  }
+}
+
+function ensureImageLoaded(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve();
+    img.onerror = () => reject();
+    img.src = src;
+    if (img.complete && img.naturalWidth !== 0) {
+      resolve();
+    }
+  });
+}
+
+function schedulePreload(centerIndex: number) {
+  if (!isBrowser()) {
+    return;
+  }
+  const items = lightboxItems.value;
+  if (!items.length) {
+    return;
+  }
+  const token = ++preloadToken.value;
+  const current = items[centerIndex];
+  if (!current?.src) {
+    return;
+  }
+  ensureImageLoaded(current.src)
+    .then(() => {
+      if (token !== preloadToken.value) {
+        return;
+      }
+      preloadImages(items, centerIndex);
+    })
+    .catch(() => {
+      /* ignore load failures; current image already handled by lightbox */
+    });
+}
+
+function advanceLightbox(step: number) {
+  if (!isLightboxOpen.value) {
+    return;
+  }
+  const total = lightboxItems.value.length;
+  if (!total) {
+    return;
+  }
+  const target = (lightboxStartIndex.value + step + total) % total;
+  lightboxStartIndex.value = target;
+  schedulePreload(target);
+}
+
+function clearSlideshowTimer() {
+  if (slideshowTimer.value !== null) {
+    if (typeof window !== "undefined") {
+      window.clearInterval(slideshowTimer.value);
+    }
+    slideshowTimer.value = null;
+  }
+}
+
+function resetSlideshowTimer() {
+  if (!isBrowser()) {
+    return;
+  }
+  clearSlideshowTimer();
+  if (
+    !isSlideshowActive.value ||
+    !isLightboxOpen.value ||
+    !hasMultipleLightboxItems.value
+  ) {
+    return;
+  }
+  slideshowTimer.value = window.setInterval(() => {
+    advanceLightbox(1);
+    startSlideshowProgress();
+  }, SLIDESHOW_INTERVAL_MS);
+  startSlideshowProgress();
+}
+
+function startSlideshow() {
+  if (
+    !isBrowser() ||
+    !isLightboxOpen.value ||
+    !hasMultipleLightboxItems.value
+  ) {
+    return;
+  }
+  if (isSlideshowActive.value) {
+    resetSlideshowTimer();
+    return;
+  }
+  isSlideshowActive.value = true;
+  resetSlideshowTimer();
+}
+
+function stopSlideshow() {
+  clearSlideshowTimer();
+  stopSlideshowProgress();
+  isSlideshowActive.value = false;
+}
+
+function toggleSlideshow() {
+  if (isSlideshowActive.value) {
+    stopSlideshow();
+  } else {
+    startSlideshow();
+  }
+}
+
+function getLightboxModal(): HTMLElement | null {
+  if (!isBrowser()) {
+    return null;
+  }
+  return document.querySelector<HTMLElement>(".vel-modal");
+}
+
+function setFullscreenClass(enabled: boolean) {
+  const modal = getLightboxModal();
+  if (modal) {
+    modal.classList.toggle("is-fullscreen", enabled);
+  }
+}
+
+async function enterFullscreen() {
+  if (!isBrowser()) {
+    return;
+  }
+  const modal = getLightboxModal();
+  if (!modal) {
+    return;
+  }
+  const request =
+    modal.requestFullscreen ||
+    (
+      modal as HTMLElement & {
+        webkitRequestFullscreen?: () => Promise<void> | void;
+      }
+    ).webkitRequestFullscreen ||
+    (
+      modal as HTMLElement & {
+        msRequestFullscreen?: () => Promise<void> | void;
+      }
+    ).msRequestFullscreen;
+  if (request) {
+    try {
+      await request.call(modal);
+      isFullscreen.value = true;
+      setFullscreenClass(true);
+    } catch {
+      /* ignore request errors */
+    }
+  }
+}
+
+async function exitFullscreen() {
+  if (!isBrowser()) {
+    return;
+  }
+  const doc = document as FullscreenCapableDocument;
+  const exit =
+    doc.exitFullscreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+  if (exit) {
+    try {
+      await exit.call(doc);
+    } catch {
+      /* ignore exit errors */
+    }
+  }
+  if (
+    !(
+      doc.fullscreenElement ||
+      doc.webkitFullscreenElement ||
+      doc.msFullscreenElement
+    )
+  ) {
+    isFullscreen.value = false;
+    setFullscreenClass(false);
+  }
+}
+
+async function toggleFullscreen() {
+  if (!isBrowser()) {
+    return;
+  }
+  if (isFullscreen.value) {
+    await exitFullscreen();
+  } else {
+    await enterFullscreen();
+  }
+}
+
+function handleFullscreenChange() {
+  if (!isBrowser()) {
+    return;
+  }
+  const doc = document as FullscreenCapableDocument;
+  const fullscreenElement =
+    doc.fullscreenElement ||
+    doc.webkitFullscreenElement ||
+    doc.msFullscreenElement ||
+    null;
+  isFullscreen.value = fullscreenElement !== null;
+  setFullscreenClass(isFullscreen.value);
+}
+
+function handleLightboxHide() {
+  isLightboxOpen.value = false;
+  stopSlideshow();
+  schedulePreloadCancel();
+  if (isFullscreen.value) {
+    isFullscreen.value = false;
+    exitFullscreen();
+  }
+  setFullscreenClass(false);
+}
+
+function schedulePreloadCancel() {
+  preloadToken.value += 1;
+}
 
 onMounted(() => {
-  initializeLightGallery();
+  if (!isBrowser()) {
+    return;
+  }
+  const doc = document as FullscreenCapableDocument;
+  const body = document.body
+    ? (document.body as FullscreenCapableElement)
+    : undefined;
+  canUseFullscreen.value = Boolean(
+    doc.fullscreenEnabled ||
+      doc.webkitFullscreenEnabled ||
+      doc.msFullscreenEnabled ||
+      body?.requestFullscreen ||
+      body?.webkitRequestFullscreen ||
+      body?.msRequestFullscreen,
+  );
+  document.addEventListener("fullscreenchange", handleFullscreenChange);
+  document.addEventListener(
+    "webkitfullscreenchange" as any,
+    handleFullscreenChange as EventListener,
+  );
+  document.addEventListener(
+    "msfullscreenchange" as any,
+    handleFullscreenChange as EventListener,
+  );
 });
 
-watch(locale, async () => {
-  destroyLightGallery();
-  await nextTick();
-  initializeLightGallery();
+onBeforeUnmount(() => {
+  if (!isBrowser()) {
+    return;
+  }
+  schedulePreloadCancel();
+  stopSlideshow();
+  if (isFullscreen.value) {
+    isFullscreen.value = false;
+    exitFullscreen();
+  }
+  setFullscreenClass(false);
+  document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  document.removeEventListener(
+    "webkitfullscreenchange" as any,
+    handleFullscreenChange as EventListener,
+  );
+  document.removeEventListener(
+    "msfullscreenchange" as any,
+    handleFullscreenChange as EventListener,
+  );
 });
-
-// Track loaded state for thumbnails to show a lightweight spinner until ready
-const loadedMap = reactive<Record<string, boolean>>({});
 </script>
 
 <template>
@@ -211,174 +512,35 @@ const loadedMap = reactive<Record<string, boolean>>({});
     <h1 class="page-heading">{{ t("lifestyle.title") }}</h1>
     <hr class="section-sep" />
 
-    <section class="lifestyle-section">
+    <section
+      v-for="section in gallerySections"
+      :key="`${locale}-${section.id}`"
+      class="lifestyle-section"
+    >
       <h2 class="section-heading">
-        {{ t("lifestyle.sections.lifestyle-001.title") }}
+        {{ t(section.titleKey) }}
       </h2>
-      <div
-        :key="locale + '-001'"
-        ref="galleryContainer001"
-        class="gallery-grid"
-      >
+      <div class="gallery-grid">
         <div
-          v-for="(img, index) in galleryItems001"
-          :key="index"
-          class="gallery-item gallery-tile"
+          v-for="(img, index) in section.items"
+          :key="img.previewSrc"
+          class="gallery-tile"
           role="button"
           tabindex="0"
-          :aria-label="
-            img.alt ? t(img.alt) : t('lifestyle.sections.lifestyle-001.title')
-          "
-          :data-src="img.src"
-          :data-thumb="img.thumb + '?w=150&h=150&fit=crop'"
+          :aria-label="img.alt ? t(img.alt) : t(section.titleKey)"
+          @click="openLightbox(section.items, index)"
+          @keydown.enter.prevent="openLightbox(section.items, index)"
         >
-          <div class="thumb-wrapper">
-            <div
-              v-if="!loadedMap[img.src]"
-              class="spinner-overlay"
-              aria-hidden="true"
-            >
-              <span class="spinner"></span>
-            </div>
-            <NuxtImg
-              :src="img.src"
-              :alt="img.alt ? t(img.alt) : ''"
-              sizes="160px xs:320px lg:640px"
-              loading="lazy"
-              :placeholder="false"
-              @load="loadedMap[img.src] = true"
-              @error="loadedMap[img.src] = true"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="lifestyle-section">
-      <h2 class="section-heading">
-        {{ t("lifestyle.sections.lifestyle-002.title") }}
-      </h2>
-      <div
-        :key="locale + '-002'"
-        ref="galleryContainer002"
-        class="gallery-grid"
-      >
-        <div
-          v-for="(img, index) in galleryItems002"
-          :key="index"
-          class="gallery-item gallery-tile"
-          role="button"
-          tabindex="0"
-          :aria-label="
-            img.alt ? t(img.alt) : t('lifestyle.sections.lifestyle-002.title')
-          "
-          :data-src="img.src"
-          :data-thumb="img.thumb + '?w=150&h=150&fit=crop'"
-        >
-          <div class="thumb-wrapper">
-            <div
-              v-if="!loadedMap[img.src]"
-              class="spinner-overlay"
-              aria-hidden="true"
-            >
-              <span class="spinner"></span>
-            </div>
-            <NuxtImg
-              :src="img.src"
-              :alt="img.alt ? t(img.alt) : ''"
-              sizes="160px xs:320px lg:640px"
-              loading="lazy"
-              :placeholder="false"
-              @load="loadedMap[img.src] = true"
-              @error="loadedMap[img.src] = true"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="lifestyle-section">
-      <h2 class="section-heading">
-        {{ t("lifestyle.sections.lifestyle-003.title") }}
-      </h2>
-      <div
-        :key="locale + '-003'"
-        ref="galleryContainer003"
-        class="gallery-grid"
-      >
-        <div
-          v-for="(img, index) in galleryItems003"
-          :key="index"
-          class="gallery-item gallery-tile"
-          role="button"
-          tabindex="0"
-          :aria-label="
-            img.alt ? t(img.alt) : t('lifestyle.sections.lifestyle-003.title')
-          "
-          :data-src="img.src"
-          :data-thumb="img.thumb + '?w=150&h=150&fit=crop'"
-        >
-          <div class="thumb-wrapper">
-            <div
-              v-if="!loadedMap[img.src]"
-              class="spinner-overlay"
-              aria-hidden="true"
-            >
-              <span class="spinner"></span>
-            </div>
-            <NuxtImg
-              :src="img.src"
-              :alt="img.alt ? t(img.alt) : ''"
-              sizes="160px xs:320px lg:640px"
-              loading="lazy"
-              :placeholder="false"
-              @load="loadedMap[img.src] = true"
-              @error="loadedMap[img.src] = true"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="lifestyle-section">
-      <h2 class="section-heading">
-        {{ t("lifestyle.sections.lifestyle-004.title") }}
-      </h2>
-      <div
-        :key="locale + '-004'"
-        ref="galleryContainer004"
-        class="gallery-grid"
-      >
-        <div
-          v-for="(img, index) in galleryItems004"
-          :key="index"
-          class="gallery-item gallery-tile"
-          role="button"
-          tabindex="0"
-          :aria-label="
-            img.alt ? t(img.alt) : t('lifestyle.sections.lifestyle-004.title')
-          "
-          :data-src="img.src"
-          :data-thumb="img.thumb + '?w=150&h=150&fit=crop'"
-        >
-          <div class="thumb-wrapper">
-            <div
-              v-if="!loadedMap[img.src]"
-              class="spinner-overlay"
-              aria-hidden="true"
-            >
-              <span class="spinner"></span>
-            </div>
-            <NuxtImg
-              :src="img.src"
-              :alt="img.alt ? t(img.alt) : ''"
-              sizes="160px xs:320px lg:640px"
-              loading="lazy"
-              :placeholder="false"
-              @load="loadedMap[img.src] = true"
-              @error="loadedMap[img.src] = true"
-            />
-          </div>
+          <NuxtImg
+            :src="img.previewSrc"
+            :alt="img.alt ? t(img.alt) : ''"
+            sizes="160px xs:320px lg:640px"
+            densities="x1 x2"
+            loading="lazy"
+            placeholder
+            quality="60"
+            format="webp"
+          />
         </div>
       </div>
     </section>
@@ -418,6 +580,84 @@ const loadedMap = reactive<Record<string, boolean>>({});
         </a>
       </div>
     </div>
+    <VueEasyLightbox
+      :visible="isLightboxOpen"
+      :imgs="lightboxItems"
+      :index="lightboxStartIndex"
+      :loop="true"
+      :zoom-scale="0.25"
+      :move-disabled="true"
+      :rotate-disabled="true"
+      @hide="handleLightboxHide"
+      @on-index-change="handleLightboxIndexChange"
+    />
+    <Teleport
+      v-if="isLightboxOpen && (canUseFullscreen || hasMultipleLightboxItems)"
+      to=".vel-modal"
+    >
+      <div class="lightbox-controls">
+        <button
+          v-if="hasMultipleLightboxItems"
+          type="button"
+          class="lightbox-control-btn"
+          :aria-pressed="isSlideshowActive"
+          @click="toggleSlideshow"
+        >
+          <span v-show="isSlideshowActive" class="lightbox-control-progress">
+            <svg viewBox="0 0 48 48" class="lightbox-control-progress__svg">
+              <circle
+                class="lightbox-control-progress__track"
+                cx="24"
+                cy="24"
+                r="22"
+                :stroke-dasharray="slideshowRingDasharray"
+              />
+              <circle
+                class="lightbox-control-progress__indicator"
+                cx="24"
+                cy="24"
+                r="22"
+                :stroke-dasharray="slideshowRingDasharray"
+                :stroke-dashoffset="slideshowRingDashoffset"
+              />
+            </svg>
+          </span>
+          <FontAwesomeIcon
+            :icon="isSlideshowActive ? faPause : faPlay"
+            class="lightbox-control-btn__icon"
+          />
+        </button>
+
+        <button
+          v-if="canUseFullscreen"
+          type="button"
+          class="lightbox-control-btn"
+          :aria-pressed="isFullscreen"
+          :aria-label="
+            isFullscreen
+              ? t('lifestyle.fullscreen.exit')
+              : t('lifestyle.fullscreen.enter')
+          "
+          @click="toggleFullscreen"
+        >
+          <FontAwesomeIcon
+            :icon="
+              isFullscreen
+                ? faDownLeftAndUpRightToCenter
+                : faUpRightAndDownLeftFromCenter
+            "
+            class="lightbox-control-btn__icon"
+          />
+          <span class="lightbox-control-btn__label">
+            {{
+              isFullscreen
+                ? t("lifestyle.fullscreen.exit")
+                : t("lifestyle.fullscreen.enter")
+            }}
+          </span>
+        </button>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -478,99 +718,92 @@ const loadedMap = reactive<Record<string, boolean>>({});
   object-fit: cover;
   display: block;
 }
-:global(html:not(.dark) .lg-backdrop) {
-  background-color: #ffffff !important;
-}
-:global(.dark .lg-backdrop) {
-  background-color: #000000 !important;
-}
 
-/* Light mode: buttons should blend with the white background */
-:global(html:not(.dark) .lg-next),
-:global(html:not(.dark) .lg-prev),
-:global(html:not(.dark) .lg-toolbar .lg-icon) {
-  background-color: #ffffff !important; /* match backdrop */
-  color: #111111 !important; /* dark icons for contrast */
-  box-shadow: none !important;
-  border: none !important;
-}
-
-:global(html:not(.dark) .lg-next:hover),
-:global(html:not(.dark) .lg-prev:hover),
-:global(html:not(.dark) .lg-toolbar .lg-icon:hover) {
-  background-color: #ffffff !important; /* keep same color on hover */
-  color: #000000 !important; /* slightly darker on hover */
-}
-
-/* Light mode: ensure caption/alt text is visible */
-:global(html:not(.dark) .lg-sub-html) {
-  color: #111111 !important;
-}
-
-/* Thumbnail spinner */
-.thumb-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.spinner-overlay {
+.lightbox-controls {
   position: absolute;
-  inset: 0;
+  top: 3.5rem;
+  right: 0.5rem;
+  z-index: 10001;
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: auto;
+}
+
+.lightbox-control-btn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
-  z-index: 2; /* ensure spinner is above the image */
-}
-.spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: color 0.2s ease;
   position: relative;
-  display: inline-block;
-  width: 26px;
-  height: 26px;
-  border-radius: 9999px;
-  border: 3px solid var(--portfolio-spinner-track);
-  border-top-color: var(--portfolio-spinner-leading);
-  background: var(--portfolio-spinner-bg);
-  animation: spin 0.75s linear infinite;
-  box-shadow: var(--portfolio-spinner-shadow);
 }
-.spinner::before {
-  content: "";
+.lightbox-control-btn:hover,
+.lightbox-control-btn:focus-visible {
+  color: #ffffff;
+}
+.lightbox-control-btn:active,
+.lightbox-control-btn[aria-pressed="true"] {
+  color: rgba(255, 255, 255, 0.9);
+}
+.lightbox-control-btn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.65);
+  outline-offset: 2px;
+}
+.lightbox-control-btn__icon {
+  font-size: 1.35rem;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+.lightbox-control-btn__label {
   position: absolute;
-  inset: 5px;
-  border-radius: inherit;
-  border: 2px solid transparent;
-  border-top-color: var(--portfolio-spinner-leading);
-  opacity: 0.85;
-  animation: spin 1.15s linear infinite;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
-:global(:root) {
-  --portfolio-spinner-track: rgba(37, 99, 235, 0.28);
-  --portfolio-spinner-leading: #2563eb;
-  --portfolio-spinner-bg: radial-gradient(
-    circle at center,
-    rgba(37, 99, 235, 0.18) 0%,
-    rgba(37, 99, 235, 0) 68%
-  );
-  --portfolio-spinner-shadow:
-    0 0 0 3px rgba(37, 99, 235, 0.18), 0 8px 18px -8px rgba(37, 99, 235, 0.6);
+.lightbox-control-progress {
+  position: absolute;
+  inset: -0.35rem;
+  border-radius: 9999px;
+  pointer-events: none;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 0;
 }
-:global(html.dark),
-:global(body.dark) {
-  --portfolio-spinner-track: rgba(250, 204, 21, 0.5);
-  --portfolio-spinner-leading: #facc15;
-  --portfolio-spinner-bg: radial-gradient(
-    circle at center,
-    rgba(250, 204, 21, 0.32) 0%,
-    rgba(250, 204, 21, 0) 72%
-  );
-  --portfolio-spinner-shadow:
-    0 0 0 3px rgba(250, 204, 21, 0.32), 0 0 22px rgba(250, 204, 21, 0.45);
+.lightbox-control-btn[aria-pressed="true"] .lightbox-control-progress {
+  opacity: 1;
 }
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.lightbox-control-progress__svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.lightbox-control-progress__track,
+.lightbox-control-progress__indicator {
+  fill: none;
+  stroke-width: 2.4;
+}
+.lightbox-control-progress__track {
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-dashoffset: 0;
+}
+.lightbox-control-progress__indicator {
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
 }
 
 /* Section separators: elegant centered thin line between sections */
@@ -665,5 +898,26 @@ html:not(.dark) .lifestyle-section + .lifestyle-section::before {
   ) !important; /* clearly visible on white */
   height: 2px !important; /* retina-friendly thickness */
   width: 140px; /* slightly wider for visibility */
+}
+</style>
+
+<style scoped>
+:global(.vel-img) {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  min-width: 100vw !important;
+  height: auto !important;
+  max-height: 100vh !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  filter: none !important;
+  object-fit: contain;
+}
+:global(.vel-img-wrapper) {
+  box-shadow: none !important;
+  background-color: transparent !important;
+  width: auto !important;
+  max-width: 100vw !important;
 }
 </style>
