@@ -38,8 +38,7 @@ const slides = computed<Slide[]>(() => {
     return {
       src: `/gallery/${f.filename}`,
       width: f.width,
-      height: f.height,
-      alt: meta?.alt || "Home slide",
+      height: f.height
     };
   });
 });
