@@ -46,16 +46,51 @@ const finalLine = computed(() => (tm("about.finalLine") as string) || "");
         </div>
       </div>
 
-      <div class="self-center w-full h-full flex">
-        <NuxtImg
-          src="/about-me.jpg"
-          class="w-full h-auto object-contain rounded-lg shadow-md"
-          sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
-          placeholder
-          loading="lazy"
-          decoding="async"
-        />
+      <div class="self-center w-full h-full flex items-center justify-center">
+        <div class="portrait-frame">
+          <NuxtImg
+            src="/about-me.jpg"
+            class="w-full h-auto object-contain"
+            sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
+            placeholder
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.portrait-frame {
+  --portrait-shadow-light: rgba(15, 23, 42, 0.25);
+  --portrait-shadow-dark: rgba(15, 23, 42, 0.6);
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px var(--portrait-shadow-light);
+  overflow: hidden;
+  width: min(100%, 32rem);
+  background: transparent;
+}
+
+:global(.dark) .portrait-frame {
+  box-shadow: 0 10px 25px var(--portrait-shadow-dark);
+}
+
+.portrait-frame :deep(picture),
+.portrait-frame :deep(img) {
+  display: block;
+  width: 100%;
+}
+
+.portrait-frame :deep(img) {
+  height: auto;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+.portrait-frame :deep(.nuxt-img-placeholder) {
+  display: none;
+}
+</style>

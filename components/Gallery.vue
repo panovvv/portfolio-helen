@@ -2,10 +2,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, watch } from "vue";
 import "glightbox/dist/css/glightbox.min.css";
 import { useImage } from "#imports";
-import type {
-  LightboxOptions,
-  GalleryImage,
-} from "~/types/Gallery";
+import type { LightboxOptions, GalleryImage } from "~/types/Gallery";
 
 type GLightboxInitOptions = LightboxOptions & { elements?: GalleryImage[] };
 
@@ -52,7 +49,6 @@ let glightboxFactory:
   | null = null;
 let restoreUrl: string | null = null;
 
-// Build preview and lightbox sources internally
 const nuxtImg = useImage();
 
 const derivedItems = computed<DerivedItem[]>(() => {
@@ -139,7 +135,7 @@ function syncHashWithActive() {
   }
   const activeIdx =
     typeof glightboxInstance.getActiveSlideIndex === "function"
-      ? glightboxInstance.getActiveSlideIndex() ?? 0
+      ? (glightboxInstance.getActiveSlideIndex() ?? 0)
       : 0;
   const index = clampIndex(activeIdx, props.items.length);
   updateLocationHash(index);
@@ -186,9 +182,10 @@ async function initLightbox() {
     glightboxInstance.on("open", () => {
       const base = window.location.pathname + window.location.search;
       const parsed = parseHash(window.location.hash);
-      restoreUrl = parsed && parsed.galleryId === props.galleryId
-        ? base
-        : base + window.location.hash;
+      restoreUrl =
+        parsed && parsed.galleryId === props.galleryId
+          ? base
+          : base + window.location.hash;
       syncHashWithActive();
     });
 
@@ -276,7 +273,7 @@ function openSlide(index: number) {
       class="gallery-tile"
       type="button"
       :aria-label="img.alt ?? ''"
-    @click="openSlide(index)"
+      @click="openSlide(index)"
     >
       <NuxtImg
         :src="img.previewSrc"
@@ -334,5 +331,16 @@ function openSlide(index: number) {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+:global(.glightbox-container .gslide-description) {
+  padding: 1.25rem !important;
+}
+
+:global(.dark .glightbox-container .gslide-description),
+:global(.dark .glightbox-container .gslide-description *) {
+  background-color: rgba(15, 23, 42, 0.92) !important;
+  color: #f8fafc !important;
+  border-top: 1px solid rgba(248, 250, 252, 0.12);
 }
 </style>

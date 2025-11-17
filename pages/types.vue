@@ -66,21 +66,49 @@ const items = computed(() => (tm("types.items") as any[]) || []);
           </div>
 
           <!-- Image block -->
-          <div
-            class="order-2 md:order-2 mt-2 md:mt-0 md:pl-4 overflow-hidden self-center w-full rounded-lg shadow-md"
-          >
-            <NuxtImg
-              :src="images[idx] || '/portrait.jpg'"
-              class="w-full h-auto object-cover rounded-lg"
-              sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
-              placeholder
-              loading="lazy"
-              :width="getDims(images[idx]).width"
-              :height="getDims(images[idx]).height"
-            />
+          <div class="order-2 md:order-2 mt-2 md:mt-0 md:pl-4">
+            <div class="type-image-frame">
+              <NuxtImg
+                :src="images[idx] || '/portrait.jpg'"
+                class="type-image"
+                sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
+                placeholder
+                loading="lazy"
+                :width="getDims(images[idx]).width"
+                :height="getDims(images[idx]).height"
+              />
+            </div>
           </div>
         </div>
       </section>
     </div>
   </div>
 </template>
+
+<style scoped>
+.type-image-frame {
+  --type-shadow-light: rgba(15, 23, 42, 0.15);
+  --type-shadow-dark: rgba(15, 23, 42, 0.5);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 12px 28px var(--type-shadow-light);
+  background: transparent;
+}
+
+:global(.dark) .type-image-frame {
+  box-shadow: 0 12px 28px var(--type-shadow-dark);
+}
+
+.type-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+.type-image :deep(.nuxt-img-placeholder) {
+  display: none;
+}
+</style>

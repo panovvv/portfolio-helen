@@ -38,7 +38,7 @@ const slides = computed<Slide[]>(() => {
     return {
       src: `/gallery/${f.filename}`,
       width: f.width,
-      height: f.height
+      height: f.height,
     };
   });
 });
@@ -481,20 +481,48 @@ onBeforeUnmount(() => {
         </div>
 
         <div
-          class="order-2 md:order-2 mt-4 md:mt-0 md:pl-4 overflow-hidden self-center w-full md:col-span-1 rounded-lg shadow-md"
+          class="order-2 md:order-2 mt-4 md:mt-0 md:pl-4 self-center w-full md:col-span-1"
         >
-          <NuxtImg
-            src="/portrait.jpg"
-            class="w-full h-auto object-cover aspect-[3/4] rounded-lg"
-            sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
-            placeholder
-            loading="lazy"
-            decoding="async"
-          />
+          <div class="home-portrait-frame">
+            <NuxtImg
+              src="/portrait.jpg"
+              class="home-portrait w-full h-auto object-cover aspect-[3/4]"
+              sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
+              placeholder
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
         </div>
       </div>
     </div>
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.home-portrait-frame {
+  --home-portrait-shadow-light: rgba(15, 23, 42, 0.18);
+  --home-portrait-shadow-dark: rgba(15, 23, 42, 0.55);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 12px 30px var(--home-portrait-shadow-light);
+  background: transparent;
+}
+
+:global(.dark) .home-portrait-frame {
+  box-shadow: 0 12px 30px var(--home-portrait-shadow-dark);
+}
+
+.home-portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+.home-portrait :deep(.nuxt-img-placeholder) {
+  display: none;
+}
+</style>
