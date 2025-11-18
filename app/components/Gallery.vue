@@ -333,14 +333,60 @@ function openSlide(index: number) {
   display: block;
 }
 
+/* Compact the GLightbox caption wrapper */
 :global(.glightbox-container .gslide-description) {
-  padding: 1.25rem !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-height: 32vh; /* limit vertical footprint */
+  overflow: auto; /* scroll when content overflows */
 }
 
-:global(.dark .glightbox-container .gslide-description),
-:global(.dark .glightbox-container .gslide-description *) {
+/* Tight padding + remove default borders/background bleed */
+:global(.glightbox-container .gdesc-inner) {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 0.5rem 0.75rem !important;
+}
+
+/* Tighter typography for title and description inside caption */
+:global(.glightbox-container .gslide-title) {
+  font-size: 1rem !important; /* ~16px */
+  line-height: 1.25 !important; /* ~20px */
+  margin: 0 !important; /* remove default spacing */
+  font-weight: 600 !important;
+}
+
+:global(.glightbox-container .gslide-title + .gslide-desc) {
+  margin-top: 0.15rem !important; /* explicit narrow gap between title + desc */
+}
+
+:global(.glightbox-container .gslide-desc) {
+  font-size: 0.9rem !important; /* ~14.4px */
+  line-height: 1.35 !important;
+  margin: 0 !important;
+}
+
+:global(.glightbox-container .gslide-desc > p:first-child) {
+  margin-top: 0 !important;
+}
+
+@media (min-width: 1024px) {
+  ::global(.glightbox-container .gslide-description) {
+    max-height: 24vh; /* even more compact on large screens */
+  }
+}
+
+:global(.dark .glightbox-container .gslide-description) {
   background-color: rgba(15, 23, 42, 0.92) !important;
   color: #f8fafc !important;
-  border-top: 1px solid rgba(248, 250, 252, 0.12);
+  border: none !important;
+}
+
+:global(.dark .glightbox-container .gslide-description *) {
+  background-color: transparent !important;
+  color: inherit !important;
+  border: none !important;
 }
 </style>

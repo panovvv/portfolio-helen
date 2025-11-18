@@ -60,12 +60,15 @@ const galleryItems = computed<TaggedGalleryImage[]>(() => {
   const _ = locale.value;
   return galleryEntries.map((meta) => {
     const filename = meta.filename;
-    const caption = meta?.alt ? t(meta.alt) : undefined;
+    // Map structured i18n alt fields to title/description
+    const title = meta?.alt ? t(`${meta.alt}.title`) : undefined;
+    const description = meta?.alt ? t(`${meta.alt}.description`) : undefined;
     return {
       href: `/gallery/${filename}`,
-      alt: caption,
-      // title: caption,
-      description: caption,
+      // Prefer a descriptive alt; fallback to title if no description is provided
+      alt: description ?? title,
+      title,
+      description,
       descPosition: "bottom",
       tags: meta?.tags ?? [],
     };

@@ -112,15 +112,30 @@ export default {
         },
         alt: {
           brand: {
-            tenorio: "Tenorio — a brand of Portuguese canned tuna",
-            fumadinho:
-              "Fumadinho — Lidl Portugal's private label for charcuterie products, made in Portugal with traditional methods.",
-            fourmove:
-              "4MOVE — a Polish brand of isotonic and vitamin-enhanced drinks",
-            vitanella:
-              "Vitanella — a Polish brand of healthy and fitness-oriented food",
-            stdalfour:
-              "St. Dalfour — a French brand known for fruit preserves, jams, and gourmet food products",
+            tenorio: {
+              title: "Tenorio",
+              description: "A brand of Portuguese canned tuna.",
+            },
+            fumadinho: {
+              title: "Fumadinho",
+              description:
+                "Lidl Portugal's private label for charcuterie products, made in Portugal with traditional methods.",
+            },
+            fourmove: {
+              title: "4MOVE",
+              description:
+                "A Polish brand of isotonic and vitamin-enhanced drinks.",
+            },
+            vitanella: {
+              title: "Vitanella",
+              description:
+                "A Polish brand of healthy and fitness-oriented food.",
+            },
+            stdalfour: {
+              title: "St. Dalfour",
+              description:
+                "A French brand known for fruit preserves, jams, and gourmet food products.",
+            },
           },
         },
       },
@@ -282,15 +297,30 @@ export default {
         },
         alt: {
           brand: {
-            tenorio: "Tenorio — португальский бренд консервированного тунца",
-            fumadinho:
-              "Fumadinho — собственная марка Lidl Portugal для мясных изделий, производимых в Португалии по традиционным методам",
-            fourmove:
-              "4MOVE — польский бренд изотонических и витаминных напитков",
-            vitanella:
-              "Vitanella — польский бренд продуктов для здорового и фитнес-питания",
-            stdalfour:
-              "St. Dalfour — французский бренд, известный своими фруктовыми джемами, вареньем и гастрономическими продуктами",
+            tenorio: {
+              title: "Tenorio",
+              description: "Португальский бренд консервированного тунца.",
+            },
+            fumadinho: {
+              title: "Fumadinho",
+              description:
+                "Собственная марка Lidl Portugal для мясных изделий, производимых в Португалии по традиционным методам.",
+            },
+            fourmove: {
+              title: "4MOVE",
+              description:
+                "Польский бренд изотонических и витаминных напитков.",
+            },
+            vitanella: {
+              title: "Vitanella",
+              description:
+                "Польский бренд продуктов для здорового и фитнес-питания.",
+            },
+            stdalfour: {
+              title: "St. Dalfour",
+              description:
+                "Французский бренд, известный своими фруктовыми джемами, вареньем и гастрономическими продуктами.",
+            },
           },
         },
       },
