@@ -63,8 +63,7 @@ async function waitForImgLoad(buffer: 0 | 1): Promise<void> {
     return waitForImgLoad(buffer);
   }
   if (el.complete && (el as any).naturalWidth > 0) {
-    if (buffer === 0) buf0Loaded.value = true;
-    else buf1Loaded.value = true;
+    markBufferLoaded(buffer);
     dlog("img present+complete", {
       buffer,
       src: el.currentSrc || el.src,
@@ -82,8 +81,7 @@ async function waitForImgLoad(buffer: 0 | 1): Promise<void> {
       if (finished) return;
       finished = true;
       cleanup();
-      if (buffer === 0) buf0Loaded.value = true;
-      else buf1Loaded.value = true;
+      markBufferLoaded(buffer);
       dlog("img load", {
         buffer,
         src: el.currentSrc || el.src,
@@ -95,8 +93,7 @@ async function waitForImgLoad(buffer: 0 | 1): Promise<void> {
       finished = true;
       cleanup();
       // Mark as loaded to avoid deadlock; log error
-      if (buffer === 0) buf0Loaded.value = true;
-      else buf1Loaded.value = true;
+      markBufferLoaded(buffer);
       dlog("img error", {
         buffer,
         error: evt,
@@ -112,8 +109,7 @@ async function waitForImgLoad(buffer: 0 | 1): Promise<void> {
       if (finished) return;
       finished = true;
       cleanup();
-      if (buffer === 0) buf0Loaded.value = true;
-      else buf1Loaded.value = true;
+      markBufferLoaded(buffer);
       dlog("img timeout", {
         buffer,
         timeoutMs,
@@ -133,15 +129,39 @@ const isTransitioning = ref(false);
 // Maintain an aspect-ratio box for layout without downloading a sizer image
 const frontWidth = ref<number | undefined>(props.width);
 const frontHeight = ref<number | undefined>(props.height);
-let pendingBackWidth: number | undefined = undefined;
-let pendingBackHeight: number | undefined = undefined;
+let pendingBackWidth: number | undefined = props.width;
+let pendingBackHeight: number | undefined = props.height;
 
 const aspectPadding = computed(() => {
-  const w = frontWidth.value || 3;
-  const h = frontHeight.value || 2;
+  const w = frontWidth.value;
+  const h = frontHeight.value;
+  if (!w || !h) {
+    return "100%";
+  }
   const pct = (h / w) * 100;
   return pct + "%";
 });
+
+function syncDimensionsFromBuffer(buffer: 0 | 1) {
+  const el = getImgEl(buffer);
+  if (!el) return;
+  const width = el.naturalWidth;
+  const height = el.naturalHeight;
+  if (!(width > 0 && height > 0)) return;
+  if (buffer === front.value) {
+    frontWidth.value = width;
+    frontHeight.value = height;
+  } else {
+    pendingBackWidth = width;
+    pendingBackHeight = height;
+  }
+}
+
+function markBufferLoaded(buffer: 0 | 1) {
+  if (buffer === 0) buf0Loaded.value = true;
+  else buf1Loaded.value = true;
+  syncDimensionsFromBuffer(buffer);
+}
 
 const duration = () =>
   props.durationMs && props.durationMs > 0 ? props.durationMs : 1000;
@@ -205,8 +225,8 @@ async function startTransition() {
     isTransitioning.value = false;
     front.value = back.value;
     // Apply pending dimensions captured when src was set
-    frontWidth.value = pendingBackWidth;
-    frontHeight.value = pendingBackHeight;
+    frontWidth.value = pendingBackWidth ?? frontWidth.value;
+    frontHeight.value = pendingBackHeight ?? frontHeight.value;
 
     // Ensure we have emitted ready for the new visible image if not already
     ensureInitialReady();

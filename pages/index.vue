@@ -3,48 +3,37 @@ import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { onBeforeRouteLeave } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useState } from "#imports";
-import galleryFiles from "~/assets/gallery_files.json";
 import galleryMetadata from "~/assets/gallery_metadata.json";
 import FadePreloadImg from "~/components/FadePreloadImg.vue";
 
-interface GalleryFile {
-  filename: string;
-  width: number;
-  height: number;
-}
 interface GalleryMeta {
   filename: string;
   alt?: string;
 }
 interface Slide {
   src: string;
-  width: number;
-  height: number;
   alt: string;
+  width?: number;
+  height?: number;
 }
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
+const galleryItems = galleryMetadata as GalleryMeta[];
 
 function dlog(...args: any[]) {
   // console.log("[HomeSlides]", ...args);
 }
 
 const slides = computed<Slide[]>(() => {
-  const selected = galleryFiles as GalleryFile[];
-  return selected.map((f) => {
-    const meta = (galleryMetadata as GalleryMeta[]).find(
-      (m) => m.filename === f.filename,
-    );
-    return {
-      src: `/gallery/${f.filename}`,
-      width: f.width,
-      height: f.height,
-    };
-  });
+  const _ = locale.value;
+  return galleryItems.map((meta) => ({
+    src: `/gallery/${meta.filename}`,
+    alt: meta?.alt ? t(meta.alt) : "",
+  }));
 });
 
 const displayed = useState<number[]>("homeDisplayed", () => {
-  const count = (galleryFiles as GalleryFile[]).length;
+  const count = galleryItems.length;
   const used = new Set<number>();
   const arr: number[] = [];
   for (let i = 0; i < 3; i++) {

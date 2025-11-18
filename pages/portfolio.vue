@@ -3,18 +3,11 @@ import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "#imports";
 import type { GalleryImage, LightboxOptions } from "~/types/Gallery";
-import galleryFiles from "~/assets/gallery_files.json";
 import galleryMetadata from "~/assets/gallery_metadata.json";
 
 const { t, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
-
-interface GalleryFile {
-  filename: string;
-  width: number;
-  height: number;
-}
 
 interface GalleryMeta {
   filename: string;
@@ -40,6 +33,7 @@ type FilterValue = "All" | Tag;
 const TAG_ORDER_MAP = new Map<string, number>(
   TAG_ORDER.map((tag, index) => [tag as string, index]),
 );
+const galleryEntries = galleryMetadata as GalleryMeta[];
 
 const filter = ref<FilterValue>("All");
 const routeFilter = computed<FilterValue | undefined>(() => {
@@ -64,11 +58,8 @@ const getTagRank = (tags: string[]): number => {
 
 const galleryItems = computed<TaggedGalleryImage[]>(() => {
   const _ = locale.value;
-  return (galleryFiles as GalleryFile[]).map((fileObj) => {
-    const filename = fileObj.filename;
-    const meta = (galleryMetadata as GalleryMeta[]).find(
-      (item) => item.filename === filename,
-    );
+  return galleryEntries.map((meta) => {
+    const filename = meta.filename;
     const caption = meta?.alt ? t(meta.alt) : undefined;
     return {
       href: `/gallery/${filename}`,

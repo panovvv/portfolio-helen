@@ -1,15 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import galleryImages from "~/assets/gallery_files.json";
 
 const { t, tm } = useI18n();
-
-type FileDim = { filename: string; width: number; height: number };
-const dimsMap = new Map<string, { width: number; height: number }>();
-for (const f of galleryImages as FileDim[]) {
-  dimsMap.set(f.filename, { width: f.width, height: f.height });
-}
 
 const images: string[] = [
   "/gallery/collagen/collagen_006.jpg", // Catalog
@@ -23,19 +16,6 @@ const images: string[] = [
   "/gallery/food/food_002.jpg", // Recipes
   "/gallery/food/food_027.jpg", // Outdoor
 ];
-
-function getDims(path: string): { width?: number; height?: number } {
-  if (!path) return {};
-  // Convert src to manifest key
-  if (path.startsWith("/gallery/")) {
-    const key = path.slice("/gallery/".length);
-    const d = dimsMap.get(key);
-    return d || {};
-  }
-  const key = path.startsWith("/") ? path.slice(1) : path;
-  const d = dimsMap.get(key);
-  return d || {};
-}
 
 const items = computed(() => (tm("types.items") as any[]) || []);
 </script>
@@ -74,8 +54,6 @@ const items = computed(() => (tm("types.items") as any[]) || []);
                 sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
                 placeholder
                 loading="lazy"
-                :width="getDims(images[idx]).width"
-                :height="getDims(images[idx]).height"
               />
             </div>
           </div>

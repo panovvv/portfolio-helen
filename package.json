@@ -8,8 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "prettier": "prettier --write .",
-    "gallery-manifest": "node generate-gallery-manifest.js"
+    "prettier": "prettier --write ."
   },
   "devDependencies": {
     "@nuxt/image": "^1.10.0",
