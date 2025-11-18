@@ -72,7 +72,7 @@ const getSectionClasses = (path: string) => {
             <!-- Hamburger button visible on small screens -->
             <button
               type="button"
-              class="md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              class="lg:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               :aria-expanded="isMenuOpen ? 'true' : 'false'"
               aria-controls="primary-menu"
               aria-label="Toggle navigation menu"
@@ -87,7 +87,7 @@ const getSectionClasses = (path: string) => {
             </button>
 
             <!-- Desktop navigation links -->
-            <div class="hidden md:flex md:ml-2 space-x-2">
+            <div class="hidden lg:flex lg:ml-2 space-x-2">
               <NuxtLink to="/" class="h-16 flex">
                 <div
                   class="flex-1 flex items-center justify-center"
@@ -158,6 +158,7 @@ const getSectionClasses = (path: string) => {
               :items="languageOptions"
               item-label="label"
               item-value="value"
+              :content="{ align: 'end', collisionPadding: 12, side: 'bottom' }"
               class="min-w-[120px] sm:min-w-[150px] text-sm"
             />
           </div>
@@ -165,7 +166,7 @@ const getSectionClasses = (path: string) => {
           <!-- Mobile dropdown menu -->
           <div
             id="primary-menu"
-            class="md:hidden absolute top-16 left-0 right-0 shadow-lg border-t border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95"
+            class="lg:hidden absolute top-16 left-0 right-0 shadow-lg border-t border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95"
             v-show="isMenuOpen"
           >
             <nav class="flex flex-col py-2">
