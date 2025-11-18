@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import type { LightboxOptions, GalleryImage } from "~/types/Gallery";
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faInstagram } from "@fortawesome/free-brands-svg-icons";
+import type { GalleryImage, LightboxOptions } from "~~/types/Gallery";
 
 const { t, locale } = useI18n();
 

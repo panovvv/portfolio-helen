@@ -2,7 +2,7 @@
 import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "#imports";
-import type { GalleryImage, LightboxOptions } from "~/types/Gallery";
+import type { GalleryImage, LightboxOptions } from "~~/types/Gallery";
 import galleryMetadata from "~/assets/gallery_metadata.json";
 
 const { t, locale } = useI18n();

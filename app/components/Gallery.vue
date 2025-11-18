@@ -2,7 +2,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, watch } from "vue";
 import "glightbox/dist/css/glightbox.min.css";
 import { useImage } from "#imports";
-import type { LightboxOptions, GalleryImage } from "~/types/Gallery";
+import type { LightboxOptions, GalleryImage } from "~~/types/Gallery";
 
 type GLightboxInitOptions = LightboxOptions & { elements?: GalleryImage[] };
 
