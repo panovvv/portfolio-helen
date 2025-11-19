@@ -8,6 +8,8 @@ export type LightboxOptions = {
   closeOnOutsideClick?: boolean;
   zoomable?: boolean;
   preload?: boolean;
+  preloadForward?: number;
+  preloadBackward?: number;
 };
 
 export type GalleryDescriptionPosition = "bottom" | "top" | "left" | "right";

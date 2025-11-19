@@ -11,6 +11,7 @@ type GLightboxInstance = {
   reload?: () => void;
   openAt: (index: number) => void;
   getActiveSlideIndex?: () => number;
+  preloadSlide?: (index: number) => void;
   on: (event: string, callback: (data?: any) => void, once?: boolean) => void;
 };
 
@@ -40,6 +41,8 @@ const props = withDefaults(
     closeOnOutsideClick: true,
     zoomable: true,
     preload: true,
+    preloadForward: 2,
+    preloadBackward: 2,
   },
 );
 
@@ -48,6 +51,134 @@ let glightboxFactory:
   | ((options?: GLightboxInitOptions) => GLightboxInstance)
   | null = null;
 let restoreUrl: string | null = null;
+
+const manualPreloadedIndices = new Set<number>();
+const manualPreloadedImages = new Map<number, HTMLImageElement>();
+let canPreloadWindow = false;
+
+function resetPreloadState() {
+  manualPreloadedIndices.clear();
+  manualPreloadedImages.clear();
+  canPreloadWindow = false;
+}
+
+function markSlideAsLoaded(index: number | null | undefined) {
+  if (typeof index !== "number" || Number.isNaN(index)) {
+    return;
+  }
+  manualPreloadedIndices.add(index);
+}
+
+function normalizePreloadCount(value: number | undefined) {
+  if (typeof value !== "number" || Number.isNaN(value) || value <= 0) {
+    return 0;
+  }
+  return Math.floor(value);
+}
+
+const DEFAULT_PRELOAD_FORWARD = 2;
+const DEFAULT_PRELOAD_BACKWARD = 2;
+
+const resolvedPreloadForward = computed(() => {
+  const raw =
+    typeof props.preloadForward === "number"
+      ? props.preloadForward
+      : Number(props.preloadForward);
+  if (Number.isFinite(raw) && raw !== undefined) {
+    return normalizePreloadCount(raw);
+  }
+  return DEFAULT_PRELOAD_FORWARD;
+});
+
+const resolvedPreloadBackward = computed(() => {
+  const raw =
+    typeof props.preloadBackward === "number"
+      ? props.preloadBackward
+      : Number(props.preloadBackward);
+  if (Number.isFinite(raw) && raw !== undefined) {
+    return normalizePreloadCount(raw);
+  }
+  return DEFAULT_PRELOAD_BACKWARD;
+});
+
+function resolveLoopedIndex(index: number, total: number): number | null {
+  if (total <= 0) {
+    return null;
+  }
+  if (props.loop) {
+    const normalized = index % total;
+    return normalized >= 0 ? normalized : normalized + total;
+  }
+  if (index < 0 || index >= total) {
+    return null;
+  }
+  return index;
+}
+
+function requestPreload(index: number) {
+  if (!props.preload || !canPreloadWindow) {
+    return;
+  }
+  if (manualPreloadedIndices.has(index)) {
+    return;
+  }
+  const target = derivedItems.value[index];
+  if (!target) {
+    return;
+  }
+  manualPreloadedIndices.add(index);
+  if (
+    glightboxInstance &&
+    typeof glightboxInstance.preloadSlide === "function"
+  ) {
+    try {
+      glightboxInstance.preloadSlide(index);
+    } catch {
+      // ignore GLightbox preload failures; fallback below still runs
+    }
+  }
+  // Fallback: issue a manual request to guarantee the asset is cached
+  if (typeof window !== "undefined") {
+    const img = new Image();
+    img.decoding = "async";
+    img.src = target.lightboxSrc;
+    manualPreloadedImages.set(index, img);
+  }
+}
+
+// Preload the active slide plus a configurable window in front/back directions.
+function schedulePreloadAround(index: number) {
+  if (!props.preload || !canPreloadWindow) {
+    return;
+  }
+  const total = derivedItems.value.length;
+  if (total === 0) {
+    return;
+  }
+  const resolved = resolveLoopedIndex(index, total);
+  if (resolved === null) {
+    return;
+  }
+
+  const forward = resolvedPreloadForward.value;
+  const backward = resolvedPreloadBackward.value;
+
+  for (let step = 1; step <= forward; step++) {
+    const next = resolveLoopedIndex(resolved + step, total);
+    if (next === null) {
+      break;
+    }
+    requestPreload(next);
+  }
+
+  for (let step = 1; step <= backward; step++) {
+    const prev = resolveLoopedIndex(resolved - step, total);
+    if (prev === null) {
+      break;
+    }
+    requestPreload(prev);
+  }
+}
 
 const nuxtImg = useImage();
 
@@ -79,7 +210,8 @@ const gatherOptions = () => ({
   closeButton: props.closeButton,
   closeOnOutsideClick: props.closeOnOutsideClick,
   zoomable: props.zoomable,
-  preload: props.preload,
+  // Disable GLightbox's built-in neighbor preload so we can control counts ourselves
+  preload: false,
 });
 
 const HASH_PREFIX = "glb";
@@ -129,9 +261,9 @@ function updateLocationHash(index: number) {
   window.history.replaceState(null, "", `${base}${hash}`);
 }
 
-function syncHashWithActive() {
+function syncHashWithActive(): number | null {
   if (!glightboxInstance) {
-    return;
+    return null;
   }
   const activeIdx =
     typeof glightboxInstance.getActiveSlideIndex === "function"
@@ -139,6 +271,7 @@ function syncHashWithActive() {
       : 0;
   const index = clampIndex(activeIdx, props.items.length);
   updateLocationHash(index);
+  return index;
 }
 
 async function loadGlightbox(): Promise<
@@ -163,6 +296,8 @@ async function initLightbox() {
   const GLightbox = await loadGlightbox();
   await nextTick();
   glightboxInstance?.destroy();
+  glightboxInstance = null;
+  resetPreloadState();
   glightboxInstance = GLightbox({
     ...gatherOptions(),
     elements: derivedItems.value.map((item) => {
@@ -186,7 +321,10 @@ async function initLightbox() {
         parsed && parsed.galleryId === props.galleryId
           ? base
           : base + window.location.hash;
-      syncHashWithActive();
+      const index = syncHashWithActive();
+      if (typeof index === "number") {
+        schedulePreloadAround(index);
+      }
     });
 
     glightboxInstance.on("slide_changed", ({ current }: any = {}) => {
@@ -198,6 +336,7 @@ async function initLightbox() {
         props.items.length,
       );
       updateLocationHash(index);
+      schedulePreloadAround(index);
     });
 
     glightboxInstance.on("close", () => {
@@ -205,7 +344,39 @@ async function initLightbox() {
       const target = restoreUrl ?? base;
       window.history.replaceState(null, "", target);
       restoreUrl = null;
+      resetPreloadState();
     });
+    glightboxInstance.on(
+      "slide_after_load",
+      ({ index, slideIndex }: any = {}) => {
+        if (!props.preload) {
+          return;
+        }
+        const total = props.items.length;
+        const resolvedIndex = clampIndex(
+          typeof slideIndex === "number"
+            ? slideIndex
+            : typeof index === "number"
+              ? index
+              : 0,
+          total,
+        );
+        markSlideAsLoaded(resolvedIndex);
+        const activeIndex = clampIndex(
+          typeof glightboxInstance?.getActiveSlideIndex === "function"
+            ? (glightboxInstance.getActiveSlideIndex() ?? 0)
+            : 0,
+          total,
+        );
+        const isActiveSlide = resolvedIndex === activeIndex;
+        if (isActiveSlide && !canPreloadWindow) {
+          canPreloadWindow = true;
+        }
+        if (isActiveSlide) {
+          schedulePreloadAround(resolvedIndex);
+        }
+      },
+    );
   }
 
   const parsed = parseHash(window.location.hash);
@@ -242,6 +413,8 @@ watch(
     props.closeOnOutsideClick,
     props.zoomable,
     props.preload,
+    props.preloadForward,
+    props.preloadBackward,
   ],
   () => {
     initLightbox();
@@ -251,6 +424,7 @@ watch(
 onBeforeUnmount(() => {
   glightboxInstance?.destroy();
   glightboxInstance = null;
+  resetPreloadState();
   if (typeof window !== "undefined" && restoreUrl) {
     const target = restoreUrl;
     restoreUrl = null;
