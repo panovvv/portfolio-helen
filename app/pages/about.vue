@@ -26,7 +26,7 @@ const finalLine = computed(() => (tm("about.finalLine") as string) || "");
 
         <template v-for="(line, idx) in description" :key="idx">
           <p
-            class="mt-0 text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
+            class="mt-4 sm:mt-5 text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
             v-html="line"
           ></p>
         </template>

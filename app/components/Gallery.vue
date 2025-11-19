@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, watch } from "vue";
 import "glightbox/dist/css/glightbox.min.css";
+import { useI18n } from "vue-i18n";
 import { useImage } from "#imports";
 import type { LightboxOptions, GalleryImage } from "~~/types/Gallery";
 
@@ -13,6 +14,10 @@ type GLightboxInstance = {
   getActiveSlideIndex?: () => number;
   preloadSlide?: (index: number) => void;
   on: (event: string, callback: (data?: any) => void, once?: boolean) => void;
+  elements?: any[];
+  activeSlide?: HTMLElement | null;
+  index?: number;
+  slidesContainer?: HTMLElement | null;
 };
 
 type DerivedItem = {
@@ -23,6 +28,8 @@ type DerivedItem = {
   description?: string;
   descPosition?: "bottom" | "top" | "left" | "right";
 };
+
+const { t } = useI18n();
 
 const props = withDefaults(
   defineProps<
@@ -55,6 +62,8 @@ let restoreUrl: string | null = null;
 const manualPreloadedIndices = new Set<number>();
 const manualPreloadedImages = new Map<number, HTMLImageElement>();
 let canPreloadWindow = false;
+const collapseEventHandlers: Array<{ type: string; handler: EventListener }> =
+  [];
 
 function resetPreloadState() {
   manualPreloadedIndices.clear();
@@ -115,6 +124,79 @@ function resolveLoopedIndex(index: number, total: number): number | null {
   return index;
 }
 
+function resetExpandedDescriptionState() {
+  if (typeof document === "undefined") {
+    return;
+  }
+  const body = document.body;
+  body.classList.remove("gdesc-open");
+  body.classList.remove("gdesc-closed");
+}
+
+function restoreSlideDescriptionFromEvent(slideData: any) {
+  if (
+    !glightboxInstance ||
+    !slideData ||
+    !slideData.slideNode ||
+    !slideData.slideConfig?.smallDescription
+  ) {
+    return;
+  }
+  if (props.items.length === 0) {
+    return;
+  }
+  const descEl = slideData.slideNode.querySelector(
+    ".gslide-desc",
+  ) as HTMLElement | null;
+  if (!descEl) {
+    return;
+  }
+  descEl.innerHTML = slideData.slideConfig.smallDescription;
+  const elements = (glightboxInstance as any)?.elements;
+  const index =
+    typeof slideData.index === "number"
+      ? clampIndex(slideData.index, props.items.length)
+      : null;
+  const slideEntry =
+    index !== null && elements && elements[index] ? elements[index] : null;
+  const slideInstance = slideEntry?.instance;
+  if (slideInstance && typeof slideInstance.descriptionEvents === "function") {
+    slideInstance.descriptionEvents(descEl, slideData.slideConfig);
+  }
+}
+
+function restoreActiveSlideDescription() {
+  if (!glightboxInstance || props.items.length === 0) {
+    return;
+  }
+  const instanceAny = glightboxInstance as any;
+  const elements = instanceAny?.elements;
+  if (!elements || elements.length === 0) {
+    return;
+  }
+  const rawIndex =
+    typeof glightboxInstance.getActiveSlideIndex === "function"
+      ? glightboxInstance.getActiveSlideIndex()
+      : instanceAny?.index;
+  if (typeof rawIndex !== "number") {
+    return;
+  }
+  const index = clampIndex(rawIndex, props.items.length);
+  const slideList = instanceAny?.slidesContainer?.querySelectorAll?.(".gslide");
+  const slideNode =
+    (slideList ? (slideList[index] as HTMLElement | undefined | null) : null) ??
+    instanceAny?.activeSlide ??
+    null;
+  if (!slideNode) {
+    return;
+  }
+  restoreSlideDescriptionFromEvent({
+    slideNode,
+    slideConfig: elements[index]?.slideConfig,
+    index,
+  });
+}
+
 function requestPreload(index: number) {
   if (!props.preload || !canPreloadWindow) {
     return;
@@ -144,6 +226,69 @@ function requestPreload(index: number) {
     img.src = target.lightboxSrc;
     manualPreloadedImages.set(index, img);
   }
+}
+
+function collapseExpandedDescription() {
+  if (typeof document === "undefined") {
+    return;
+  }
+  const body = document.body;
+  if (!body.classList.contains("gdesc-open")) {
+    return;
+  }
+  restoreActiveSlideDescription();
+  body.classList.remove("gdesc-open");
+  body.classList.add("gdesc-closed");
+  const clearClosed = () => {
+    document.body.classList.remove("gdesc-closed");
+  };
+  if (typeof window !== "undefined") {
+    window.setTimeout(clearClosed, 400);
+  } else {
+    clearClosed();
+  }
+}
+
+function handleGlobalDescriptionPointer(event: Event) {
+  if (typeof document === "undefined") {
+    return;
+  }
+  const body = document.body;
+  if (!body.classList.contains("gdesc-open")) {
+    return;
+  }
+  const container = document.querySelector(".glightbox-container");
+  if (!container || container.classList.contains("inactive")) {
+    return;
+  }
+  const target = event.target as HTMLElement | null;
+  if (target?.nodeName?.toLowerCase() === "a") {
+    return;
+  }
+  collapseExpandedDescription();
+}
+
+function registerDescriptionCollapseListeners() {
+  if (typeof document === "undefined") {
+    return;
+  }
+  const handler = (event: Event) => {
+    handleGlobalDescriptionPointer(event);
+  };
+  const types: Array<keyof DocumentEventMap> = ["pointerup", "click"];
+  types.forEach((type) => {
+    document.addEventListener(type, handler, true);
+    collapseEventHandlers.push({ type, handler });
+  });
+}
+
+function removeDescriptionCollapseListeners() {
+  if (typeof document === "undefined") {
+    return;
+  }
+  collapseEventHandlers.splice(0).forEach(({ type, handler }) => {
+    document.removeEventListener(type, handler, true);
+  });
 }
 
 // Preload the active slide plus a configurable window in front/back directions.
@@ -181,6 +326,7 @@ function schedulePreloadAround(index: number) {
 }
 
 const nuxtImg = useImage();
+const seeMoreLabel = computed(() => t("gallery.lightbox.seeMore"));
 
 const derivedItems = computed<DerivedItem[]>(() => {
   return props.items.map((input) => {
@@ -212,6 +358,7 @@ const gatherOptions = () => ({
   zoomable: props.zoomable,
   // Disable GLightbox's built-in neighbor preload so we can control counts ourselves
   preload: false,
+  moreText: seeMoreLabel.value,
 });
 
 const HASH_PREFIX = "glb";
@@ -295,8 +442,10 @@ async function initLightbox() {
   }
   const GLightbox = await loadGlightbox();
   await nextTick();
+  collapseExpandedDescription();
   glightboxInstance?.destroy();
   glightboxInstance = null;
+  resetExpandedDescriptionState();
   resetPreloadState();
   glightboxInstance = GLightbox({
     ...gatherOptions(),
@@ -327,7 +476,11 @@ async function initLightbox() {
       }
     });
 
-    glightboxInstance.on("slide_changed", ({ current }: any = {}) => {
+    glightboxInstance.on("slide_changed", ({ current, prev }: any = {}) => {
+      if (prev) {
+        restoreSlideDescriptionFromEvent(prev);
+      }
+      resetExpandedDescriptionState();
       if (!current) {
         return;
       }
@@ -340,6 +493,8 @@ async function initLightbox() {
     });
 
     glightboxInstance.on("close", () => {
+      collapseExpandedDescription();
+      resetExpandedDescriptionState();
       const base = window.location.pathname + window.location.search;
       const target = restoreUrl ?? base;
       window.history.replaceState(null, "", target);
@@ -387,6 +542,7 @@ async function initLightbox() {
 }
 
 onMounted(() => {
+  registerDescriptionCollapseListeners();
   initLightbox();
 });
 
@@ -415,6 +571,7 @@ watch(
     props.preload,
     props.preloadForward,
     props.preloadBackward,
+    seeMoreLabel.value,
   ],
   () => {
     initLightbox();
@@ -422,8 +579,11 @@ watch(
 );
 
 onBeforeUnmount(() => {
+  collapseExpandedDescription();
+  removeDescriptionCollapseListeners();
   glightboxInstance?.destroy();
   glightboxInstance = null;
+  resetExpandedDescriptionState();
   resetPreloadState();
   if (typeof window !== "undefined" && restoreUrl) {
     const target = restoreUrl;
@@ -508,12 +668,41 @@ function openSlide(index: number) {
 }
 
 /* Compact the GLightbox caption wrapper */
+:global(.glightbox-container .gslide) {
+  width: 100% !important;
+}
+
+:global(.glightbox-container .gslide-inner-content) {
+  width: 100% !important;
+  flex: 1 1 auto !important;
+}
+
+:global(.glightbox-container .ginner-container) {
+  width: 100% !important;
+  flex: 1 1 auto !important;
+  max-width: 100vw !important;
+  align-items: stretch !important;
+}
+
 :global(.glightbox-container .gslide-description) {
   margin: 0 auto !important;
   padding: 0 !important;
+  padding-bottom: 0.75rem !important;
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
+  align-self: stretch !important;
   width: 100% !important;
+  max-width: 100% !important;
   max-height: 32vh; /* limit vertical footprint */
   overflow: auto; /* scroll when content overflows */
+  scroll-padding-bottom: 0.75rem;
+  scroll-padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+}
+
+:global(.glightbox-container .gslide-media) {
+  align-self: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: min(92vw, 70rem);
 }
 
 /* Tight padding + remove default borders/background bleed */
@@ -522,6 +711,16 @@ function openSlide(index: number) {
   box-shadow: none !important;
   background: transparent !important;
   padding: 0.5rem 0.75rem !important;
+  display: block;
+  width: fit-content;
+  max-width: min(92vw, 70rem);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+:global(.glightbox-container .gdesc-inner > *) {
+  max-width: 100%;
 }
 
 /* Tighter typography for title and description inside caption */
@@ -544,6 +743,14 @@ function openSlide(index: number) {
 
 :global(.glightbox-container .gslide-desc > p:first-child) {
   margin-top: 0 !important;
+}
+
+/* Extra breathing room when GLightbox switches to the mobile layout */
+:global(.glightbox-mobile .glightbox-container .gslide-description) {
+  padding-bottom: 3rem !important;
+  padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px)) !important;
+  scroll-padding-bottom: 3rem;
+  scroll-padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
 }
 
 @media (min-width: 1024px) {

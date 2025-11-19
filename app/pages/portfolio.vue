@@ -65,8 +65,7 @@ const galleryItems = computed<TaggedGalleryImage[]>(() => {
     const description = meta?.alt ? t(`${meta.alt}.description`) : undefined;
     return {
       href: `/gallery/${filename}`,
-      // Prefer a descriptive alt; fallback to title if no description is provided
-      alt: description ?? title,
+      alt: title ?? description,
       title,
       description,
       descPosition: "bottom",

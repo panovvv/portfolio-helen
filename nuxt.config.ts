@@ -1,12 +1,16 @@
 import { defineNuxtConfig } from "nuxt/config";
+import { provider as ciProvider, env } from "std-env";
 import i18nConfig from "./i18n.config";
 export default defineNuxtConfig({
   modules: ["@nuxt/ui", "@nuxt/image", "@nuxtjs/i18n"],
   i18n: i18nConfig,
   compatibilityDate: "2025-08-28",
   image: {
-    provider: process.env.NODE_ENV === "production" ? "vercel" : "ipx",
-    // Define screen breakpoints up to 8K so sizes mapping can use them
+    provider:
+      env.NUXT_IMAGE_PROVIDER ??
+      (ciProvider === "vercel" || env.VERCEL === "1" ? "vercel" : "ipx"),
+    // https://image.nuxt.com/get-started/configuration#screens
+    // Extend widths so ultra-wide screens can request near-original sizes, up to 8K
     screens: {
       xs: 320,
       sm: 640,
@@ -25,8 +29,6 @@ export default defineNuxtConfig({
       "10xl": 7680,
     },
     vercel: {
-      // https://image.nuxt.com/get-started/configuration#screens
-      // Extend widths so ultra-wide screens can request near-original sizes, up to 8K
       widths: [
         320, 640, 768, 1024, 1280, 1536, 2048, 2560, 3072, 3840, 4096, 5120,
         6144, 7680,

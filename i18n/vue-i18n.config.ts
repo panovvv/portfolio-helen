@@ -100,6 +100,9 @@ export default {
         note: "Please note: all work is done remotely, <b>without on-site visits</b>. This format is not suitable for shoots in cafés, restaurants, or bars.",
       },
       gallery: {
+        lightbox: {
+          seeMore: "See more",
+        },
         tags: {
           all: "All",
           anti_age: "Anti-aging cream",
@@ -285,6 +288,9 @@ export default {
         note: "Обратите внимание: вся работа проходит удалённо, <b>без выезда к заказчику</b>. Данный формат не подходит для съемок в кафе, ресторанах и барах.",
       },
       gallery: {
+        lightbox: {
+          seeMore: "Показать полностью",
+        },
         tags: {
           all: "Все",
           anti_age: "Съемка анти эйдж крема",
