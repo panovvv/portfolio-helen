@@ -20,15 +20,51 @@ interface Slide {
 const { t, locale } = useI18n();
 const galleryItems = galleryMetadata as GalleryMeta[];
 
+/**
+ * Curated list of gallery filenames to show in the home carousel.
+ * Edit this array to control which images appear on the home page.
+ */
+const CAROUSEL_IMAGES = [
+  "10-creative/01.jpg",
+  "07-packaging/01.jpg",
+  "08-food/01.jpg",
+  "02-makeup/01.jpg",
+  "01-skin-care/01.jpg",
+  "03-casmara-tonic/01.jpg",
+  "02-makeup/02.jpg",
+  "07-packaging/02.jpg",
+  "01-skin-care/02.jpg",
+  "10-creative/02.jpg",
+  "02-makeup/03.jpg",
+  "10-creative/03.jpg",
+  "07-packaging/03.jpg",
+  "01-skin-care/03.jpg",
+  "01-skin-care/04.jpg",
+  "02-makeup/05.jpg",
+  "01-skin-care/05.jpg",
+  "07-packaging/05.jpg",
+  "04-casmara-eye/06.jpg",
+  "03-casmara-tonic/07.jpg",
+  "04-casmara-eye/08.jpg",
+  "01-skin-care/09.jpg",
+  "07-packaging/09.jpg",
+  "01-skin-care/11.jpg",
+  "04-casmara-eye/11.jpg",
+  "10-creative/17.jpg"
+];
+
+const carouselSet = new Set(CAROUSEL_IMAGES);
+const carouselItems = galleryItems.filter((m) => carouselSet.has(m.filename));
+
 function dlog(...args: any[]) {
   // console.log("[HomeSlides]", ...args);
 }
 
 const slides = computed<Slide[]>(() => {
   const _ = locale.value;
-  return galleryItems.map((meta) => ({
+  return carouselItems.map((meta) => ({
     src: `/gallery/${meta.filename}`,
-    alt: meta?.alt ? t(meta.alt) : "",
+    alt: meta?.alt ? t(`${meta.alt}.title`) : "",
   }));
 });
 

@@ -18,12 +18,15 @@ interface GalleryMeta {
 type TaggedGalleryImage = GalleryImage & { tags: string[] };
 
 const TAG_ORDER = [
-  "brand",
-  "cosmetics",
-  "food",
-  "beverages",
+  "skin_care",
+  "makeup",
+  "casmara_tonic",
+  "casmara_eye",
   "collagen",
   "anti_age",
+  "packaging",
+  "food",
+  "plein_air",
   "creative",
 ] as const;
 
