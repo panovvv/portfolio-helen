@@ -5,7 +5,7 @@ import { useRoute, useRouter } from "#imports";
 import type { GalleryImage, LightboxOptions } from "~~/types/Gallery";
 import galleryMetadata from "~/assets/gallery_metadata.json";
 
-const { t, locale } = useI18n();
+const { t, te, locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
@@ -63,9 +63,9 @@ const galleryItems = computed<TaggedGalleryImage[]>(() => {
   const _ = locale.value;
   return galleryEntries.map((meta) => {
     const filename = meta.filename;
-    // Map structured i18n alt fields to title/description
     const title = meta?.alt ? t(`${meta.alt}.title`) : undefined;
-    const description = meta?.alt ? t(`${meta.alt}.description`) : undefined;
+    const descKey = `${meta.alt}.description`;
+    const description = meta?.alt && te(descKey) ? t(descKey) : undefined;
     return {
       href: `/gallery/${filename}`,
       alt: title ?? description,

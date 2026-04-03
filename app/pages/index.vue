@@ -50,7 +50,7 @@ const CAROUSEL_IMAGES = [
   "07-packaging/09.jpg",
   "01-skin-care/11.jpg",
   "04-casmara-eye/11.jpg",
-  "10-creative/17.jpg"
+  "10-creative/17.jpg",
 ];
 
 const carouselSet = new Set(CAROUSEL_IMAGES);

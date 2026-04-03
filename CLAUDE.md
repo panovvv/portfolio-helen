@@ -75,9 +75,19 @@ All translations live in `i18n/vue-i18n.config.ts`. Gallery-related keys:
 
 Lifestyle sections: `lifestyle.sections.{id}.title`
 
+### Where Gallery Images Are Referenced
+
+When replacing or renaming gallery images, update **all** of these locations:
+
+1. **`app/assets/gallery_metadata.json`** — master list for portfolio page + home carousel
+2. **`app/pages/index.vue`** — `CAROUSEL_IMAGES` array: curated subset shown in the home page carousel
+3. **`app/pages/types.vue`** — `images` array: one image per shoot type (10 hardcoded paths)
+4. **`app/pages/lifestyle.vue`** — `IMAGE_SOURCES_PER_SECTION`: hardcoded lifestyle image lists (separate from gallery)
+5. **`i18n/vue-i18n.config.ts`** — `gallery.alt.{tag}.{NN}` keys for image titles/descriptions
+
 ### Home Page Carousel
 
-`index.vue` picks random images from `gallery_metadata.json` and rotates them every 3 seconds across 1-3 columns (responsive). Uses `FadePreloadImg` for smooth crossfades with a non-repeating pool to avoid showing the same image twice in a row.
+`index.vue` has a `CAROUSEL_IMAGES` array — a curated list of gallery filenames. Only these images appear in the rotating carousel (1-3 columns, responsive). Uses `FadePreloadImg` for smooth crossfades with a non-repeating pool.
 
 ### Lightbox Hash Navigation
 

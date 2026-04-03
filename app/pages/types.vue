@@ -5,16 +5,16 @@ import { useI18n } from "vue-i18n";
 const { t, tm } = useI18n();
 
 const images: string[] = [
-  "/gallery/collagen/collagen_006.jpg", // Catalog
-  "/gallery/brand/brand_014.jpg", // Product photography
-  "/gallery/brand/brand_007.jpg", // Content
-  "/gallery/brand/brand_003.jpg", // Lifestyle
-  "/gallery/food/food_013.jpg", // Storytelling
-  "/gallery/food/food_021.jpg", // Image shoot
-  "/gallery/brand/brand_001.jpg", // Advertising
-  "/gallery/brand/brand_006.jpg", // Creative
-  "/gallery/food/food_002.jpg", // Recipes
-  "/gallery/food/food_027.jpg", // Outdoor
+  "/gallery/05-collagen/03.jpg", // Catalog
+  "/gallery/07-packaging/09.jpg", // Product photography
+  "/gallery/07-packaging/10.jpg", // Content
+  "/gallery/10-creative/07.jpg", // Lifestyle
+  "/gallery/10-creative/11.jpg", // Storytelling
+  "/gallery/07-packaging/07.jpg", // Image shoot
+  "/gallery/07-packaging/03.jpg", // Advertising
+  "/gallery/10-creative/17.jpg", // Creative
+  "/gallery/08-food/02.jpg", // Recipes
+  "/gallery/09-plein-air/13.jpg", // Outdoor
 ];
 
 const items = computed(() => (tm("types.items") as any[]) || []);
