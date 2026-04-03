@@ -69,7 +69,7 @@ const slides = computed<Slide[]>(() => {
 });
 
 const displayed = useState<number[]>("homeDisplayed", () => {
-  const count = galleryItems.length;
+  const count = carouselItems.length;
   const used = new Set<number>();
   const arr: number[] = [];
   for (let i = 0; i < 3; i++) {
