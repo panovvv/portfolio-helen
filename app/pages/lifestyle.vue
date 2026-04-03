@@ -105,11 +105,6 @@ const lightboxOptions: LightboxOptions = {
 
     <hr class="section-sep" />
     <div class="mt-10 mb-6">
-      <p
-        class="text-center text-sm sm:text-base text-gray-600 dark:text-gray-300"
-      >
-        © Elena Panova | Stock & Lifestyle Photography
-      </p>
       <div
         class="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3"
       >

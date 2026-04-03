@@ -30,6 +30,10 @@ function dismissNotice() {
       <NuxtPage />
     </main>
 
+    <footer class="py-6 text-center text-sm text-gray-500 dark:text-gray-400">
+      {{ t("footer.copyright", { year: new Date().getFullYear() }) }}
+    </footer>
+
     <transition name="fade">
       <div
         v-if="showNotice"

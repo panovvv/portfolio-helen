@@ -8,6 +8,9 @@ export default {
           "This site proudly uses just one cookie to remember your language. That's it — no tracking, no ads!",
         gotIt: "Got it",
       },
+      footer: {
+        copyright: "© {year} Elena Panova. All rights reserved.",
+      },
       navbar: {
         home: "Home",
         portfolio: "Portfolio",
@@ -271,6 +274,9 @@ export default {
         notice:
           "Этот сайт c гордостью использует всего один куки, чтобы запомнить ваш язык. И всё — никакой слежки и рекламы!",
         gotIt: "Понятно",
+      },
+      footer: {
+        copyright: "© {year} Елена Панова. Все права защищены.",
       },
       navbar: {
         home: "Главная",
