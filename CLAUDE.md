@@ -47,7 +47,11 @@ public/
 `gallery_metadata.json` drives both the portfolio page and the home page carousel. Each entry:
 
 ```json
-{ "filename": "01-skin-care/01.jpg", "alt": "gallery.alt.skin_care.01", "tags": ["skin_care"] }
+{
+  "filename": "01-skin-care/01.jpg",
+  "alt": "gallery.alt.skin_care.01",
+  "tags": ["skin_care"]
+}
 ```
 
 - `filename`: path relative to `/public/gallery/`

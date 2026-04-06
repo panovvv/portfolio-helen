@@ -84,6 +84,7 @@ export default {
             desc: "Emphasizes the brand philosophy through harmony with the environment.",
           },
         ],
+        see_examples: "See examples",
       },
       contact: {
         intro:
@@ -351,6 +352,7 @@ export default {
             desc: "— подчеркивает философию бренда через гармоничное взаимодействие с окружением.",
           },
         ],
+        see_examples: "Смотреть примеры",
       },
       contact: {
         intro:
