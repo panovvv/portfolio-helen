@@ -20,9 +20,9 @@ const { t } = useI18n();
           {{ t("contact.intro") }}
         </p>
 
-        <div class="border-l-4 border-blue-600 pl-4 mt-6 space-y-4">
+        <div class="border-l-4 border-primary-600 pl-4 mt-6 space-y-4">
           <p
-            class="text-lg sm:text-xl font-semibold text-blue-600 dark:text-blue-400"
+            class="text-lg sm:text-xl font-semibold text-primary-600 dark:text-primary-400"
           >
             {{ t("contact.write_me") }}
           </p>
@@ -33,7 +33,7 @@ const { t } = useI18n();
                 href="https://wa.me/351933699190"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
+                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
               >
                 <FontAwesomeIcon
                   :icon="faWhatsapp"
@@ -50,7 +50,7 @@ const { t } = useI18n();
                 href="https://t.me/panipanovahelen"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
+                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
               >
                 <FontAwesomeIcon
                   :icon="faTelegram"
@@ -67,7 +67,7 @@ const { t } = useI18n();
                 href="https://www.instagram.com/panipanovahelen/"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
+                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
               >
                 <FontAwesomeIcon
                   :icon="faInstagram"
@@ -90,11 +90,11 @@ const { t } = useI18n();
             <li>
               <a
                 href="mailto:panovaed89@gmail.com"
-                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
+                class="flex items-center p-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 text-left text-lg sm:text-xl md:text-xl leading-relaxed text-gray-900 dark:text-gray-100 w-full"
               >
                 <FontAwesomeIcon
                   :icon="faEnvelope"
-                  class="mr-3 text-blue-500 text-2xl align-middle relative top-[2px] shrink-0"
+                  class="mr-3 text-primary-500 text-2xl align-middle relative top-[2px] shrink-0"
                 />
                 <span class="align-middle leading-none">
                   panovaed89@gmail.com
@@ -117,7 +117,7 @@ const { t } = useI18n();
         </p>
 
         <p
-          class="mt-6 text-center text-lg sm:text-xl md:text-2xl font-semibold text-blue-600 dark:text-blue-400"
+          class="mt-6 text-center text-lg sm:text-xl md:text-2xl font-semibold text-primary-600 dark:text-primary-400"
           v-html="t('contact.note')"
         ></p>
       </div>

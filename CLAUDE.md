@@ -112,7 +112,7 @@ Deployed on Vercel. Image optimization uses Vercel's image CDN in production (de
 ## Styling
 
 - Tailwind utility classes throughout
-- Primary color: lime (configured in `app.config.ts`)
+- Primary color: blue (configured in `app.config.ts`)
 - Dark mode supported via Nuxt UI's `useColorMode`
 - No SCSS or external CSS files beyond `main.css`
 

@@ -32,14 +32,14 @@ const finalLine = computed(() => (tm("about.finalLine") as string) || "");
         </template>
 
         <p
-          class="mt-6 text-xl sm:text-2xl md:text-3xl font-semibold text-blue-600 dark:text-blue-400"
+          class="mt-6 text-xl sm:text-2xl md:text-3xl font-semibold text-primary-600 dark:text-primary-400"
           v-html="finalLine"
         ></p>
 
         <div class="mt-6">
           <NuxtLink
             to="/contact"
-            class="inline-block px-6 py-3 rounded-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 shadow text-base sm:text-lg"
+            class="inline-block px-6 py-3 rounded-lg font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 shadow text-base sm:text-lg"
           >
             {{ t("about.cta") }}
           </NuxtLink>

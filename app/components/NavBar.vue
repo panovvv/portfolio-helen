@@ -44,17 +44,11 @@ watch(
 // Each link should keep its original horizontal padding (px-4) and vertical padding (py-2)
 // but then be forced to fill the navbar height (h-16) by adding a wrapper that has that height.
 const getSectionClasses = (path: string) => {
-  // We wrap the link's content in a div that forces it to fill h-16.
   const base =
     "px-4 py-2 rounded transition-colors duration-200 whitespace-nowrap leading-tight";
-  const active =
-    currentTheme.value === "light"
-      ? "bg-blue-600 text-white"
-      : "bg-blue-500 text-white";
+  const active = "bg-primary-600 text-white dark:bg-primary-500";
   const hover =
-    currentTheme.value === "light"
-      ? "hover:bg-blue-100 hover:text-blue-600"
-      : "hover:bg-gray-700 hover:text-blue-300";
+    "hover:bg-primary-50 hover:text-primary-600 dark:hover:bg-primary-950 dark:hover:text-primary-300";
   return route.path === path ? `${base} ${active}` : `${base} ${hover}`;
 };
 </script>
@@ -72,7 +66,7 @@ const getSectionClasses = (path: string) => {
             <!-- Hamburger button visible on small screens -->
             <button
               type="button"
-              class="lg:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              class="lg:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
               :aria-expanded="isMenuOpen ? 'true' : 'false'"
               aria-controls="primary-menu"
               aria-label="Toggle navigation menu"
@@ -144,7 +138,7 @@ const getSectionClasses = (path: string) => {
             <button
               @click="toggleTheme"
               aria-label="Toggle theme"
-              class="flex items-center justify-center w-10 h-10 rounded-full border-2 border-transparent hover:border-gray-400 dark:hover:border-gray-300 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              class="flex items-center justify-center w-10 h-10 rounded-full border-2 border-transparent hover:border-gray-400 dark:hover:border-gray-300 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
             >
               <FontAwesomeIcon
                 v-if="currentTheme === 'light'"

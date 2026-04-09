@@ -107,7 +107,7 @@ const DESKTOP_IMG_SIZES = "md:384px lg:512px xl:640px 2xl:768px";
 
 <template>
   <div>
-    <div class="container mx-auto px-4 py-8 sm:py-10 md:py-12">
+    <div class="container mx-auto p-4">
       <!-- DESKTOP: sticky scroll (md+) -->
       <div class="hidden md:block">
         <div
