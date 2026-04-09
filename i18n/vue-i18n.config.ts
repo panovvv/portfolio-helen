@@ -31,10 +31,10 @@ export default {
           "I’m deeply in tune with the world — attentive, kind, and guided by my heart. I seek harmony within myself, in my relationships, and in every frame I create. I love a life filled with warmth, humor, travel, nature, kindred spirits, and work that sparks inspiration.",
           "I graduated with a degree in economics, but the work never brought me joy. After moving to Poland in 2018, I began searching for my true path and fell in love with photography. At first it was just a hobby — capturing beautiful moments on my phone. Later, my passion for cooking drew me into the magical world of food photography. In 2020, I bought my first camera, and that’s when my professional journey truly began.",
           "Since then, photography has become a significant part of my life. After five years in Poland, I moved to Portugal in 2024, settling in Porto, where I continue to create and stay inspired. I’m always learning, growing, and refining my craft.",
-          "I photograph food and objects not simply as compositions of light and form, but as an <i>opportunity</i> to express atmosphere, ideas, and aesthetics. For me, photography is a creative practice and a way to share a feeling. It’s important to me to breathe life into each frame, to add meaning and a touch of magic.",
+          "I photograph food and products not simply as compositions of light and form, but as an <i>opportunity</i> to express atmosphere, ideas, and aesthetics. For me, photography is a creative practice and a way to share a feeling. It’s important to me to breathe life into each frame, to add meaning and a touch of magic.",
           "I draw inspiration from nature, travel, art, and the cuisines of the world.",
-          "I love exploring different shooting styles and hunting for props — whether it’s a beautiful dish on a store shelf or an elegantly twisted branch found on a walk.",
-          "I listen with my whole attention and hear beyond the words. When working with brands, I take their product’s philosophy to heart and can offer ideas to enhance the concept and add a distinct visual spark.",
+          "I love exploring different shooting styles and hunting for props — whether it’s a beautiful plate on a store shelf or an elegant branch found on a walk.",
+          "I truly listen — and understand what you need. When working with brands, I take their product’s philosophy to heart and can offer ideas to enhance the concept and add a distinct visual spark.",
         ],
         finalLine:
           "I'll be happy to collaborate! Let's create visual magic together.",
@@ -45,11 +45,11 @@ export default {
         items: [
           {
             title: "Catalog shoot",
-            desc: "From simple to those with a 'twist' to make your product stand out.",
+            desc: "From clean and simple to styled with a twist — making your product stand out.",
           },
           {
             title: "Product photography",
-            desc: "Taking into account current trends and contemporary visual solutions.",
+            desc: "Informed by the latest trends and fresh visual approaches.",
           },
           {
             title: "Content shoot",
@@ -57,31 +57,31 @@ export default {
           },
           {
             title: "Lifestyle shoot",
-            desc: "Tells a story from everyday life with the presence of a person.",
+            desc: "Tells an everyday story — with real people in the frame.",
           },
           {
             title: "Storytelling",
             desc: "Conveys emotions, a cozy atmosphere, the season, or a holiday.",
           },
           {
-            title: "Image shoot",
-            desc: "Creates your brand's image, visual aesthetics, and associations.",
+            title: "Brand image shoot",
+            desc: "Shapes your brand's identity, visual style, and lasting associations.",
           },
           {
             title: "Advertising shoot",
-            desc: "Captures attention with original and impactful solutions.",
+            desc: "Bold, eye-catching visuals that draw attention to your product.",
           },
           {
             title: "Creative shoot",
-            desc: "For a wow effect — to stand out and surprise your audience.",
+            desc: "For that wow factor — stand out and surprise your audience.",
           },
           {
             title: "Recipes",
-            desc: "Food styling and photography of dishes with your product.",
+            desc: "Professional food styling and photography featuring your product.",
           },
           {
             title: "Outdoor (en plein air) shoot",
-            desc: "Emphasizes the brand philosophy through harmony with the environment.",
+            desc: "Showcases your brand's philosophy in harmony with the natural setting.",
           },
         ],
         see_examples: "See examples",
@@ -101,7 +101,7 @@ export default {
           "I'm based in Porto, Portugal, and work with clients worldwide.",
         shipping:
           "You can ship your product using any delivery service, and I'll photograph it in my studio.",
-        note: "Please note: all work is done remotely, <b>without on-site visits</b>. This format is not suitable for shoots in cafés, restaurants, or bars.",
+        note: "Please note: all work is done remotely, <b>without on-site visits</b>. This means on-location shoots at cafes, restaurants, or bars aren't available.",
       },
       gallery: {
         lightbox: {
@@ -117,7 +117,7 @@ export default {
           anti_age: "Anti-aging Cream Elesse",
           packaging: "Food & Beverage Packaging",
           food: "Food & Beverage",
-          plein_air: "Natural Light Photoshoot",
+          outdoor: "Outdoor Photography",
           creative: "Creative Photography",
         },
         alt: {
@@ -131,7 +131,7 @@ export default {
             "07": { title: "Moisturizer and Serum" },
             "08": { title: "Face Moisturizer" },
             "09": { title: "Toothpaste" },
-            "10": { title: "Mask Scrub" },
+            "10": { title: "Exfoliating Mask" },
             "11": { title: "Hair Shampoo" },
             "12": { title: "Men's Deodorant Spray" },
             "13": { title: "Face Serum" },
@@ -166,7 +166,7 @@ export default {
             "16": { title: "Wine" },
           },
           food: {
-            "01": { title: "Oatmeal with Fruits" },
+            "01": { title: "Oatmeal with Fruit" },
             "02": { title: "Bagels with Ham and Cucumber" },
             "03": { title: "Orange Espresso" },
             "04": { title: "Coffee with Croissant" },
@@ -175,7 +175,7 @@ export default {
             "07": { title: "Coffee" },
             "08": { title: "Berry Milk Smoothie" },
             "09": { title: "Coffee and Dessert" },
-            "10": { title: "Egg Toast" },
+            "10": { title: "Eggs on Toast" },
             "11": { title: "Iced Tea" },
             "12": { title: "Macarons" },
             "13": { title: "Christmas Stollen" },
@@ -183,7 +183,7 @@ export default {
             "15": { title: "Pancakes" },
             "16": { title: "Shots" },
           },
-          plein_air: {
+          outdoor: {
             "01": { title: "Oceanside Picnic" },
             "02": { title: "Sunset Picnic" },
             "03": { title: "Sunset Picnic" },
@@ -205,7 +205,7 @@ export default {
             "01": { title: "Necklace" },
             "02": { title: "Floral Still Life" },
             "03": { title: "Tenderness" },
-            "04": { title: "Soap in Interior" },
+            "04": { title: "Soap Still Life" },
             "05": { title: "Watch" },
             "06": { title: "Easter Baked Goods" },
             "07": { title: "Spring Routine" },
@@ -246,8 +246,8 @@ export default {
         skills:
           "Along with photography, I do <strong>color correction and retouching</strong>.",
         props: "I also have a basic collection of backdrops and props.",
-        precision: "I follow your brief precisely — or create one for you.",
-        heart: "Every shoot is done with care and heart 😊",
+        precision: "I follow your brief to the letter — or create one for you.",
+        heart: "I put my heart into every shoot 😊",
       },
       lifestyle: {
         title: "A Lifestyle Collection by the Sea",
@@ -385,7 +385,7 @@ export default {
           anti_age: "Анти эйдж крем Elesse",
           packaging: "Упаковка еды и напитков",
           food: "Еда и напитки",
-          plein_air: "Пленэрные съемки",
+          outdoor: "Пленэрные съемки",
           creative: "Креативная фотография",
         },
         alt: {
@@ -451,7 +451,7 @@ export default {
             "15": { title: "Блинчики" },
             "16": { title: "Шоты" },
           },
-          plein_air: {
+          outdoor: {
             "01": { title: "Пикник у океана" },
             "02": { title: "Пикник на закате" },
             "03": { title: "Пикник на закате" },
@@ -527,13 +527,13 @@ export default {
           },
           "lifestyle-002": {
             title:
-              "Натюрморты прибрежного пикника (Опубликовано на Shutterstock)",
+              "Натюрморты прибрежного пикника (Неэксклюзивная работа — опубликовано на Shutterstock)",
           },
           "lifestyle-003": {
-            title: "Моменты летнего пикника (Опубликовано на Shutterstock)",
+            title: "Моменты летнего пикника (Неэксклюзивная работа — опубликовано на Shutterstock)",
           },
           "lifestyle-004": {
-            title: "Осень у моря (Опубликовано на Shutterstock)",
+            title: "Осень у моря (Неэксклюзивная работа — опубликовано на Shutterstock)",
           },
         },
       },

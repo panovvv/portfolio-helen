@@ -14,7 +14,7 @@ const SHOOT_TYPES = [
   { image: "/gallery/07-packaging/03.jpg", tag: "packaging" },
   { image: "/gallery/10-creative/17.jpg", tag: "creative" },
   { image: "/gallery/08-food/02.jpg", tag: "food" },
-  { image: "/gallery/09-plein-air/13.jpg", tag: "plein_air" },
+  { image: "/gallery/09-outdoor/13.jpg", tag: "outdoor" },
 ];
 
 /** Change this to experiment with alternation frequency */

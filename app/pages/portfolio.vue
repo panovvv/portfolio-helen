@@ -26,7 +26,7 @@ const TAG_ORDER = [
   "anti_age",
   "packaging",
   "food",
-  "plein_air",
+  "outdoor",
   "creative",
 ] as const;
 

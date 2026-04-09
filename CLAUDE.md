@@ -62,7 +62,7 @@ public/
 
 Tags and their display order are defined in `portfolio.vue` as `TAG_ORDER`. Tag labels come from `gallery.tags.{tag_id}` in i18n. Current tags (in order):
 
-`skin_care`, `makeup`, `casmara_tonic`, `casmara_eye`, `collagen`, `anti_age`, `packaging`, `food`, `plein_air`, `creative`
+`skin_care`, `makeup`, `casmara_tonic`, `casmara_eye`, `collagen`, `anti_age`, `packaging`, `food`, `outdoor`, `creative`
 
 ### Image Naming
 
