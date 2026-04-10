@@ -5,6 +5,7 @@ const i18nConfig: NuxtI18nOptions = {
   locales: [
     { code: "en", name: "English", iso: "en-US" },
     { code: "ru", name: "Русский", iso: "ru-RU" },
+    { code: "pl", name: "Polski", iso: "pl-PL" },
   ],
   strategy: "no_prefix",
   detectBrowserLanguage: {

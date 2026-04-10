@@ -540,5 +540,275 @@ export default {
         },
       },
     },
+    pl: {
+      cookie: {
+        notice:
+          "Ta strona z dumą używa tylko jednego ciasteczka, żeby zapamiętać Twój język. I to wszystko — żadnego śledzenia, żadnych reklam!",
+        gotIt: "Rozumiem",
+      },
+      footer: {
+        copyright: "© {year} Elena Panova. Wszelkie prawa zastrzeżone.",
+      },
+      navbar: {
+        home: "Strona główna",
+        portfolio: "Portfolio",
+        types: "Rodzaje sesji zdjęciowych",
+        lifestyle: "Lifestyle",
+        about: "O mnie",
+        contact: "Kontakt",
+        colorscheme: {
+          system: "Motyw domyślny (systemowy)",
+          light: "Jasny motyw",
+          dark: "Ciemny motyw",
+        },
+      },
+      about: {
+        title: "Cześć!",
+        firstLine: "Mam na imię Elena.",
+        description: [
+          "Jestem osobą wrażliwą, uważną i życzliwą. Żyję zgodnie z głosem serca i dążę do harmonii — w sobie, w relacjach i w każdym kadrze. Kocham życie pełne ciepła, humoru, podróży, natury, bliskich duchowo ludzi i pracy, która inspiruje.",
+          "Ukończyłam studia ekonomiczne, ale praca w zawodzie nie dawała mi satysfakcji. Po przeprowadzce do Polski w 2018 roku zaczęłam szukać swojej drogi i zakochałam się w fotografii. Na początku było to hobby — fotografowałam telefonem wszystko, co piękne napotkałam na swojej drodze. Później pasja do gotowania zaprowadziła mnie w magiczny świat fotografii kulinarnej. W 2020 roku kupiłam swój pierwszy aparat i tak właśnie rozpoczęła się moja profesjonalna przygoda.",
+          "Od tamtej pory fotografia stała się ważną częścią mojego życia. Po pięciu latach w Polsce, w 2024 roku przeprowadziłam się do Portugalii, do miasteczka Porto, gdzie nadal tworzę i czerpię inspirację. Ciągle się rozwijam, zdobywam nową wiedzę i doskonalę swój warsztat.",
+          "Fotografuję jedzenie i produkty — nie tylko jako grę światła i kompozycji, ale jako <i>możliwość</i> przekazania atmosfery, idei i estetyki. Dla mnie fotografia to forma twórczości i sposób na dzielenie się nastrojem. Zależy mi, by tchnąć w kadr życie, nadać mu sens i odrobinę magii.",
+          "Inspiruję się naturą, podróżą, sztuką i kuchniami świata.",
+          "Uwielbiam eksperymentować z różnymi stylami sesji i szukać do nich rekwizytów — piękną ceramikę na sklepowych półkach albo wyjątkową gałązkę znalezioną na spacerze.",
+          "Umiem słuchać i rozumieć potrzeby. Współpracując z markami, wnikam w filozofię produktu i chętnie podpowiem, jak wzmocnić przekaz i dodać wizualny charakter.",
+        ],
+        finalLine:
+          "Z przyjemnością nawiążę współpracę! Stwórzmy razem wizualną magię.",
+        cta: "Umów sesję",
+      },
+      types: {
+        title: "Rodzaje sesji",
+        items: [
+          {
+            title: "Sesja katalogowa",
+            desc: "Od prostej po stylizowaną z pazurem — żeby Twój produkt się wyróżniał.",
+          },
+          {
+            title: "Fotografia produktowa",
+            desc: "Z uwzględnieniem aktualnych trendów i nowoczesnych rozwiązań wizualnych.",
+          },
+          {
+            title: "Sesja contentowa",
+            desc: "Pokazuje Twój produkt jako naturalną część codziennego życia.",
+          },
+          {
+            title: "Sesja lifestylowa",
+            desc: "Opowiada historię z życia codziennego — z udziałem ludzi w kadrze.",
+          },
+          {
+            title: "Storytelling",
+            desc: "Przekazuje emocje, przytulną atmosferę, klimat pory roku lub święta.",
+          },
+          {
+            title: "Sesja wizerunkowa",
+            desc: "Buduje obraz Twojej marki, estetykę wizualną i trwałe skojarzenia.",
+          },
+          {
+            title: "Sesja reklamowa",
+            desc: "Przyciąga wzrok do Twojego produktu oryginalnymi i efektownymi ujęciami.",
+          },
+          {
+            title: "Sesja kreatywna",
+            desc: "Dla efektu wow — żeby się wyróżnić i zaskoczyć odbiorców.",
+          },
+          {
+            title: "Przepisy",
+            desc: "Profesjonalny food styling i fotografia potraw z Twoim produktem.",
+          },
+          {
+            title: "Sesja plenerowa",
+            desc: "Podkreśla filozofię marki poprzez harmonijne połączenie z otoczeniem.",
+          },
+        ],
+        see_examples: "Zobacz przykłady",
+      },
+      contact: {
+        intro:
+          "Chętnie porozmawiam o Twoim projekcie i odpowiem na wszelkie pytania dotyczące sesji lub współpracy.",
+        write_me: "Napisz do mnie przez:",
+        messengers: {
+          whatsapp: "WhatsApp",
+          telegram: "Telegram",
+          instagram: "Instagram",
+        },
+        or_email: "lub mailem:",
+        email_label: "E-mail",
+        location:
+          "Mieszkam i pracuję w Porto w Portugalii. Przyjmuję zlecenia z całego świata.",
+        shipping:
+          "Możesz wysłać swój produkt dowolną firmą kurierską, a ja sfotografuję go w moim studiu.",
+        note: "Uwaga: cała praca odbywa się zdalnie, <b>bez wyjazdów do klienta</b>. Ten format nie obejmuje sesji w kawiarniach, restauracjach czy barach.",
+      },
+      gallery: {
+        lightbox: {
+          seeMore: "Zobacz więcej",
+        },
+        tags: {
+          all: "Wszystko",
+          skin_care: "Pielęgnacja skóry i włosów",
+          makeup: "Makijaż",
+          casmara_tonic: "Tonik i oczyszczacz Casmara",
+          casmara_eye: "Krem pod oczy Casmara",
+          collagen: "Kolagen w płynie Mialica",
+          anti_age: "Krem anti-aging Elesse",
+          packaging: "Opakowania żywności i napojów",
+          food: "Jedzenie i napoje",
+          outdoor: "Fotografia plenerowa",
+          creative: "Fotografia kreatywna",
+        },
+        alt: {
+          skin_care: {
+            "01": { title: "Serum do twarzy" },
+            "02": { title: "Spray termoochronny do włosów" },
+            "03": { title: "Szampon z proteinami ryżu" },
+            "04": { title: "Krem pod oczy" },
+            "05": { title: "Żel pod prysznic" },
+            "06": { title: "Serum pod oczy" },
+            "07": { title: "Krem nawilżający i serum" },
+            "08": { title: "Krem nawilżający do twarzy" },
+            "09": { title: "Pasta do zębów" },
+            "10": { title: "Maska peelingująca" },
+            "11": { title: "Szampon do włosów" },
+            "12": { title: "Męski dezodorant w sprayu" },
+            "13": { title: "Serum do twarzy" },
+            "14": { title: "Żel pod prysznic" },
+          },
+          makeup: {
+            "01": { title: "Paletka cieni" },
+            "02": { title: "Błyszczyk do ust" },
+            "03": { title: "Pomadka" },
+            "04": { title: "Krem BB" },
+            "05": { title: "Błyszczyk do ust" },
+            "06": { title: "Pomadka" },
+            "07": { title: "Balsam do ust" },
+            "08": { title: "Żel do brwi" },
+          },
+          packaging: {
+            "01": { title: "Pudełko czekolady rzemieślniczej" },
+            "02": { title: "Szynka z indyka" },
+            "03": { title: "Tuńczyk z pomidorem i bazylią" },
+            "04": { title: "Opakowanie herbaty" },
+            "05": { title: "Piwo" },
+            "06": { title: "Dżem" },
+            "07": { title: "Ciastka" },
+            "08": { title: "Lemoniada rzemieślnicza" },
+            "09": { title: "Tonik" },
+            "10": { title: "Napój kokosowo-matchowy" },
+            "11": { title: "Napój witaminowy" },
+            "12": { title: "Oliwa z oliwek" },
+            "13": { title: "Kokosowa matcha na odchudzanie" },
+            "14": { title: "Mrożona herbata" },
+            "15": { title: "Napój energetyczny" },
+            "16": { title: "Wino" },
+          },
+          food: {
+            "01": { title: "Owsianka z owocami" },
+            "02": { title: "Bajgle z szynką i ogórkiem" },
+            "03": { title: "Espresso z pomarańczą" },
+            "04": { title: "Kawa z croissantem" },
+            "05": { title: "Czekolada rzemieślnicza" },
+            "06": { title: "Wielkanocne babeczki" },
+            "07": { title: "Kawa" },
+            "08": { title: "Koktajl mleczny z owocami leśnymi" },
+            "09": { title: "Kawa i deser" },
+            "10": { title: "Tosty z jajkiem" },
+            "11": { title: "Mrożona herbata" },
+            "12": { title: "Makaroniki" },
+            "13": { title: "Świąteczny sztollen" },
+            "14": { title: "Martwa natura z kawą" },
+            "15": { title: "Naleśniki" },
+            "16": { title: "Shoty" },
+          },
+          outdoor: {
+            "01": { title: "Piknik nad oceanem" },
+            "02": { title: "Piknik o zachodzie słońca" },
+            "03": { title: "Piknik o zachodzie słońca" },
+            "04": { title: "Piknik o zachodzie słońca" },
+            "05": { title: "Śniadanie na balkonie" },
+            "06": { title: "Śniadanie na balkonie" },
+            "07": { title: "Brunch na tarasie" },
+            "08": { title: "Słoneczne limoncello" },
+            "09": { title: "Bufet w ogrodzie" },
+            "10": { title: "Bufet w ogrodzie" },
+            "11": { title: "Bufet w ogrodzie" },
+            "12": { title: "Letnie morele" },
+            "13": { title: "Śniadanie w ogrodzie" },
+            "14": { title: "Jesienny koszyk" },
+            "15": { title: "Jesienny koszyk" },
+            "16": { title: "Jesienny koszyk" },
+          },
+          creative: {
+            "01": { title: "Naszyjnik" },
+            "02": { title: "Kwiatowa martwa natura" },
+            "03": { title: "Czułość" },
+            "04": { title: "Mydło w aranżacji" },
+            "05": { title: "Zegarek" },
+            "06": { title: "Wielkanocne wypieki" },
+            "07": { title: "Wiosenna pielęgnacja" },
+            "08": { title: "Wykwintny deser" },
+            "09": { title: "Krem z filtrem SPF" },
+            "10": { title: "Rustykalna martwa natura" },
+            "11": { title: "Świąteczny stół" },
+            "12": { title: "Świeca" },
+            "13": { title: "Mydło do masażu" },
+            "14": { title: "Męski dezodorant" },
+            "15": { title: "Woda micelarna" },
+            "16": { title: "Sok pomidorowy" },
+            "17": { title: "Nawilżające mleczko do ciała" },
+          },
+        },
+      },
+      home: {
+        title: "Fotograf produktowy i kulinarny",
+        name: "Elena Panova",
+        subtitle:
+          "Efektowne zdjęcia, które sprzedają — na marketplace'y, strony internetowe i social media",
+        tagline: "Twój produkt w najlepszym świetle",
+        greeting: "Witaj na mojej stronie!",
+        intro:
+          "Mam na imię Elena i profesjonalnie zajmuję się fotografią produktową i kulinarną. Tworzę zdjęcia, które pomagają sprzedawać i wyróżniać Twój produkt.",
+        you_can_order: "Możesz zamówić u mnie sesję dla:",
+        orders: {
+          marketplaces: "<b>Marketplace'ów</b> — Etsy, Amazon, eBay i innych.",
+          websites:
+            "<b>Stron internetowych i sklepów online</b>, a także na opakowania.",
+          social: "<b>Social mediów</b> — content do promocji Twojej marki.",
+          recipes:
+            "<b>Przepisów dla marek</b> — stopień złożoności i format ustalamy indywidualnie.",
+        },
+        studio:
+          "Pracuję we własnym studiu z profesjonalnym oświetleniem i sprzętem. Wszelkie ustalenia i akceptacje odbywają się <b>online</b>.",
+        remote:
+          "Mieszkam w Porto w Portugalii, ale fotografuję dla marek zdalnie na całym świecie — produkt można wygodnie wysłać pocztą lub kurierem.",
+        skills:
+          "Oprócz fotografii zajmuję się również <strong>korekcją kolorów i retuszem</strong>.",
+        props: "Posiadam podstawową kolekcję teł i rekwizytów.",
+        precision:
+          "Dokładnie realizuję Twój brief — lub przygotowuję go za Ciebie.",
+        heart: "Do każdej sesji podchodzę z sercem 😊",
+      },
+      lifestyle: {
+        title: "Kolekcja lifestylowych historii nad morzem",
+        sections: {
+          "lifestyle-001": {
+            title: "Para nad oceanem (Na wyłączność dla Westend)",
+          },
+          "lifestyle-002": {
+            title:
+              "Martwe natury z pikniku nad morzem (Praca nieekskluzywna — opublikowana na Shutterstock)",
+          },
+          "lifestyle-003": {
+            title:
+              "Chwile z letniego pikniku (Praca nieekskluzywna — opublikowana na Shutterstock)",
+          },
+          "lifestyle-004": {
+            title:
+              "Jesień nad morzem (Praca nieekskluzywna — opublikowana na Shutterstock)",
+          },
+        },
+      },
+    },
   },
 };
