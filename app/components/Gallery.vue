@@ -667,7 +667,7 @@ function openSlide(index: number) {
   display: block;
 }
 
-/* Compact the GLightbox caption wrapper */
+/* GLightbox layout — image fills viewport, description overlays bottom */
 :global(.glightbox-container .gslide) {
   width: 100% !important;
 }
@@ -678,24 +678,12 @@ function openSlide(index: number) {
 }
 
 :global(.glightbox-container .ginner-container) {
+  position: relative !important;
   width: 100% !important;
+  min-height: 100vh !important;
   flex: 1 1 auto !important;
   max-width: 100vw !important;
   align-items: stretch !important;
-}
-
-:global(.glightbox-container .gslide-description) {
-  margin: 0 auto !important;
-  padding: 0 !important;
-  padding-bottom: 0.75rem !important;
-  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
-  align-self: stretch !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  max-height: 32vh; /* limit vertical footprint */
-  overflow: auto; /* scroll when content overflows */
-  scroll-padding-bottom: 0.75rem;
-  scroll-padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
 }
 
 :global(.glightbox-container .gslide-media) {
@@ -705,12 +693,43 @@ function openSlide(index: number) {
   max-width: min(92vw, 70rem);
 }
 
-/* Tight padding + remove default borders/background bleed */
+:global(.glightbox-container .gslide-image img) {
+  max-height: 100vh !important;
+}
+
+:global(.glightbox-container .zoomed .gslide-image img) {
+  max-height: none !important;
+}
+
+/* Description as semi-transparent overlay pinned to bottom */
+:global(.glightbox-container .gslide-description) {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1;
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-bottom: 0.75rem !important;
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: 40vh;
+  overflow: auto;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.85) 100%
+  ) !important;
+  color: #f8fafc !important;
+  border: none !important;
+}
+
 :global(.glightbox-container .gdesc-inner) {
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
-  padding: 0.5rem 0.75rem !important;
+  padding: 2rem 0.75rem 0.5rem !important;
   display: block;
   width: fit-content;
   max-width: min(92vw, 70rem);
@@ -723,51 +742,52 @@ function openSlide(index: number) {
   max-width: 100%;
 }
 
-/* Tighter typography for title and description inside caption */
+/* Typography — always light text on dark gradient */
 :global(.glightbox-container .gslide-title) {
-  font-size: 1rem !important; /* ~16px */
-  line-height: 1.25 !important; /* ~20px */
-  margin: 0 !important; /* remove default spacing */
+  font-size: 1rem !important;
+  line-height: 1.25 !important;
+  margin: 0 !important;
   font-weight: 600 !important;
+  color: #f8fafc !important;
 }
 
 :global(.glightbox-container .gslide-title + .gslide-desc) {
-  margin-top: 0.15rem !important; /* explicit narrow gap between title + desc */
+  margin-top: 0.15rem !important;
 }
 
 :global(.glightbox-container .gslide-desc) {
-  font-size: 0.9rem !important; /* ~14.4px */
+  font-size: 0.9rem !important;
   line-height: 1.35 !important;
   margin: 0 !important;
+  color: #d1d5db !important;
+}
+
+:global(.glightbox-container .gslide-desc *) {
+  color: inherit !important;
 }
 
 :global(.glightbox-container .gslide-desc > p:first-child) {
   margin-top: 0 !important;
 }
 
-/* Extra breathing room when GLightbox switches to the mobile layout */
+/* Mobile — extra bottom padding for safe area */
 :global(.glightbox-mobile .glightbox-container .gslide-description) {
   padding-bottom: 3rem !important;
   padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px)) !important;
-  scroll-padding-bottom: 3rem;
-  scroll-padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
 }
 
-@media (min-width: 1024px) {
-  ::global(.glightbox-container .gslide-description) {
-    max-height: 24vh; /* even more compact on large screens */
-  }
-}
-
-:global(.dark .glightbox-container .gslide-description) {
-  background-color: rgba(15, 23, 42, 0.92) !important;
+/* "See more" link styling on dark gradient */
+:global(.glightbox-container .gslide-desc .desc-more) {
   color: #f8fafc !important;
+  opacity: 0.6;
+}
+
+/* Dark mode — overlay is already dark, just ensure no conflicts */
+:global(.dark .glightbox-container .gslide-description) {
   border: none !important;
 }
 
 :global(.dark .glightbox-container .gslide-description *) {
   background-color: transparent !important;
-  color: inherit !important;
-  border: none !important;
 }
 </style>
