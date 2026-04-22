@@ -13,6 +13,15 @@ import type { GalleryImage, LightboxOptions } from "~~/types/Gallery";
 import galleryMetadata from "~/assets/gallery_metadata.json";
 
 const { t, te, locale } = useI18n();
+
+useSeoMeta({
+  title: () => t("seo.portfolio.title"),
+  ogTitle: () => t("seo.portfolio.title"),
+  description: () => t("seo.portfolio.description"),
+  ogDescription: () => t("seo.portfolio.description"),
+  twitterTitle: () => t("seo.portfolio.title"),
+  twitterDescription: () => t("seo.portfolio.description"),
+});
 const route = useRoute();
 const router = useRouter();
 

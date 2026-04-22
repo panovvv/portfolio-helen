@@ -4,6 +4,15 @@ import { useI18n } from "vue-i18n";
 
 const { t, tm } = useI18n();
 
+useSeoMeta({
+  title: () => t("seo.about.title"),
+  ogTitle: () => t("seo.about.title"),
+  description: () => t("seo.about.description"),
+  ogDescription: () => t("seo.about.description"),
+  twitterTitle: () => t("seo.about.title"),
+  twitterDescription: () => t("seo.about.description"),
+});
+
 const firstLine = computed(() => (tm("about.firstLine") as string) || "");
 const description = computed(() => (tm("about.description") as any[]) || []);
 const finalLine = computed(() => (tm("about.finalLine") as string) || "");
@@ -50,6 +59,7 @@ const finalLine = computed(() => (tm("about.finalLine") as string) || "");
         <div class="portrait-frame">
           <NuxtImg
             src="/about-me.jpg"
+            :alt="t('about.portrait_alt')"
             class="w-full h-auto object-contain"
             sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
             placeholder

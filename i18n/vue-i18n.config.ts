@@ -39,6 +39,7 @@ export default {
         finalLine:
           "I'll be happy to collaborate! Let's create visual magic together.",
         cta: "Book a shoot",
+        portrait_alt: "Elena Panova by the ocean",
       },
       types: {
         title: "Types of shoots",
@@ -102,6 +103,7 @@ export default {
         shipping:
           "You can ship your product using any delivery service, and I'll photograph it in my studio.",
         note: "Please note: all work is done remotely, <b>without on-site visits</b>. This means on-location shoots at cafes, restaurants, or bars aren't available.",
+        image_alt: "Picnic near the ocean",
       },
       gallery: {
         lightbox: {
@@ -237,7 +239,7 @@ export default {
           },
           packaging: {
             "01": {
-              title: "Chocolate Boutique — \"Parabéns\" Gift Box",
+              title: 'Chocolate Boutique — "Parabéns" Gift Box',
               description:
                 "Portuguese artisan chocolate brand founded in Porto in 2013. Founder Fernando Monteiro trained at top chocolate academies in Belgium and Spain.",
             },
@@ -435,6 +437,7 @@ export default {
         props: "I also have a basic collection of backdrops and props.",
         precision: "I follow your brief to the letter — or create one for you.",
         heart: "I put my heart into every shoot 😊",
+        portrait_alt: "Elena Panova, product and food photographer",
       },
       lifestyle: {
         title: "A Lifestyle Collection by the Sea",
@@ -454,6 +457,39 @@ export default {
             title:
               "Autumn by the Sea (Non-exclusive work - published on Shutterstock)",
           },
+        },
+      },
+      seo: {
+        home: {
+          title:
+            "Elena Panova — Product & Food Photographer in Porto, Portugal",
+          description:
+            "Professional product and food photography for marketplaces, websites, and social media. Based in Porto, Portugal, working with brands worldwide.",
+        },
+        portfolio: {
+          title: "Portfolio — Elena Panova Photography",
+          description:
+            "Browse product and food photography portfolio by Elena Panova. Skincare, makeup, food packaging, creative and outdoor photography.",
+        },
+        types: {
+          title: "Types of Shoots — Elena Panova Photography",
+          description:
+            "Catalog, product, lifestyle, creative, advertising, and food photography. Discover the range of photography services by Elena Panova.",
+        },
+        lifestyle: {
+          title: "Lifestyle Stories — Elena Panova Photography",
+          description:
+            "Lifestyle photography collections by Elena Panova. Coastal stories, couple sessions, and seaside picnic scenes from Portugal.",
+        },
+        about: {
+          title: "About Elena Panova — Product & Food Photographer",
+          description:
+            "Meet Elena Panova, a professional product and food photographer based in Porto, Portugal. Specializing in brand photography, food styling, and creative compositions.",
+        },
+        contact: {
+          title: "Contact — Elena Panova Photography",
+          description:
+            "Get in touch with Elena Panova for product and food photography. Based in Porto, Portugal. Available worldwide via WhatsApp, Telegram, Instagram, or email.",
         },
       },
     },
@@ -494,6 +530,7 @@ export default {
         finalLine:
           "Буду рада нашему сотрудничеству! Давайте создадим визуальную магию вместе.",
         cta: "Записаться на съемку",
+        portrait_alt: "Елена Панова на фоне океана",
       },
       types: {
         title: "Виды съемок",
@@ -557,6 +594,7 @@ export default {
         shipping:
           "Вы можете отправить свой товар любым удобным способом доставки, и я сниму его в своей студии.",
         note: "Обратите внимание: вся работа проходит удалённо, <b>без выезда к заказчику</b>. Данный формат не подходит для съемок в кафе, ресторанах и барах.",
+        image_alt: "Пикник у океана",
       },
       gallery: {
         lightbox: {
@@ -884,6 +922,7 @@ export default {
         precision:
           "Четко выполняю ваше техническое задание или создаю его для вас.",
         heart: "К каждой съемке подхожу с душой 😊",
+        portrait_alt: "Елена Панова, предметный и фуд-фотограф",
       },
       lifestyle: {
         title: "Коллекция лайфстайл‑историй у моря",
@@ -903,6 +942,38 @@ export default {
             title:
               "Осень у моря (Неэксклюзивная работа — опубликовано на Shutterstock)",
           },
+        },
+      },
+      seo: {
+        home: {
+          title: "Елена Панова — предметный и фуд-фотограф в Порту, Португалия",
+          description:
+            "Профессиональная предметная и фуд-фотография для маркетплейсов, сайтов и социальных сетей. Порту, Португалия — работаю с брендами по всему миру.",
+        },
+        portfolio: {
+          title: "Портфолио — фотограф Елена Панова",
+          description:
+            "Портфолио предметной и фуд-фотографии Елены Пановой. Косметика, макияж, упаковка, креативная и уличная фотография.",
+        },
+        types: {
+          title: "Виды съемок — фотограф Елена Панова",
+          description:
+            "Каталожная, предметная, лайфстайл, креативная, рекламная и фуд-фотография. Все виды фотоуслуг от Елены Пановой.",
+        },
+        lifestyle: {
+          title: "Лайфстайл-истории — фотограф Елена Панова",
+          description:
+            "Лайфстайл-фотография от Елены Пановой. Приморские истории, пары, пикники на берегу океана в Португалии.",
+        },
+        about: {
+          title: "Об Елене Пановой — предметный и фуд-фотограф",
+          description:
+            "Елена Панова — профессиональный предметный и фуд-фотограф из Порту, Португалия. Брендовая фотография, фуд-стайлинг и креативные композиции.",
+        },
+        contact: {
+          title: "Контакты — фотограф Елена Панова",
+          description:
+            "Свяжитесь с Еленой Пановой для предметной и фуд-фотографии. Порту, Португалия. WhatsApp, Telegram, Instagram или email.",
         },
       },
     },
@@ -943,6 +1014,7 @@ export default {
         finalLine:
           "Z przyjemnością nawiążę współpracę! Stwórzmy razem wizualną magię.",
         cta: "Umów sesję",
+        portrait_alt: "Elena Panova na tle oceanu",
       },
       types: {
         title: "Rodzaje sesji",
@@ -1006,6 +1078,7 @@ export default {
         shipping:
           "Możesz wysłać swój produkt dowolną firmą kurierską, a ja sfotografuję go w moim studiu.",
         note: "Uwaga: cała praca odbywa się zdalnie, <b>bez wyjazdów do klienta</b>. Ten format nie obejmuje sesji w kawiarniach, restauracjach czy barach.",
+        image_alt: "Piknik nad oceanem",
       },
       gallery: {
         lightbox: {
@@ -1141,7 +1214,7 @@ export default {
           },
           packaging: {
             "01": {
-              title: "Chocolate Boutique — pudełko prezentowe \"Parabéns\"",
+              title: 'Chocolate Boutique — pudełko prezentowe "Parabéns"',
               description:
                 "Portugalska marka rzemieślniczej czekolady, założona w Porto w 2013 roku. Założyciel Fernando Monteiro kształcił się w najlepszych akademiach czekoladowych w Belgii i Hiszpanii.",
             },
@@ -1226,7 +1299,9 @@ export default {
             "02": { title: "Bajgle z szynką i ogórkiem" },
             "03": { title: "Espresso z pomarańczą" },
             "04": { title: "Kawa z croissantem" },
-            "05": { title: "Czekolada rzemieślnicza w kształcie jajka sadzonego" },
+            "05": {
+              title: "Czekolada rzemieślnicza w kształcie jajka sadzonego",
+            },
             "06": { title: "Wielkanocne babeczki" },
             "07": { title: "Kawa" },
             "08": { title: "Koktajl mleczny z owocami leśnymi" },
@@ -1333,6 +1408,7 @@ export default {
         precision:
           "Dokładnie realizuję Twój brief — lub przygotowuję go za Ciebie.",
         heart: "Do każdej sesji podchodzę z sercem 😊",
+        portrait_alt: "Elena Panova, fotograf produktowy i kulinarny",
       },
       lifestyle: {
         title: "Kolekcja lifestylowych historii nad morzem",
@@ -1352,6 +1428,39 @@ export default {
             title:
               "Jesień nad morzem (Praca nieekskluzywna — opublikowana na Shutterstock)",
           },
+        },
+      },
+      seo: {
+        home: {
+          title:
+            "Elena Panova — fotograf produktowy i kulinarny w Porto, Portugalia",
+          description:
+            "Profesjonalna fotografia produktowa i kulinarna na marketplace'y, strony internetowe i social media. Porto, Portugalia — współpraca z markami na całym świecie.",
+        },
+        portfolio: {
+          title: "Portfolio — fotograf Elena Panova",
+          description:
+            "Portfolio fotografii produktowej i kulinarnej Eleny Panovej. Kosmetyki, makijaż, opakowania, fotografia kreatywna i plenerowa.",
+        },
+        types: {
+          title: "Rodzaje sesji — fotograf Elena Panova",
+          description:
+            "Fotografia katalogowa, produktowa, lifestyle, kreatywna, reklamowa i kulinarna. Pełna oferta usług fotograficznych Eleny Panovej.",
+        },
+        lifestyle: {
+          title: "Lifestyle — fotograf Elena Panova",
+          description:
+            "Kolekcje fotografii lifestyle od Eleny Panovej. Nadmorskie historie, sesje par i pikniki na brzegu oceanu w Portugalii.",
+        },
+        about: {
+          title: "O Elenie Panovej — fotograf produktowy i kulinarny",
+          description:
+            "Elena Panova — profesjonalny fotograf produktowy i kulinarny z Porto, Portugalia. Fotografia marki, food styling i kreatywne kompozycje.",
+        },
+        contact: {
+          title: "Kontakt — fotograf Elena Panova",
+          description:
+            "Skontaktuj się z Eleną Panovą w sprawie fotografii produktowej i kulinarnej. Porto, Portugalia. WhatsApp, Telegram, Instagram lub e-mail.",
         },
       },
     },

@@ -18,6 +18,16 @@ interface Slide {
 }
 
 const { t, locale } = useI18n();
+
+useSeoMeta({
+  title: () => t("seo.home.title"),
+  ogTitle: () => t("seo.home.title"),
+  description: () => t("seo.home.description"),
+  ogDescription: () => t("seo.home.description"),
+  twitterTitle: () => t("seo.home.title"),
+  twitterDescription: () => t("seo.home.description"),
+});
+
 const galleryItems = galleryMetadata as GalleryMeta[];
 
 /**
@@ -374,12 +384,8 @@ onBeforeUnmount(() => {
         <h1
           class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight"
         >
-          <span>{{ t("home.title") }}</span>
-        </h1>
-        <h1
-          class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight"
-        >
-          <span>{{ t("home.name") }}</span>
+          <span class="block">{{ t("home.title") }}</span>
+          <span class="block">{{ t("home.name") }}</span>
         </h1>
 
         <p
@@ -511,6 +517,7 @@ onBeforeUnmount(() => {
           <div class="home-portrait-frame">
             <NuxtImg
               src="/portrait.jpg"
+              :alt="t('home.portrait_alt')"
               class="home-portrait w-full h-auto object-cover aspect-[3/4]"
               sizes="160px xs:320px sm:640px md:384px lg:512px xl:640px 2xl:768px 3xl:1024px 4xl:1280px 5xl:1536px 6xl:1920px 7xl:2048px 8xl:2560px 9xl:3072px 10xl:3840px"
               placeholder

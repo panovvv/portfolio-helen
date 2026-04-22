@@ -4,6 +4,15 @@ import { useI18n } from "vue-i18n";
 
 const { t, tm } = useI18n();
 
+useSeoMeta({
+  title: () => t("seo.types.title"),
+  ogTitle: () => t("seo.types.title"),
+  description: () => t("seo.types.description"),
+  ogDescription: () => t("seo.types.description"),
+  twitterTitle: () => t("seo.types.title"),
+  twitterDescription: () => t("seo.types.description"),
+});
+
 const SHOOT_TYPES = [
   { image: "/gallery/05-collagen/03.jpg", tag: "collagen" },
   { image: "/gallery/07-packaging/09.jpg", tag: "packaging" },

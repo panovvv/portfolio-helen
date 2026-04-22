@@ -152,7 +152,12 @@ const getSectionClasses = (path: string) => {
               :items="languageOptions"
               item-label="label"
               item-value="value"
-              :content="{ align: 'end', collisionPadding: 12, side: 'bottom', bodyLock: false }"
+              :content="{
+                align: 'end',
+                collisionPadding: 12,
+                side: 'bottom',
+                bodyLock: false,
+              }"
               class="min-w-[120px] sm:min-w-[150px] text-sm"
             />
           </div>
