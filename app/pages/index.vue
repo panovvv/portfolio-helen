@@ -19,8 +19,8 @@ interface Slide {
 
 const { t, locale } = useI18n();
 
+useHead({ title: () => t("seo.home.title") });
 useSeoMeta({
-  title: () => t("seo.home.title"),
   ogTitle: () => t("seo.home.title"),
   description: () => t("seo.home.description"),
   ogDescription: () => t("seo.home.description"),
@@ -508,6 +508,10 @@ onBeforeUnmount(() => {
           <p
             class="text-xl sm:text-2xl md:text-2xl leading-relaxed"
             v-html="t('home.heart')"
+          ></p>
+          <p
+            class="text-xl sm:text-2xl md:text-2xl leading-relaxed mt-4"
+            v-html="t('home.closing')"
           ></p>
         </div>
 

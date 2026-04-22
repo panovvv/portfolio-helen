@@ -9,8 +9,8 @@ import type { GalleryImage, LightboxOptions } from "~~/types/Gallery";
 
 const { t, locale } = useI18n();
 
+useHead({ title: () => t("seo.lifestyle.title") });
 useSeoMeta({
-  title: () => t("seo.lifestyle.title"),
   ogTitle: () => t("seo.lifestyle.title"),
   description: () => t("seo.lifestyle.description"),
   ogDescription: () => t("seo.lifestyle.description"),

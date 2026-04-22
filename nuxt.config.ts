@@ -87,6 +87,9 @@ export default defineNuxtConfig({
     },
   },
   css: ["~/assets/css/main.css"],
+  nitro: {
+    compressPublicAssets: true,
+  },
   vite: {
     esbuild: {
       drop: ["console", "debugger"],

@@ -14,8 +14,8 @@ import galleryMetadata from "~/assets/gallery_metadata.json";
 
 const { t, te, locale } = useI18n();
 
+useHead({ title: () => t("seo.portfolio.title") });
 useSeoMeta({
-  title: () => t("seo.portfolio.title"),
   ogTitle: () => t("seo.portfolio.title"),
   description: () => t("seo.portfolio.description"),
   ogDescription: () => t("seo.portfolio.description"),

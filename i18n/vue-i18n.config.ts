@@ -437,6 +437,8 @@ export default {
         props: "I also have a basic collection of backdrops and props.",
         precision: "I follow your brief to the letter — or create one for you.",
         heart: "I put my heart into every shoot 😊",
+        closing:
+          "Whether you're launching a new product line, refreshing your online store, or building a brand from scratch — professional product and food photography makes all the difference. From skincare and cosmetics to artisan food and beverages, I bring out the best in every item. Based in Porto, Portugal, I work with brands across Europe and beyond, delivering polished visuals ready for any platform. Let's make your brand shine.",
         portrait_alt: "Elena Panova, product and food photographer",
       },
       lifestyle: {
@@ -461,8 +463,7 @@ export default {
       },
       seo: {
         home: {
-          title:
-            "Elena Panova — Product & Food Photographer in Porto, Portugal",
+          title: "Elena Panova — Product & Food Photographer, Porto",
           description:
             "Professional product and food photography for marketplaces, websites, and social media. Based in Porto, Portugal, working with brands worldwide.",
         },
@@ -922,6 +923,8 @@ export default {
         precision:
           "Четко выполняю ваше техническое задание или создаю его для вас.",
         heart: "К каждой съемке подхожу с душой 😊",
+        closing:
+          "Запускаете новую линейку продуктов, обновляете визуал интернет-магазина или строите бренд с нуля — профессиональная предметная и фуд-фотография решает всё. От косметики и уходовых средств до авторской еды и напитков — я раскрою лучшие стороны каждого продукта. Живу в Порту, Португалия, и работаю с брендами по всей Европе и за её пределами, создавая готовые визуалы для любой платформы. Давайте сделаем ваш бренд ярче!",
         portrait_alt: "Елена Панова, предметный и фуд-фотограф",
       },
       lifestyle: {
@@ -946,7 +949,7 @@ export default {
       },
       seo: {
         home: {
-          title: "Елена Панова — предметный и фуд-фотограф в Порту, Португалия",
+          title: "Елена Панова — предметный и фуд-фотограф, Порту",
           description:
             "Профессиональная предметная и фуд-фотография для маркетплейсов, сайтов и социальных сетей. Порту, Португалия — работаю с брендами по всему миру.",
         },
@@ -1408,6 +1411,8 @@ export default {
         precision:
           "Dokładnie realizuję Twój brief — lub przygotowuję go za Ciebie.",
         heart: "Do każdej sesji podchodzę z sercem 😊",
+        closing:
+          "Lansujesz nową linię produktów, odświeżasz wizualizacje sklepu internetowego lub budujesz markę od zera — profesjonalna fotografia produktowa i kulinarna robi różnicę. Od kosmetyków i pielęgnacji po rzemieślnicze jedzenie i napoje — wydobywam to, co najlepsze w każdym produkcie. Mieszkam w Porto w Portugalii i współpracuję z markami z całej Europy i nie tylko, dostarczając dopracowane wizualizacje na każdą platformę. Sprawmy, żeby Twoja marka zabłysła!",
         portrait_alt: "Elena Panova, fotograf produktowy i kulinarny",
       },
       lifestyle: {
@@ -1432,8 +1437,7 @@ export default {
       },
       seo: {
         home: {
-          title:
-            "Elena Panova — fotograf produktowy i kulinarny w Porto, Portugalia",
+          title: "Elena Panova — fotograf produktowy i kulinarny, Porto",
           description:
             "Profesjonalna fotografia produktowa i kulinarna na marketplace'y, strony internetowe i social media. Porto, Portugalia — współpraca z markami na całym świecie.",
         },

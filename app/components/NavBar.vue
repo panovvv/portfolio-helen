@@ -162,53 +162,55 @@ const getSectionClasses = (path: string) => {
             />
           </div>
 
-          <!-- Mobile dropdown menu -->
-          <div
-            id="primary-menu"
-            class="lg:hidden absolute top-16 left-0 right-0 shadow-lg border-t border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95"
-            v-show="isMenuOpen"
-          >
-            <nav class="flex flex-col py-2">
-              <NuxtLink to="/" class="px-4 py-3" @click="isMenuOpen = false">
-                {{ t("navbar.home") }}
-              </NuxtLink>
-              <NuxtLink
-                to="/portfolio"
-                class="px-4 py-3"
-                @click="isMenuOpen = false"
-              >
-                {{ t("navbar.portfolio") }}
-              </NuxtLink>
-              <NuxtLink
-                to="/types"
-                class="px-4 py-3"
-                @click="isMenuOpen = false"
-              >
-                {{ t("navbar.types") }}
-              </NuxtLink>
-              <NuxtLink
-                to="/lifestyle"
-                class="px-4 py-3"
-                @click="isMenuOpen = false"
-              >
-                {{ t("navbar.lifestyle") }}
-              </NuxtLink>
-              <NuxtLink
-                to="/about"
-                class="px-4 py-3"
-                @click="isMenuOpen = false"
-              >
-                {{ t("navbar.about") }}
-              </NuxtLink>
-              <NuxtLink
-                to="/contact"
-                class="px-4 py-3"
-                @click="isMenuOpen = false"
-              >
-                {{ t("navbar.contact") }}
-              </NuxtLink>
-            </nav>
-          </div>
+          <!-- Mobile dropdown menu (client-only to avoid duplicate anchor texts in SSR) -->
+          <ClientOnly>
+            <div
+              id="primary-menu"
+              class="lg:hidden absolute top-16 left-0 right-0 shadow-lg border-t border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95"
+              v-show="isMenuOpen"
+            >
+              <nav class="flex flex-col py-2">
+                <NuxtLink to="/" class="px-4 py-3" @click="isMenuOpen = false">
+                  {{ t("navbar.home") }}
+                </NuxtLink>
+                <NuxtLink
+                  to="/portfolio"
+                  class="px-4 py-3"
+                  @click="isMenuOpen = false"
+                >
+                  {{ t("navbar.portfolio") }}
+                </NuxtLink>
+                <NuxtLink
+                  to="/types"
+                  class="px-4 py-3"
+                  @click="isMenuOpen = false"
+                >
+                  {{ t("navbar.types") }}
+                </NuxtLink>
+                <NuxtLink
+                  to="/lifestyle"
+                  class="px-4 py-3"
+                  @click="isMenuOpen = false"
+                >
+                  {{ t("navbar.lifestyle") }}
+                </NuxtLink>
+                <NuxtLink
+                  to="/about"
+                  class="px-4 py-3"
+                  @click="isMenuOpen = false"
+                >
+                  {{ t("navbar.about") }}
+                </NuxtLink>
+                <NuxtLink
+                  to="/contact"
+                  class="px-4 py-3"
+                  @click="isMenuOpen = false"
+                >
+                  {{ t("navbar.contact") }}
+                </NuxtLink>
+              </nav>
+            </div>
+          </ClientOnly>
         </div>
       </div>
     </nav>

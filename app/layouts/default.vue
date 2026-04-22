@@ -6,7 +6,7 @@ import NavBar from "~/components/NavBar.vue";
 const { t, locale } = useI18n();
 
 useHead(() => ({
-  title: t("home.name"),
+  titleTemplate: (title) => (title ? title : t("seo.home.title")),
   htmlAttrs: {
     lang: locale.value,
   },

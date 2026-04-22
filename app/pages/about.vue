@@ -4,8 +4,8 @@ import { useI18n } from "vue-i18n";
 
 const { t, tm } = useI18n();
 
+useHead({ title: () => t("seo.about.title") });
 useSeoMeta({
-  title: () => t("seo.about.title"),
   ogTitle: () => t("seo.about.title"),
   description: () => t("seo.about.description"),
   ogDescription: () => t("seo.about.description"),
