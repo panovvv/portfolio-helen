@@ -2,11 +2,18 @@ import { defineNuxtConfig } from "nuxt/config";
 import { provider as ciProvider, env } from "std-env";
 import i18nConfig from "./i18n.config";
 import galleryMetadata from "./app/assets/gallery_metadata.json";
+import lifestyleMetadata from "./app/assets/lifestyle_metadata.json";
 
 const SITE_URL = "https://panova.photography";
 const portfolioImages = galleryMetadata.map((item: { filename: string }) => ({
   loc: `${SITE_URL}/gallery/${item.filename}`,
 }));
+const lifestyleImages = lifestyleMetadata.flatMap(
+  (section: { id: string; files: string[] }) =>
+    section.files.map((filename) => ({
+      loc: `${SITE_URL}/${section.id}/${encodeURI(filename)}`,
+    })),
+);
 
 export default defineNuxtConfig({
   modules: [
@@ -60,7 +67,12 @@ export default defineNuxtConfig({
         images: portfolioImages,
       },
       { loc: "/types", changefreq: "monthly", priority: 0.7 },
-      { loc: "/lifestyle", changefreq: "monthly", priority: 0.7 },
+      {
+        loc: "/lifestyle",
+        changefreq: "monthly",
+        priority: 0.7,
+        images: lifestyleImages,
+      },
       { loc: "/about", changefreq: "monthly", priority: 0.6 },
       { loc: "/contact", changefreq: "monthly", priority: 0.6 },
     ],
