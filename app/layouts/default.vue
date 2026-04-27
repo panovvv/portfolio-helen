@@ -1,15 +1,23 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import NavBar from "~/components/NavBar.vue";
 
 const { t, locale } = useI18n();
+
+const SITE_URL = "https://panova.photography";
+const route = useRoute();
+const canonicalUrl = computed(() => {
+  const path = route.path === "/" ? "/" : route.path.replace(/\/$/, "");
+  return `${SITE_URL}${path}`;
+});
 
 useHead(() => ({
   titleTemplate: (title) => (title ? title : t("seo.home.title")),
   htmlAttrs: {
     lang: locale.value,
   },
+  link: [{ rel: "canonical", href: canonicalUrl.value }],
   script: [
     {
       type: "application/ld+json",
@@ -18,8 +26,8 @@ useHead(() => ({
         "@type": "Person",
         name: "Elena Panova",
         jobTitle: t("home.title"),
-        url: "https://panova.photography",
-        image: "https://panova.photography/portrait.jpg",
+        url: SITE_URL,
+        image: `${SITE_URL}/portrait.jpg`,
         email: "panovaed89@gmail.com",
         telephone: "+351933699190",
         address: {
@@ -41,6 +49,7 @@ useHead(() => ({
       }),
     },
   ],
+  meta: [{ property: "og:url", content: canonicalUrl.value }],
 }));
 
 const showNotice = ref(false);
