@@ -1,6 +1,13 @@
 import { defineNuxtConfig } from "nuxt/config";
 import { provider as ciProvider, env } from "std-env";
 import i18nConfig from "./i18n.config";
+import galleryMetadata from "./app/assets/gallery_metadata.json";
+
+const SITE_URL = "https://panova.photography";
+const portfolioImages = galleryMetadata.map((item: { filename: string }) => ({
+  loc: `${SITE_URL}/gallery/${item.filename}`,
+}));
+
 export default defineNuxtConfig({
   modules: [
     "@nuxt/ui",
@@ -12,7 +19,7 @@ export default defineNuxtConfig({
   i18n: i18nConfig,
   compatibilityDate: "2025-08-28",
   site: {
-    url: "https://panova.photography",
+    url: SITE_URL,
   },
   app: {
     head: {
@@ -43,9 +50,15 @@ export default defineNuxtConfig({
     },
   },
   sitemap: {
+    autoLastmod: true,
     urls: [
       { loc: "/", changefreq: "weekly", priority: 1.0 },
-      { loc: "/portfolio", changefreq: "weekly", priority: 0.9 },
+      {
+        loc: "/portfolio",
+        changefreq: "weekly",
+        priority: 0.9,
+        images: portfolioImages,
+      },
       { loc: "/types", changefreq: "monthly", priority: 0.7 },
       { loc: "/lifestyle", changefreq: "monthly", priority: 0.7 },
       { loc: "/about", changefreq: "monthly", priority: 0.6 },
