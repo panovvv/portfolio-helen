@@ -178,6 +178,20 @@ const galleryId = computed(() =>
     : `portfolio-gallery-${filter.value}`,
 );
 
+const currentTagTitle = computed(() => {
+  const _ = locale.value;
+  if (filter.value === "All") return "";
+  const key = `gallery.tagDescriptions.${filter.value}.title`;
+  return te(key) ? t(key) : "";
+});
+
+const currentTagSubtitle = computed(() => {
+  const _ = locale.value;
+  if (filter.value === "All") return "";
+  const key = `gallery.tagDescriptions.${filter.value}.subtitle`;
+  return te(key) ? t(key) : "";
+});
+
 const toGalleryImage = (item: TaggedGalleryImage): GalleryImage => {
   const { tags, ...rest } = item;
   return rest;
@@ -345,6 +359,21 @@ const lightboxOptions: LightboxOptions = {
       </div>
     </div>
 
+    <div
+      v-if="currentTagTitle || currentTagSubtitle"
+      class="tag-description"
+    >
+      <h2 v-if="currentTagTitle" class="section-heading">
+        {{ currentTagTitle }}
+      </h2>
+      <p
+        v-if="currentTagSubtitle"
+        class="section-subtitle text-gray-700 dark:text-gray-300"
+      >
+        {{ currentTagSubtitle }}
+      </p>
+    </div>
+
     <div class="gallery-wrapper">
       <Gallery
         :items="filteredGallery"
@@ -426,6 +455,20 @@ const lightboxOptions: LightboxOptions = {
 </template>
 
 <style scoped>
+.tag-description {
+  margin-top: 1.5rem;
+}
+.section-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.section-subtitle {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 56rem;
+}
+
 .gallery-wrapper {
   margin-top: 1.5rem;
 }

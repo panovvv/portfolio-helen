@@ -115,13 +115,38 @@ export default {
           makeup: "Makeup",
           casmara_tonic: "Casmara Tonic & Cleanser",
           casmara_eye: "Casmara Eye Care",
-          puca_shower_gel: "PUCA Shower Gel",
+          puca_shower_gel: "Pure&Care Gel Wash",
           collagen: "Mialica Liquid Collagen",
           anti_age: "Anti-aging Cream Elesse",
           packaging: "Food & Beverage Packaging",
           food: "Food & Beverage",
           outdoor: "Outdoor Photography",
           creative: "Creative Photography",
+        },
+        tagDescriptions: {
+          skin_care: { title: "", subtitle: "" },
+          makeup: { title: "", subtitle: "" },
+          casmara_tonic: {
+            title: "Casmara Cleanser & Toner",
+            subtitle:
+              "A clean and airy skincare series focused on softness, light and refined product composition.",
+          },
+          casmara_eye: {
+            title: "Casmara Eye Care",
+            subtitle:
+              "A refined, contemporary skincare still life series combining soft grey tones, tactile textures and bold red accents.",
+          },
+          puca_shower_gel: {
+            title: "Pure&Care Vitamin C Body Oil Gel Wash",
+            subtitle:
+              "A tactile still life series capturing freshness, texture and everyday bathroom rituals through clean compositions inspired by vitamin C skincare and subtle citrus accents.",
+          },
+          collagen: { title: "", subtitle: "" },
+          anti_age: { title: "", subtitle: "" },
+          packaging: { title: "", subtitle: "" },
+          food: { title: "", subtitle: "" },
+          outdoor: { title: "", subtitle: "" },
+          creative: { title: "", subtitle: "" },
         },
         alt: {
           skin_care: {
@@ -608,13 +633,38 @@ export default {
           makeup: "Декоративная косметика",
           casmara_tonic: "Тоник и клинсер Casmara",
           casmara_eye: "Крем для глаз Casmara",
-          puca_shower_gel: "Гель для душа PUCA",
+          puca_shower_gel: "Гель для душа Pure&Care",
           collagen: "Жидкий коллаген Mialica",
           anti_age: "Анти эйдж крем Elesse",
           packaging: "Упаковка еды и напитков",
           food: "Еда и напитки",
           outdoor: "Пленэрные съемки",
           creative: "Креативная фотография",
+        },
+        tagDescriptions: {
+          skin_care: { title: "", subtitle: "" },
+          makeup: { title: "", subtitle: "" },
+          casmara_tonic: {
+            title: "Casmara — клинсер и тоник",
+            subtitle:
+              "Чистая и воздушная серия уходовой косметики с акцентом на мягкость, свет и утончённую композицию продукта.",
+          },
+          casmara_eye: {
+            title: "Casmara — уход за кожей вокруг глаз",
+            subtitle:
+              "Утончённая современная серия натюрмортов с уходовой косметикой, сочетающая мягкие серые тона, тактильные фактуры и смелые красные акценты.",
+          },
+          puca_shower_gel: {
+            title: "Pure&Care Vitamin C Body Oil Gel Wash",
+            subtitle:
+              "Тактильная серия натюрмортов, передающая свежесть, фактуру и повседневные ванные ритуалы через чистые композиции, вдохновлённые уходом с витамином C и тонкими цитрусовыми акцентами.",
+          },
+          collagen: { title: "", subtitle: "" },
+          anti_age: { title: "", subtitle: "" },
+          packaging: { title: "", subtitle: "" },
+          food: { title: "", subtitle: "" },
+          outdoor: { title: "", subtitle: "" },
+          creative: { title: "", subtitle: "" },
         },
         alt: {
           skin_care: {
@@ -1095,13 +1145,38 @@ export default {
           makeup: "Makijaż",
           casmara_tonic: "Tonik i oczyszczacz Casmara",
           casmara_eye: "Krem pod oczy Casmara",
-          puca_shower_gel: "Żel pod prysznic PUCA",
+          puca_shower_gel: "Żel pod prysznic Pure&Care",
           collagen: "Kolagen w płynie Mialica",
           anti_age: "Krem anti-aging Elesse",
           packaging: "Opakowania żywności i napojów",
           food: "Jedzenie i napoje",
           outdoor: "Fotografia plenerowa",
           creative: "Fotografia kreatywna",
+        },
+        tagDescriptions: {
+          skin_care: { title: "", subtitle: "" },
+          makeup: { title: "", subtitle: "" },
+          casmara_tonic: {
+            title: "Casmara — oczyszczacz i tonik",
+            subtitle:
+              "Czysta i przewiewna seria pielęgnacyjna skupiona na miękkości, świetle i wyrafinowanej kompozycji produktu.",
+          },
+          casmara_eye: {
+            title: "Casmara — pielęgnacja okolic oczu",
+            subtitle:
+              "Wyrafinowana, nowoczesna seria martwych natur z kosmetykami pielęgnacyjnymi, łącząca miękkie szarości, namacalne tekstury i odważne czerwone akcenty.",
+          },
+          puca_shower_gel: {
+            title: "Pure&Care Vitamin C Body Oil Gel Wash",
+            subtitle:
+              "Namacalna seria martwych natur uchwytująca świeżość, fakturę i codzienne łazienkowe rytuały poprzez czyste kompozycje inspirowane pielęgnacją z witaminą C i subtelnymi cytrusowymi akcentami.",
+          },
+          collagen: { title: "", subtitle: "" },
+          anti_age: { title: "", subtitle: "" },
+          packaging: { title: "", subtitle: "" },
+          food: { title: "", subtitle: "" },
+          outdoor: { title: "", subtitle: "" },
+          creative: { title: "", subtitle: "" },
         },
         alt: {
           skin_care: {
