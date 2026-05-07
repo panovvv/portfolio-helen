@@ -629,5 +629,41 @@
     "filename": "10-creative/17.jpg",
     "alt": "gallery.alt.creative.17",
     "tags": ["creative"]
+  },
+  {
+    "filename": "11-puca-shower-gel/01.jpg",
+    "tags": ["puca_shower_gel"]
+  },
+  {
+    "filename": "11-puca-shower-gel/02.jpg",
+    "tags": ["puca_shower_gel"]
+  },
+  {
+    "filename": "11-puca-shower-gel/03.jpg",
+    "tags": ["puca_shower_gel"]
+  },
+  {
+    "filename": "11-puca-shower-gel/04.jpg",
+    "tags": ["puca_shower_gel"]
+  },
+  {
+    "filename": "11-puca-shower-gel/05.jpg",
+    "tags": ["puca_shower_gel"]
+  },
+  {
+    "filename": "11-puca-shower-gel/06.jpg",
+    "tags": ["puca_shower_gel"]
+  },
+  {
+    "filename": "11-puca-shower-gel/07.jpg",
+    "tags": ["puca_shower_gel"]
+  },
+  {
+    "filename": "11-puca-shower-gel/08.jpg",
+    "tags": ["puca_shower_gel"]
+  },
+  {
+    "filename": "11-puca-shower-gel/09.jpg",
+    "tags": ["puca_shower_gel"]
   }
 ]

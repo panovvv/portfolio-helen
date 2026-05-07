@@ -38,6 +38,7 @@ const TAG_ORDER = [
   "makeup",
   "casmara_tonic",
   "casmara_eye",
+  "puca_shower_gel",
   "collagen",
   "anti_age",
   "packaging",
