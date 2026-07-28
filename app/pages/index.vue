@@ -63,6 +63,8 @@ const CAROUSEL_IMAGES = [
   "10-creative/17.jpg",
   "11-puca-shower-gel/01.jpg",
   "11-puca-shower-gel/03.jpg",
+  "12-toothpaste/03.jpg",
+  "12-toothpaste/04.jpg",
 ];
 
 const carouselSet = new Set(CAROUSEL_IMAGES);

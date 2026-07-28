@@ -114,6 +114,7 @@ export default {
           skin_care: "Skin & Hair Care",
           makeup: "Makeup",
           casmara_tonic: "Casmara Tonic & Cleanser",
+          toothpaste: "Whitewash Laboratories Toothpaste",
           casmara_eye: "Casmara Eye Care",
           puca_shower_gel: "Pure&Care Gel Wash",
           collagen: "Mialica Liquid Collagen",
@@ -130,6 +131,11 @@ export default {
             title: "Casmara Cleanser & Toner",
             subtitle:
               "A clean and airy skincare series focused on softness, light and refined product composition.",
+          },
+          toothpaste: {
+            title: "Whitewash Laboratories Whitening Toothpaste",
+            subtitle:
+              "A cool, clinical still life series shot on white marble — brushed steel, clear glass and fresh mint framing a minimal daily oral care ritual.",
           },
           casmara_eye: {
             title: "Casmara Eye Care",
@@ -632,6 +638,7 @@ export default {
           skin_care: "Уходовая косметика",
           makeup: "Декоративная косметика",
           casmara_tonic: "Тоник и клинсер Casmara",
+          toothpaste: "Зубная паста Whitewash Laboratories",
           casmara_eye: "Крем для глаз Casmara",
           puca_shower_gel: "Гель для душа Pure&Care",
           collagen: "Жидкий коллаген Mialica",
@@ -648,6 +655,11 @@ export default {
             title: "Casmara — клинсер и тоник",
             subtitle:
               "Чистая и воздушная серия уходовой косметики с акцентом на мягкость, свет и утончённую композицию продукта.",
+          },
+          toothpaste: {
+            title: "Whitewash Laboratories Whitening Toothpaste",
+            subtitle:
+              "Прохладная, почти клинически чистая серия натюрмортов на белом мраморе: полированная сталь, прозрачное стекло и свежая мята в минималистичном ритуале ежедневного ухода за зубами.",
           },
           casmara_eye: {
             title: "Casmara — уход за кожей вокруг глаз",
@@ -1144,6 +1156,7 @@ export default {
           skin_care: "Pielęgnacja skóry i włosów",
           makeup: "Makijaż",
           casmara_tonic: "Tonik i oczyszczacz Casmara",
+          toothpaste: "Pasta do zębów Whitewash Laboratories",
           casmara_eye: "Krem pod oczy Casmara",
           puca_shower_gel: "Żel pod prysznic Pure&Care",
           collagen: "Kolagen w płynie Mialica",
@@ -1160,6 +1173,11 @@ export default {
             title: "Casmara — oczyszczacz i tonik",
             subtitle:
               "Czysta i przewiewna seria pielęgnacyjna skupiona na miękkości, świetle i wyrafinowanej kompozycji produktu.",
+          },
+          toothpaste: {
+            title: "Whitewash Laboratories Whitening Toothpaste",
+            subtitle:
+              "Chłodna, niemal kliniczna seria martwych natur na białym marmurze: polerowana stal, przezroczyste szkło i świeża mięta w minimalistycznym rytuale codziennej pielęgnacji zębów.",
           },
           casmara_eye: {
             title: "Casmara — pielęgnacja okolic oczu",

@@ -7,7 +7,7 @@ Professional photography portfolio for Elena Panova — product and food photogr
 - **Framework**: Nuxt 4 (Vue 3, TypeScript)
 - **UI**: Nuxt UI 3 + Tailwind CSS 4
 - **Images**: @nuxt/image (Vercel provider in production, IPX locally)
-- **i18n**: @nuxtjs/i18n (English + Russian, `no_prefix` strategy)
+- **i18n**: @nuxtjs/i18n (English, Russian, Polish, `no_prefix` strategy)
 - **Lightbox**: GLightbox
 - **Icons**: FontAwesome (vue-fontawesome)
 - **Formatting**: Prettier (`npm run prettier`)
@@ -36,7 +36,7 @@ i18n/
 types/
   Gallery.ts                  # GalleryImage, LightboxDescription interfaces
 public/
-  gallery/                    # Portfolio images (10 folders: 01-skin-care through 10-creative)
+  gallery/                    # Portfolio images (12 folders: 01-skin-care through 12-toothpaste)
   lifestyle-001/ to 004/      # Lifestyle images
 ```
 
@@ -62,7 +62,9 @@ public/
 
 Tags and their display order are defined in `portfolio.vue` as `TAG_ORDER`. Tag labels come from `gallery.tags.{tag_id}` in i18n. Current tags (in order):
 
-`skin_care`, `makeup`, `casmara_tonic`, `casmara_eye`, `collagen`, `anti_age`, `packaging`, `food`, `outdoor`, `creative`
+`skin_care`, `makeup`, `casmara_tonic`, `toothpaste`, `casmara_eye`, `puca_shower_gel`, `collagen`, `anti_age`, `packaging`, `food`, `outdoor`, `creative`
+
+Display order is independent of folder numbering — e.g. `toothpaste` lives in `12-toothpaste/` but shows fourth.
 
 ### Image Naming
 
@@ -85,7 +87,7 @@ When replacing or renaming gallery images, update **all** of these locations:
 
 1. **`app/assets/gallery_metadata.json`** — master list for portfolio page + home carousel
 2. **`app/pages/index.vue`** — `CAROUSEL_IMAGES` array: curated subset shown in the home page carousel
-3. **`app/pages/types.vue`** — `images` array: one image per shoot type (10 hardcoded paths)
+3. **`app/pages/types.vue`** — `SHOOT_TYPES` array: one image per shoot type (10 hardcoded paths, paired positionally with i18n `types.items`)
 4. **`app/pages/lifestyle.vue`** — `IMAGE_SOURCES_PER_SECTION`: hardcoded lifestyle image lists (separate from gallery)
 5. **`i18n/vue-i18n.config.ts`** — `gallery.alt.{tag}.{NN}` keys for image titles/descriptions
 
@@ -122,5 +124,6 @@ Deployed on Vercel. Image optimization uses Vercel's image CDN in production (de
 2. Add numbered `.jpg` files inside (`01.jpg`, `02.jpg`, ...)
 3. Add entries to `gallery_metadata.json` with the new tag
 4. Add the tag to `TAG_ORDER` in `portfolio.vue` (position = display order)
-5. Add tag label to `gallery.tags.{tag}` in both EN and RU in `vue-i18n.config.ts`
-6. Add per-image alt text under `gallery.alt.{tag}.{NN}` in both locales
+5. Add tag label to `gallery.tags.{tag}` in all three locales (EN, RU, PL) in `vue-i18n.config.ts`
+6. Add `gallery.tagDescriptions.{tag}.{title,subtitle}` in all three locales — use `{ title: "", subtitle: "" }` to render nothing
+7. Optionally add per-image alt text under `gallery.alt.{tag}.{NN}` in all three locales. This is optional: `alt` may be omitted from metadata entirely (most tags do), and both `portfolio.vue` and `index.vue` guard on its absence

@@ -37,6 +37,7 @@ const TAG_ORDER = [
   "skin_care",
   "makeup",
   "casmara_tonic",
+  "toothpaste",
   "casmara_eye",
   "puca_shower_gel",
   "collagen",
@@ -359,10 +360,7 @@ const lightboxOptions: LightboxOptions = {
       </div>
     </div>
 
-    <div
-      v-if="currentTagTitle || currentTagSubtitle"
-      class="tag-description"
-    >
+    <div v-if="currentTagTitle || currentTagSubtitle" class="tag-description">
       <h2 v-if="currentTagTitle" class="section-heading">
         {{ currentTagTitle }}
       </h2>
