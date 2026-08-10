@@ -86,6 +86,13 @@ export default {
           },
         ],
         see_examples: "See examples",
+        see_examples_aria: "See examples in the portfolio: {type}",
+        image_alt: "{type}: {subject}",
+        swipe_hint: "Swipe to explore",
+        closing_title: "Not sure which format you need?",
+        closing:
+          "Tell me about your product and where the photos will live — a marketplace listing, a website, a packaging design or an Instagram grid — and I'll suggest the format, the number of frames and the styling. Every shoot type above links straight to real examples in my portfolio. I work with brands across Portugal, Europe and beyond, and I'd be glad to shoot yours.",
+        closing_cta: "Discuss your project",
       },
       contact: {
         intro:
@@ -267,6 +274,13 @@ export default {
               title: "NYX Control Freak Eyebrow Gel",
               description:
                 "American professional makeup brand founded in 1999 in Los Angeles, part of the L'Oréal group. Known for high-quality, affordable cosmetics inspired by professional artistry.",
+            },
+          },
+          collagen: {
+            "03": {
+              title: "Mialica Collagen Pro 5 with Verisol",
+              description:
+                "Italian liquid collagen supplement from Milan — bioactive bovine collagen peptides with Verisol, in a 28-vial pack for skin, hair and nails.",
             },
           },
           packaging: {
@@ -610,6 +624,13 @@ export default {
           },
         ],
         see_examples: "Смотреть примеры",
+        see_examples_aria: "Смотреть примеры в портфолио: {type}",
+        image_alt: "{type}: {subject}",
+        swipe_hint: "Листайте вниз",
+        closing_title: "Не знаете, какой формат нужен?",
+        closing:
+          "Расскажите о продукте и о том, где будут жить фотографии — карточка на маркетплейсе, сайт, дизайн упаковки или лента в Instagram, — и я предложу формат, количество кадров и стилистику. А если хочется сначала увидеть результат, каждый вид съемки выше ведет к реальным примерам в портфолио. Я работаю с брендами в Португалии, по всей Европе и за ее пределами — буду рада поработать и с вашим.",
+        closing_cta: "Обсудить проект",
       },
       contact: {
         intro:
@@ -791,6 +812,13 @@ export default {
               title: "NYX Control Freak Eyebrow Gel",
               description:
                 "Американский бренд профессионального макияжа, основанный в 1999 году в Лос-Анджелесе, входит в группу L'Oréal. Известен качественной и доступной косметикой, вдохновлённой профессиональным визажем.",
+            },
+          },
+          collagen: {
+            "03": {
+              title: "Mialica Collagen Pro 5 с Verisol",
+              description:
+                "Итальянская добавка с жидким коллагеном из Милана — биоактивные пептиды бычьего коллагена с Verisol, упаковка из 28 флаконов для кожи, волос и ногтей.",
             },
           },
           packaging: {
@@ -1128,6 +1156,13 @@ export default {
           },
         ],
         see_examples: "Zobacz przykłady",
+        see_examples_aria: "Zobacz przykłady w portfolio: {type}",
+        image_alt: "{type}: {subject}",
+        swipe_hint: "Przesuń, aby zobaczyć więcej",
+        closing_title: "Nie wiesz, który format wybrać?",
+        closing:
+          "Opowiedz mi o swoim produkcie i o tym, gdzie zdjęcia mają trafić — karta na marketplace, strona internetowa, projekt opakowania czy Instagram — a ja podpowiem format, liczbę kadrów i stylistykę. A jeśli najpierw chcesz zobaczyć efekty, każdy rodzaj sesji powyżej prowadzi do prawdziwych przykładów w moim portfolio. Współpracuję z markami z Portugalii, całej Europy i nie tylko — chętnie zrobię zdjęcia także dla Ciebie.",
+        closing_cta: "Omówmy Twój projekt",
       },
       contact: {
         intro:
@@ -1309,6 +1344,13 @@ export default {
               title: "NYX Control Freak Eyebrow Gel",
               description:
                 "Amerykańska marka profesjonalnego makijażu, założona w 1999 roku w Los Angeles, część grupy L'Oréal. Znana z wysokiej jakości, przystępnych cenowo kosmetyków inspirowanych profesjonalnym wizażem.",
+            },
+          },
+          collagen: {
+            "03": {
+              title: "Mialica Collagen Pro 5 z Verisolem",
+              description:
+                "Włoski suplement z kolagenem w płynie z Mediolanu — bioaktywne peptydy kolagenu bydlęcego z Verisolem, opakowanie 28 fiolek dla skóry, włosów i paznokci.",
             },
           },
           packaging: {

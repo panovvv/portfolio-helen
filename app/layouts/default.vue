@@ -5,7 +5,7 @@ import NavBar from "~/components/NavBar.vue";
 
 const { t, locale } = useI18n();
 
-const SITE_URL = "https://panova.photography";
+const SITE_URL = useSiteConfig().url.replace(/\/$/, "");
 const route = useRoute();
 const canonicalUrl = computed(() => {
   const path = route.path === "/" ? "/" : route.path.replace(/\/$/, "");

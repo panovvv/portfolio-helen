@@ -1,8 +1,87 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useI18n } from "vue-i18n";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const { t, tm } = useI18n();
+const { t, tm, rt, te } = useI18n();
+
+const SITE_URL = useSiteConfig().url.replace(/\/$/, "");
+
+const img = useImage();
+const ogImageUrl = computed(
+  () => `${SITE_URL}${img("/gallery/05-collagen/03.jpg", { width: 1200 })}`,
+);
+
+const SHOOT_TYPES = [
+  {
+    image: "/gallery/05-collagen/03.jpg",
+    tag: "collagen",
+    alt: "gallery.alt.collagen.03",
+  },
+  {
+    image: "/gallery/07-packaging/09.jpg",
+    tag: "packaging",
+    alt: "gallery.alt.packaging.09",
+  },
+  {
+    image: "/gallery/07-packaging/10.jpg",
+    tag: "packaging",
+    alt: "gallery.alt.packaging.10",
+  },
+  {
+    image: "/gallery/10-creative/07.jpg",
+    tag: "creative",
+    alt: "gallery.alt.creative.07",
+  },
+  {
+    image: "/gallery/10-creative/11.jpg",
+    tag: "creative",
+    alt: "gallery.alt.creative.11",
+  },
+  {
+    image: "/gallery/07-packaging/07.jpg",
+    tag: "packaging",
+    alt: "gallery.alt.packaging.07",
+  },
+  {
+    image: "/gallery/07-packaging/03.jpg",
+    tag: "packaging",
+    alt: "gallery.alt.packaging.03",
+  },
+  {
+    image: "/gallery/10-creative/17.jpg",
+    tag: "creative",
+    alt: "gallery.alt.creative.17",
+  },
+  { image: "/gallery/08-food/02.jpg", tag: "food", alt: "gallery.alt.food.02" },
+  {
+    image: "/gallery/09-outdoor/13.jpg",
+    tag: "outdoor",
+    alt: "gallery.alt.outdoor.13",
+  },
+];
+
+/** Change this to experiment with alternation frequency */
+const GROUP_SIZE = 2;
+
+const items = computed(() => (tm("types.items") as any[]) || []);
+
+const itemTitles = computed(() =>
+  SHOOT_TYPES.map((_, i) => rt(items.value[i]?.title ?? "")),
+);
+const itemDescs = computed(() =>
+  SHOOT_TYPES.map((_, i) => rt(items.value[i]?.desc ?? "")),
+);
+
+const imageAlts = computed(() =>
+  SHOOT_TYPES.map((type, i) => {
+    const key = `${type.alt}.title`;
+    return te(key)
+      ? t("types.image_alt", { type: itemTitles.value[i], subject: t(key) })
+      : itemTitles.value[i];
+  }),
+);
 
 useHead({ title: () => t("seo.types.title") });
 useSeoMeta({
@@ -11,25 +90,41 @@ useSeoMeta({
   ogDescription: () => t("seo.types.description"),
   twitterTitle: () => t("seo.types.title"),
   twitterDescription: () => t("seo.types.description"),
+  ogImage: () => ogImageUrl.value,
+  ogImageAlt: () => imageAlts.value[0],
+  twitterImage: () => ogImageUrl.value,
 });
 
-const SHOOT_TYPES = [
-  { image: "/gallery/05-collagen/03.jpg", tag: "collagen" },
-  { image: "/gallery/07-packaging/09.jpg", tag: "packaging" },
-  { image: "/gallery/07-packaging/10.jpg", tag: "packaging" },
-  { image: "/gallery/10-creative/07.jpg", tag: "creative" },
-  { image: "/gallery/10-creative/11.jpg", tag: "creative" },
-  { image: "/gallery/07-packaging/07.jpg", tag: "packaging" },
-  { image: "/gallery/07-packaging/03.jpg", tag: "packaging" },
-  { image: "/gallery/10-creative/17.jpg", tag: "creative" },
-  { image: "/gallery/08-food/02.jpg", tag: "food" },
-  { image: "/gallery/09-outdoor/13.jpg", tag: "outdoor" },
-];
-
-/** Change this to experiment with alternation frequency */
-const GROUP_SIZE = 2;
-
-const items = computed(() => (tm("types.items") as any[]) || []);
+useHead(() => ({
+  script: [
+    {
+      type: "application/ld+json",
+      key: "types-services-jsonld",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "@id": `${SITE_URL}/types#services`,
+        name: t("types.title"),
+        description: t("seo.types.description"),
+        numberOfItems: SHOOT_TYPES.length,
+        itemListOrder: "https://schema.org/ItemListOrderAscending",
+        itemListElement: SHOOT_TYPES.map((type, idx) => ({
+          "@type": "ListItem",
+          position: idx + 1,
+          item: {
+            "@type": "Service",
+            name: itemTitles.value[idx],
+            description: itemDescs.value[idx],
+            serviceType: itemTitles.value[idx],
+            url: `${SITE_URL}/portfolio?tag=${type.tag}`,
+            image: `${SITE_URL}${type.image}`,
+            provider: { "@id": `${SITE_URL}/#business` },
+          },
+        })),
+      }),
+    },
+  ],
+}));
 
 const NUM_GROUPS = Math.ceil(SHOOT_TYPES.length / GROUP_SIZE);
 
@@ -152,20 +247,25 @@ const DESKTOP_IMG_SIZES = "md:384px lg:512px xl:640px 2xl:768px";
                 <span class="number-badge">
                   {{ String(group.start + lIdx + 1).padStart(2, "0") }}
                 </span>
-                <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold">
-                  {{ t(items[group.start + lIdx]?.title ?? "") }}
-                </h3>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold">
+                  {{ itemTitles[group.start + lIdx] }}
+                </h2>
               </div>
               <p
                 class="text-lg sm:text-xl leading-relaxed text-gray-600 dark:text-gray-300 mb-4"
               >
-                {{ t(items[group.start + lIdx]?.desc ?? "") }}
+                {{ itemDescs[group.start + lIdx] }}
               </p>
               <NuxtLink
                 :to="{
                   path: '/portfolio',
                   query: { tag: SHOOT_TYPES[group.start + lIdx].tag },
                 }"
+                :aria-label="
+                  t('types.see_examples_aria', {
+                    type: itemTitles[group.start + lIdx],
+                  })
+                "
                 class="inline-flex items-center gap-1.5 text-primary hover:underline font-medium text-base sm:text-lg"
               >
                 {{ t("types.see_examples") }}
@@ -187,16 +287,36 @@ const DESKTOP_IMG_SIZES = "md:384px lg:512px xl:640px 2xl:768px";
                   :key="lIdx"
                   :src="type.image"
                   :sizes="DESKTOP_IMG_SIZES"
+                  :alt="imageAlts[group.start + lIdx]"
                   class="type-image crossfade-img"
                   :class="{ active: groupActiveLocal(gIdx) === lIdx }"
-                  placeholder
-                  loading="lazy"
+                  :placeholder="!(gIdx === 0 && lIdx === 0)"
+                  :loading="gIdx === 0 && lIdx === 0 ? 'eager' : 'lazy'"
+                  :fetchpriority="gIdx === 0 && lIdx === 0 ? 'high' : undefined"
                 />
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <section class="hidden md:block max-w-3xl mt-12 md:mt-20">
+        <h2
+          class="text-2xl sm:text-3xl font-semibold leading-tight tracking-tight mb-3 sm:mb-4"
+        >
+          {{ t("types.closing_title") }}
+        </h2>
+        <p
+          class="text-lg sm:text-xl leading-relaxed text-gray-900 dark:text-gray-100"
+          v-html="t('types.closing')"
+        ></p>
+        <NuxtLink
+          to="/contact"
+          class="inline-block mt-6 px-6 py-3 rounded-lg font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 shadow text-base sm:text-lg"
+        >
+          {{ t("types.closing_cta") }}
+        </NuxtLink>
+      </section>
     </div>
 
     <!-- MOBILE: scroll-snap full-screen cards (below md) -->
@@ -214,28 +334,65 @@ const DESKTOP_IMG_SIZES = "md:384px lg:512px xl:640px 2xl:768px";
         <NuxtImg
           :src="type.image"
           :sizes="MOBILE_IMG_SIZES"
+          :alt="imageAlts[idx]"
           class="mobile-card-img"
-          placeholder
-          loading="lazy"
+          :placeholder="idx !== 0"
+          :loading="idx === 0 ? 'eager' : 'lazy'"
+          :fetchpriority="idx === 0 ? 'high' : undefined"
         />
         <div class="mobile-text" :class="'mobile-text-shadow'">
           <div class="flex items-baseline gap-4 mb-3">
             <span class="number-badge">
               {{ String(idx + 1).padStart(2, "0") }}
             </span>
-            <h3 class="text-2xl sm:text-3xl font-semibold">
-              {{ t(items[idx]?.title ?? "") }}
-            </h3>
+            <h2 class="text-2xl sm:text-3xl font-semibold">
+              {{ itemTitles[idx] }}
+            </h2>
           </div>
           <p class="text-lg sm:text-xl leading-relaxed mb-4">
-            {{ t(items[idx]?.desc ?? "") }}
+            {{ itemDescs[idx] }}
           </p>
           <NuxtLink
             :to="{ path: '/portfolio', query: { tag: type.tag } }"
+            :aria-label="
+              t('types.see_examples_aria', { type: itemTitles[idx] })
+            "
             class="inline-flex items-center gap-1.5 text-primary hover:underline font-medium text-base sm:text-lg"
           >
             {{ t("types.see_examples") }}
             <span aria-hidden="true">&rarr;</span>
+          </NuxtLink>
+        </div>
+
+        <div v-if="idx === 0" class="swipe-hint" aria-hidden="true">
+          <span class="text-base font-semibold tracking-wide">{{
+            t("types.swipe_hint")
+          }}</span>
+          <FontAwesomeIcon
+            :icon="faChevronDown"
+            class="swipe-hint-chevron h-6 w-6"
+          />
+        </div>
+      </section>
+
+      <section
+        class="mobile-snap-card mobile-closing-card bg-white dark:bg-neutral-900"
+      >
+        <div class="mobile-closing-inner">
+          <h2
+            class="text-2xl font-semibold leading-tight tracking-tight mb-4 text-gray-900 dark:text-gray-100"
+          >
+            {{ t("types.closing_title") }}
+          </h2>
+          <p
+            class="text-lg leading-relaxed text-gray-700 dark:text-gray-300"
+            v-html="t('types.closing')"
+          ></p>
+          <NuxtLink
+            to="/contact"
+            class="inline-block mt-6 px-6 py-3 rounded-lg font-medium text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 shadow text-base"
+          >
+            {{ t("types.closing_cta") }}
           </NuxtLink>
         </div>
       </section>
@@ -272,6 +429,7 @@ const DESKTOP_IMG_SIZES = "md:384px lg:512px xl:640px 2xl:768px";
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 2 / 3;
   border: 0;
   outline: none;
   box-shadow: none;
@@ -392,5 +550,76 @@ const DESKTOP_IMG_SIZES = "md:384px lg:512px xl:640px 2xl:768px";
 .fade-in-section.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.mobile-closing-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.mobile-closing-inner {
+  max-width: 32rem;
+}
+
+.swipe-hint {
+  position: absolute;
+  bottom: 7.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  /* A text shadow alone vanished against the bright marble in card 01. The
+     photos underneath are arbitrary, so guarantee contrast with an opaque-ish
+     pill instead of relying on the image being dark. */
+  padding: 0.625rem 1.125rem 0.5rem;
+  border-radius: 9999px;
+  background: rgba(17, 17, 17, 0.55);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  /* Never intercept a swipe */
+  pointer-events: none;
+}
+
+.swipe-hint-chevron {
+  fill: currentColor;
+  animation: swipe-bounce 1.8s ease-in-out infinite;
+}
+
+@keyframes swipe-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(0.35rem);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-section {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .crossfade-img {
+    transition: none;
+  }
+
+  .mobile-snap-container {
+    scroll-behavior: auto;
+  }
+
+  .swipe-hint-chevron {
+    animation: none;
+  }
 }
 </style>
